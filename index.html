@@ -173,29 +173,41 @@
                     
                     <form id="register-form" class="space-y-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="space-y-2">
+                            
+                            <div class="space-y-2 md:col-span-2">
                                 <label class="text-sm text-gray-400 mr-2">الاسم بالكامل <span class="text-cyan-500">*</span></label>
                                 <input required type="text" id="form-name" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white transition-all" placeholder="الاسم ثلاثي">
                             </div>
+
                             <div class="space-y-2">
-                                <label class="text-sm text-gray-400 mr-2">التخصص <span class="text-cyan-500">*</span></label>
-                                <select required id="form-role" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none"></select>
+                                <label class="text-sm text-gray-400 mr-2">القسم الرئيسي <span class="text-cyan-500">*</span></label>
+                                <select required id="form-category" onchange="window.updateFormRoleFilter()" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E&quot;); background-position: left 1rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em;">
+                                    <option value="">اختر القسم...</option>
+                                </select>
                             </div>
                             <div class="space-y-2">
-                                <label class="text-sm text-gray-400 mr-2">الدولة <span class="text-cyan-500">*</span></label>
-                                <input required type="text" id="form-country" value="مصر" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white" placeholder="مثال: مصر، السعودية...">
+                                <label class="text-sm text-gray-400 mr-2">التخصص الدقيق <span class="text-cyan-500">*</span></label>
+                                <select required id="form-role" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E&quot;); background-position: left 1rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em;">
+                                    <option value="">اختر التخصص...</option>
+                                </select>
                             </div>
+
                             <div class="space-y-2">
                                 <label class="text-sm text-gray-400 mr-2">المحافظة <span class="text-cyan-500">*</span></label>
                                 <input required type="text" id="form-gov" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white" placeholder="مثال: القاهرة، الجيزة...">
                             </div>
-                            <div class="space-y-2 md:col-span-2">
+                            <div class="space-y-2">
                                 <label class="text-sm text-gray-400 mr-2">المدينة / المركز <span class="text-cyan-500">*</span></label>
                                 <input required type="text" id="form-city" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white" placeholder="المنطقة أو المركز">
                             </div>
-                            <div class="space-y-2 md:col-span-2">
+                            
+                            <div class="space-y-2">
                                 <label class="text-sm text-gray-400 mr-2">رقم الهاتف <span class="text-cyan-500">*</span></label>
                                 <input required type="tel" id="form-phone" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white text-left font-mono" placeholder="رقم الهاتف بدون كود">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm text-gray-400 mr-2">الدولة <span class="text-cyan-500">*</span></label>
+                                <input required type="text" id="form-country" value="مصر" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white" placeholder="مثال: مصر، السعودية...">
                             </div>
                             
                             <div class="space-y-2">
@@ -424,7 +436,7 @@
         window.blacklistedNumbers = [];
         window.formDataImages = { profile: '', cover: '' };
         
-        // التخصصات الافتراضية المحدثة
+        // التخصصات الافتراضية
         window.MAIN_CATEGORIES = {
             "مصورين": ['مصور فوتوغرافيا', 'مصور فيديوغرافي', 'مصور فيديو', 'مصور كرين', 'مصور منتجات'],
             "مخرجين": ['مخرج', 'مساعد مخرج'],
@@ -559,7 +571,7 @@
                 }
                 window.updateCatFilter();
                 window.updateRoleFilter();
-                window.populateFormRoles();
+                window.populateFormCategories(); // تحديث الفئات في نموذج التسجيل
             });
             onSnapshot(getDocRef('settings', 'blacklist'), (docSnap) => {
                 if (docSnap.exists()) window.blacklistedNumbers = docSnap.data().numbers || [];
@@ -648,13 +660,28 @@
             select.innerHTML = '<option value="">التخصص الدقيق...</option>' + roles.map(r => `<option value="${r}">${r}</option>`).join('');
         };
 
-        window.populateFormRoles = () => {
+        // Form Categories Logic
+        window.populateFormCategories = () => {
+            const select = document.getElementById('form-category');
+            if (!select) return;
+            let html = '<option value="">اختر القسم...</option>';
+            Object.keys(window.MAIN_CATEGORIES).forEach(c => {
+                html += `<option value="${c}" class="bg-slate-900 text-white">${c}</option>`;
+            });
+            select.innerHTML = html;
+            window.updateFormRoleFilter(); // تحديث التخصص الدقيق
+        };
+
+        window.updateFormRoleFilter = () => {
+            const cat = document.getElementById('form-category')?.value;
             const select = document.getElementById('form-role');
-            let html = '';
-            for (const [cat, roles] of Object.entries(window.MAIN_CATEGORIES)) {
-                html += `<optgroup label="${cat}" class="bg-slate-900 text-cyan-400">`;
-                roles.forEach(r => { html += `<option value="${r}" class="bg-slate-900 text-white font-normal">${r}</option>`; });
-                html += `</optgroup>`;
+            if (!select) return;
+            
+            let html = '<option value="">اختر التخصص...</option>';
+            if (cat && window.MAIN_CATEGORIES[cat]) {
+                window.MAIN_CATEGORIES[cat].forEach(r => {
+                    html += `<option value="${r}" class="bg-slate-900 text-white">${r}</option>`;
+                });
             }
             select.innerHTML = html;
         };
@@ -942,10 +969,10 @@
             }
         }, 10000);
 
-        // التنفيذ الأولي لدوال التعبئة لتفادي تأخير جلب البيانات
+        // التنفيذ الأولي لدوال التعبئة
         window.updateCatFilter();
         window.updateRoleFilter();
-        window.populateFormRoles();
+        window.populateFormCategories(); // الاعتماد على الدالة الجديدة
 
         document.getElementById('current-year').textContent = new Date().getFullYear();
         lucide.createIcons();
