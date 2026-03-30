@@ -77,7 +77,7 @@
             <h1 class="text-3xl md:text-4xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white via-cyan-100 to-cyan-400 drop-shadow-lg">
                 شبكة صناع الصورة
             </h1>
-            <p class="text-cyan-500/80 text-xs tracking-[0.3em] font-black">الدليل الاحترافي للميديا والطوارئ</p>
+            <p class="text-cyan-500/80 text-xs tracking-[0.3em] uppercase font-black">الدليل الاحترافي للميديا والطوارئ</p>
         </div>
         
         <!-- Navbar أدوات سريعة -->
@@ -276,7 +276,7 @@
                 <div class="flex-1 relative">
                     <i data-lucide="briefcase" class="absolute right-3 top-3.5 text-gray-400 w-[18px]"></i>
                     <select id="filter-cat" onchange="updateRoleFilter(); renderProfessionals();" class="w-full pr-10 pl-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none text-sm">
-                        <option value="">كل الأقسام (مصور، مخرج، معدات...)</option>
+                        <option value="">كل الأقسام (مصور، مخرج، نقل...)</option>
                     </select>
                 </div>
                 <div class="flex-1 relative">
@@ -366,7 +366,7 @@
                     <ul class="list-disc list-inside space-y-1 pr-4">
                         <li>توفير قاعدة بيانات سريعة للبحث عن المحترفين في أي محافظة.</li>
                         <li>مساعدة المصورين في إيجاد بدلاء (للطوارئ) في أسرع وقت.</li>
-                        <li>إتاحة الفرصة لأصحاب المعدات لعرض خدماتهم للعملاء.</li>
+                        <li>إتاحة الفرصة لأصحاب المعدات وسيارات النقل لعرض خدماتهم للعملاء.</li>
                         <li>حماية المجتمع من خلال (القائمة السوداء) للمخالفين والنصابين.</li>
                     </ul>
                 </div>
@@ -422,7 +422,15 @@
         window.allProfessionals = [];
         window.blacklistedNumbers = [];
         window.formDataImages = { profile: '', cover: '' };
-        window.MAIN_CATEGORIES = {};
+        
+        // التخصصات الافتراضية المحدثة
+        window.MAIN_CATEGORIES = {
+            "مصورين": ['مصور فوتوغرافيا', 'مصور فيديوغرافي', 'مصور فيديو', 'مصور كرين', 'مصور منتجات'],
+            "مخرجين": ['مخرج', 'مساعد مخرج'],
+            "شغل ميديا": ['ميديا كافردج', 'صانع محتوى', 'مونتير (Editor)'],
+            "أصحاب معدات": ['صاحب وحدة ميكسر', 'صاحب درون', 'صاحب كاميرا كرين', 'إضاءة ومعدات تصوير'],
+            "سيارات نقل": ['سيارة نقل معدات', 'فان نقل معدات وكرو']
+        };
 
         const firebaseConfig = typeof __firebase_config !== 'undefined' 
             ? JSON.parse(__firebase_config) 
@@ -545,7 +553,9 @@
 
         function fetchSettings() {
             onSnapshot(getDocRef('settings', 'categories'), (docSnap) => {
-                if (docSnap.exists()) window.MAIN_CATEGORIES = docSnap.data().data;
+                if (docSnap.exists()) {
+                    window.MAIN_CATEGORIES = docSnap.data().data;
+                }
                 window.updateCatFilter();
                 window.updateRoleFilter();
                 window.populateFormRoles();
@@ -627,7 +637,7 @@
 
         window.updateCatFilter = () => {
             const select = document.getElementById('filter-cat');
-            select.innerHTML = '<option value="">كل الأقسام (مصور، مخرج، معدات...)</option>' + Object.keys(window.MAIN_CATEGORIES).map(c => `<option value="${c}">${c}</option>`).join('');
+            select.innerHTML = '<option value="">كل الأقسام (مصور، مخرج، نقل...)</option>' + Object.keys(window.MAIN_CATEGORIES).map(c => `<option value="${c}">${c}</option>`).join('');
         };
 
         window.updateRoleFilter = () => {
@@ -653,8 +663,9 @@
             if (role.includes('مخرج')) return 'clapperboard';
             if (role.includes('ميكسر')) return 'sliders';
             if (role.includes('درون')) return 'navigation';
-            if (role.includes('كرين') || role.includes('فيديو')) return 'video';
-            if (role.includes('ميديا')) return 'film';
+            if (role.includes('كرين') || role.includes('فيديو') || role.includes('فيديوغرافي')) return 'video';
+            if (role.includes('ميديا') || role.includes('كافردج') || role.includes('مونتير')) return 'film';
+            if (role.includes('نقل') || role.includes('سيارة') || role.includes('فان')) return 'truck';
             return 'camera'; 
         };
 
@@ -929,6 +940,11 @@
                 setTimeout(() => { idx = (idx + 1) % l.length; el.textContent = l[idx]; el.style.opacity = '1'; }, 500);
             }
         }, 10000);
+
+        // التنفيذ الأولي لدوال التعبئة لتفادي تأخير جلب البيانات
+        window.updateCatFilter();
+        window.updateRoleFilter();
+        window.populateFormRoles();
 
         document.getElementById('current-year').textContent = new Date().getFullYear();
         lucide.createIcons();
