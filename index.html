@@ -41,7 +41,7 @@
     <!-- Header -->
     <header class="sticky top-0 z-30 bg-black/40 backdrop-blur-xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
         <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('home')">
                 <div class="relative">
                     <div class="absolute inset-0 bg-cyan-400 blur-xl opacity-40 rounded-full"></div>
                     <div class="bg-gradient-to-br from-cyan-400 to-blue-600 p-2.5 rounded-2xl relative z-10 shadow-[0_0_15px_rgba(34,211,238,0.5)]">
@@ -57,7 +57,7 @@
                 </div>
             </div>
             <nav class="flex gap-1.5 sm:gap-2 bg-white/5 p-1.5 rounded-xl border border-white/10 backdrop-blur-md items-center">
-                <button onclick="switchView('directory')" id="nav-dir-btn" class="px-3 sm:px-4 py-2.5 rounded-lg transition-all duration-300 flex items-center gap-1.5 text-sm font-medium bg-white/10 text-cyan-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+                <button onclick="switchView('directory')" id="nav-dir-btn" class="px-3 sm:px-4 py-2.5 rounded-lg transition-all duration-300 flex items-center gap-1.5 text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5">
                     <i data-lucide="users" class="w-[18px] h-[18px]"></i>
                     <span class="hidden sm:inline">تصفح الدليل</span>
                 </button>
@@ -75,7 +75,7 @@
 
                 <div class="w-[1px] h-6 bg-white/10 mx-0.5"></div>
 
-                <button onclick="promptAdmin()" id="nav-admin-btn" class="px-3 py-2.5 rounded-lg transition-all duration-300 flex items-center gap-1.5 text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5" title="إدارة التخصصات (للمسؤول)">
+                <button onclick="promptAdmin()" id="nav-admin-btn" class="px-3 py-2.5 rounded-lg transition-all duration-300 flex items-center gap-1.5 text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5" title="إدارة الدليل (للمسؤول)">
                     <i data-lucide="settings" class="w-[18px] h-[18px]"></i>
                 </button>
             </nav>
@@ -97,8 +97,56 @@
             <i data-lucide="sparkles" class="text-yellow-400/80 animate-pulse shrink-0 w-[18px] h-[18px]"></i>
         </div>
 
+        <!-- واجهة الترحيب الرئيسية (الرؤية والشرح) -->
+        <div id="view-home" class="relative z-10 fade-in-up">
+            <div class="max-w-4xl mx-auto text-center mt-10 mb-16">
+                <div class="inline-flex items-center justify-center p-4 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-6 shadow-[0_0_30px_rgba(34,211,238,0.2)]">
+                    <i data-lucide="aperture" class="text-cyan-400 w-12 h-12"></i>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-cyan-400 mb-6 leading-tight">
+                    الشبكة الأكبر لربط صناع الصورة والميديا
+                </h2>
+                <p class="text-gray-400 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mb-10">
+                    دليل <strong>Photographers' Guide</strong> صُمم خصيصاً ليكون حلقة الوصل الموثوقة والسريعة بين (المصورين، المخرجين، وأصحاب المعدات ووحدات الفيديو). سواء كنت تبحث عن زميل محترف لتغطية طارئة في منطقتك، أو تريد عرض خدماتك ومعداتك لزيادة عملائك، أنت في المكان الصحيح.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button onclick="switchView('register')" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] transform hover:-translate-y-1">
+                        <i data-lucide="user-plus" class="w-5 h-5"></i> أضف بياناتك مجاناً
+                    </button>
+                    <button onclick="switchView('directory')" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 backdrop-blur-md hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                        <i data-lucide="search" class="w-5 h-5"></i> تصفح الدليل الآن
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                <div class="bg-black/40 border border-white/10 p-6 rounded-2xl backdrop-blur-md text-center hover:border-cyan-500/30 transition-colors">
+                    <div class="bg-blue-500/20 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-400">
+                        <i data-lucide="globe" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">انتشار أوسع</h3>
+                    <p class="text-sm text-gray-400">اجعل بياناتك ومعرض أعمالك متاحاً للآلاف من العملاء والزملاء في محافظتك.</p>
+                </div>
+                <div class="bg-black/40 border border-white/10 p-6 rounded-2xl backdrop-blur-md text-center hover:border-cyan-500/30 transition-colors">
+                    <div class="bg-emerald-500/20 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 text-emerald-400">
+                        <i data-lucide="shield-check" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">موثوقية وسرعة</h3>
+                    <p class="text-sm text-gray-400">نظام حماية داخلي وتحديث فوري للبيانات لضمان التعامل مع محترفين موثوقين فقط.</p>
+                </div>
+                <div class="bg-black/40 border border-white/10 p-6 rounded-2xl backdrop-blur-md text-center hover:border-cyan-500/30 transition-colors">
+                    <div class="bg-purple-500/20 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 text-purple-400">
+                        <i data-lucide="share-2" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">سهولة المشاركة</h3>
+                    <p class="text-sm text-gray-400">بنقرة واحدة يمكنك مشاركة كرتك التعريفي الخاص أو الدليل بالكامل عبر السوشيال ميديا.</p>
+                </div>
+            </div>
+        </div>
+
         <!-- واجهة الدليل -->
-        <div id="view-directory" class="space-y-8 relative z-10">
+        <div id="view-directory" class="space-y-8 relative z-10 hidden-view fade-in-up">
             <!-- شريط البحث والفلترة -->
             <div class="bg-white/5 backdrop-blur-xl p-4 rounded-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex flex-col lg:flex-row gap-3">
                 <div class="flex-1 relative group">
@@ -145,32 +193,25 @@
         </div>
 
         <!-- واجهة التسجيل -->
-        <div id="view-register" class="max-w-2xl mx-auto relative z-10 my-10 hidden-view">
+        <div id="view-register" class="max-w-2xl mx-auto relative z-10 my-10 hidden-view fade-in-up">
             <div class="bg-white/5 backdrop-blur-2xl rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] border border-white/10 overflow-hidden relative transform transition-all">
                 
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-400 to-blue-600"></div>
 
-                <!-- بطاقة الدعوة الخاصة والانضمام -->
-                <div class="bg-black/40 p-10 text-center border-b border-white/5 relative overflow-hidden">
-                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-cyan-500/20 rounded-full blur-3xl"></div>
-                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-cyan-500/10 border border-cyan-500/30 mb-4 shadow-[0_0_20px_rgba(6,182,212,0.2)]">
-                        <i data-lucide="aperture" class="text-cyan-400 w-8 h-8"></i>
-                    </div>
-                    <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-white relative z-10">دعوة خاصة للانضمام</h2>
-                    <p class="text-gray-400 mt-3 relative z-10 text-sm leading-relaxed max-w-md mx-auto">
-                        أهلاً بك في <strong>Photographers' Guide</strong>، الدليل الأكبر والأرقى لصناع الصورة والميديا.<br/>
-                        أضف بياناتك ومعداتك الآن لتكون متاحاً للعملاء في منطقتك وتستعرض أعمالك باحترافية تامة.
-                    </p>
-                </div>
-                
-                <!-- زر إظهار نموذج البيانات -->
+                <!-- زر إظهار نموذج البيانات (البداية) -->
                 <div id="show-form-container" class="p-12 text-center flex flex-col items-center justify-center relative">
                     <div class="absolute inset-0 bg-gradient-to-b from-transparent to-cyan-900/10 pointer-events-none"></div>
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-cyan-500/10 border border-cyan-500/30 mb-6 shadow-[0_0_20px_rgba(6,182,212,0.2)]">
+                        <i data-lucide="badge-check" class="text-cyan-400 w-10 h-10"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white mb-4">إنشاء بطاقتك التعريفية</h2>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-8 max-w-sm mx-auto">
+                        سجل معداتك وتخصصك ليتعرف عليك المئات من العملاء وصناع الميديا في منطقتك بسرعة وسهولة.
+                    </p>
                     <button type="button" onclick="showRegisterForm()" class="relative z-10 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_35px_rgba(6,182,212,0.6)] transform hover:-translate-y-1 w-full max-w-sm mx-auto group">
                         <i data-lucide="user-plus" class="w-6 h-6 group-hover:scale-110 transition-transform"></i>
-                        <span class="text-lg tracking-wide">أضف نفسك للانضمام إلى الدليل</span>
+                        <span class="text-lg tracking-wide">أضف نفسك للدليل الآن</span>
                     </button>
-                    <p class="text-gray-500 mt-5 text-sm z-10">خطوة واحدة تفصلك عن الانضمام لأكبر تجمع للمحترفين</p>
                 </div>
 
                 <div id="success-msg" class="p-12 text-center hidden fade-in-up">
@@ -182,9 +223,14 @@
                 </div>
 
                 <form id="register-form" class="p-6 md:p-10 space-y-6 hidden fade-in-up">
-                    <div class="mb-4 pb-4 border-b border-white/5 flex items-center gap-3">
-                        <i data-lucide="file-text" class="text-cyan-400"></i>
-                        <h3 class="text-lg font-bold text-white">الرجاء إكمال بياناتك</h3>
+                    <div class="mb-4 pb-4 border-b border-white/5 flex justify-between items-center">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="file-text" class="text-cyan-400"></i>
+                            <h3 class="text-lg font-bold text-white">الرجاء إكمال بياناتك</h3>
+                        </div>
+                        <button type="button" onclick="hideRegisterForm()" class="text-gray-500 hover:text-white transition-colors">
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </button>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
                         <div class="space-y-2">
@@ -257,26 +303,74 @@
             </div>
         </div>
 
-        <!-- واجهة إدارة التخصصات (Admin) -->
-        <div id="view-admin" class="max-w-4xl mx-auto relative z-10 my-10 hidden-view">
+        <!-- واجهة إدارة الموقع (Admin) -->
+        <div id="view-admin" class="max-w-5xl mx-auto relative z-10 my-10 hidden-view fade-in-up">
             <div class="bg-white/5 backdrop-blur-2xl rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] border border-white/10 overflow-hidden relative p-6 md:p-10">
-                
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-400 to-teal-600"></div>
 
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 border-b border-white/10 pb-6">
                     <div>
                         <h2 class="text-2xl font-bold text-white flex items-center gap-2 mb-1">
-                            <i data-lucide="settings" class="text-emerald-400"></i> إدارة التخصصات
+                            <i data-lucide="shield" class="text-emerald-400"></i> لوحة تحكم المسؤول
                         </h2>
-                        <p class="text-gray-400 text-sm">قم بإضافة، حذف، أو تعديل الأقسام والتخصصات لتحديثها فوراً للجميع.</p>
+                        <p class="text-gray-400 text-sm">إدارة الإحصائيات، التخصصات، وحظر الأرقام المخالفة.</p>
                     </div>
-                    <button onclick="addCategory()" class="bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/30 hover:text-white px-4 py-2 rounded-xl flex items-center gap-2 transition-all text-sm font-bold shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-                        <i data-lucide="plus-circle" class="w-4 h-4"></i> إضافة قسم رئيسي جديد
-                    </button>
                 </div>
 
-                <div id="admin-categories-container" class="space-y-6">
-                    <!-- سيتم ملؤه بواسطة الجافاسكريبت -->
+                <!-- إحصائيات الموقع -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+                    <div class="bg-black/40 border border-white/10 rounded-2xl p-6 flex items-center gap-6 shadow-inner">
+                        <div class="bg-blue-500/20 w-16 h-16 rounded-full flex items-center justify-center text-blue-400 shrink-0">
+                            <i data-lucide="eye" class="w-8 h-8"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 text-sm font-bold mb-1">إجمالي زيارات الموقع</p>
+                            <h3 id="admin-views-count" class="text-3xl font-black text-white">0</h3>
+                        </div>
+                    </div>
+                    <div class="bg-black/40 border border-white/10 rounded-2xl p-6 flex items-center gap-6 shadow-inner">
+                        <div class="bg-emerald-500/20 w-16 h-16 rounded-full flex items-center justify-center text-emerald-400 shrink-0">
+                            <i data-lucide="users" class="w-8 h-8"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 text-sm font-bold mb-1">المسجلين في الدليل</p>
+                            <h3 id="admin-users-count" class="text-3xl font-black text-white">0</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- القائمة السوداء (Blacklist) -->
+                    <div class="lg:col-span-1 bg-black/20 border border-red-500/20 rounded-2xl p-6">
+                        <h3 class="text-xl font-bold text-red-400 flex items-center gap-2 mb-4 border-b border-red-500/20 pb-3">
+                            <i data-lucide="ban" class="w-5 h-5"></i> القائمة السوداء
+                        </h3>
+                        <p class="text-gray-400 text-xs mb-4">أي رقم يتم حظره سيختفي كرته من الدليل ولن يتمكن من التسجيل مجدداً.</p>
+                        
+                        <div class="flex gap-2 mb-6">
+                            <input type="tel" id="blacklist-input" class="w-full p-2.5 bg-black/40 border border-red-500/30 rounded-lg focus:ring-2 focus:ring-red-500/50 outline-none text-gray-100 text-sm" placeholder="رقم الهاتف للحظر..." dir="ltr">
+                            <button onclick="addBlacklist()" class="bg-red-500/20 text-red-400 hover:bg-red-500/40 px-4 rounded-lg font-bold transition-colors">حظر</button>
+                        </div>
+
+                        <div id="blacklist-container" class="space-y-2 max-h-64 overflow-y-auto pr-2">
+                            <!-- سيتم ملؤه عبر JS -->
+                        </div>
+                    </div>
+
+                    <!-- إدارة التخصصات -->
+                    <div class="lg:col-span-2 bg-black/20 border border-emerald-500/20 rounded-2xl p-6">
+                        <div class="flex justify-between items-center mb-4 border-b border-emerald-500/20 pb-3">
+                            <h3 class="text-xl font-bold text-emerald-400 flex items-center gap-2">
+                                <i data-lucide="folder-tree" class="w-5 h-5"></i> الأقسام والتخصصات
+                            </h3>
+                            <button onclick="addCategory()" class="bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/40 px-3 py-1.5 rounded-lg text-sm font-bold transition-colors flex items-center gap-1">
+                                <i data-lucide="plus" class="w-4 h-4"></i> قسم جديد
+                            </button>
+                        </div>
+                        <div id="admin-categories-container" class="space-y-4 max-h-[400px] overflow-y-auto pr-2">
+                            <!-- سيتم ملؤه عبر JS -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -304,14 +398,15 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, onSnapshot, addDoc, serverTimestamp, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, addDoc, serverTimestamp, doc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Global Variables
         window.allProfessionals = [];
+        window.blacklistedNumbers = [];
         window.currentUserId = null;
         window.formDataImages = { profile: '', cover: '' };
         
-        // Dynamic Categories (يتم تحديثها من القاعدة)
+        // Dynamic Categories
         window.MAIN_CATEGORIES = {
             "مصورين": ['مصور', 'مصور كرين'],
             "مخرجين": ['مخرج'],
@@ -319,7 +414,7 @@
             "أصحاب معدات": ['صاحب وحدة ميكسر', 'صاحب درون', 'صاحب كاميرا كرين']
         };
         
-        // إعدادات Firebase الخاصة بك
+        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyDPoU1ymN5apK0jtddfOi7R7G7cK-RuSu8",
             authDomain: "dalil-ca8c4.firebaseapp.com",
@@ -333,13 +428,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Check URL for register view
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('view') === 'register') {
-            switchView('register');
-        }
-
-        // Auth Init
+        // Auth Init & Tracking
         const initAuth = async () => {
             try {
                 await signInAnonymously(auth);
@@ -356,39 +445,54 @@
         };
         initAuth();
 
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             if (user) {
                 window.currentUserId = user.uid;
                 document.getElementById('submit-btn').disabled = false;
                 document.getElementById('auth-wait-msg').style.display = 'none';
-                fetchCategories();
+                
+                // Track Page View
+                const statsRef = doc(db, 'settings', 'stats');
+                try {
+                    await updateDoc(statsRef, { views: increment(1) });
+                } catch (e) {
+                    if(e.code === 'not-found') await setDoc(statsRef, { views: 1 });
+                }
+
+                fetchSettings();
                 fetchData();
             }
         });
 
-        // جلب قائمة التخصصات الديناميكية
-        function fetchCategories() {
-            const catDoc = doc(db, 'settings', 'categories');
-            onSnapshot(catDoc, (docSnap) => {
-                if (docSnap.exists()) {
-                    window.MAIN_CATEGORIES = docSnap.data().data;
-                } else {
-                    // إذا لم تكن موجودة، ننشئها باستخدام التخصصات الافتراضية
-                    setDoc(catDoc, { data: window.MAIN_CATEGORIES });
-                }
+        // جلب الإعدادات (التخصصات، القائمة السوداء، والإحصائيات)
+        function fetchSettings() {
+            // Categories
+            onSnapshot(doc(db, 'settings', 'categories'), (docSnap) => {
+                if (docSnap.exists()) window.MAIN_CATEGORIES = docSnap.data().data;
+                else setDoc(doc(db, 'settings', 'categories'), { data: window.MAIN_CATEGORIES });
                 
-                // تحديث جميع الواجهات التي تعتمد على التخصصات
                 window.updateCatFilter();
                 window.updateRoleFilter();
                 window.populateFormRoles();
-                
-                // تحديث واجهة الإدارة إذا كانت مفتوحة
-                if (!document.getElementById('view-admin').classList.contains('hidden-view')) {
-                    window.renderAdminCategories();
-                }
-                
-                // إعادة تحديث الفلاتر لو كنا في صفحة الدليل
+                if (!document.getElementById('view-admin').classList.contains('hidden-view')) window.renderAdminCategories();
                 if(window.allProfessionals.length > 0) window.renderProfessionals();
+            });
+
+            // Blacklist
+            onSnapshot(doc(db, 'settings', 'blacklist'), (docSnap) => {
+                if (docSnap.exists()) window.blacklistedNumbers = docSnap.data().numbers || [];
+                else window.blacklistedNumbers = [];
+                
+                if(window.allProfessionals.length > 0) window.renderProfessionals();
+                if (!document.getElementById('view-admin').classList.contains('hidden-view')) window.renderAdminBlacklist();
+            });
+
+            // Stats (للوحة الإدارة)
+            onSnapshot(doc(db, 'settings', 'stats'), (docSnap) => {
+                if (docSnap.exists()) {
+                    const viewsEl = document.getElementById('admin-views-count');
+                    if(viewsEl) viewsEl.textContent = docSnap.data().views || 0;
+                }
             });
         }
 
@@ -401,6 +505,9 @@
                 data.sort((a, b) => (b.createdAt?.toMillis() || 0) - (a.createdAt?.toMillis() || 0));
                 window.allProfessionals = data;
                 
+                const usersEl = document.getElementById('admin-users-count');
+                if(usersEl) usersEl.textContent = data.length;
+
                 document.getElementById('loading-spinner').classList.add('hidden');
                 document.getElementById('professionals-grid').classList.remove('hidden');
                 
@@ -408,37 +515,17 @@
                 window.renderProfessionals();
             }, (error) => {
                 console.error("Firestore Read Error:", error);
-                const loadingSpinner = document.getElementById('loading-spinner');
-                if(loadingSpinner) {
-                    loadingSpinner.innerHTML = `
-                    <div class="col-span-full w-full max-w-2xl mx-auto p-6 bg-red-500/10 border border-red-500/30 rounded-2xl text-right space-y-4">
-                        <div class="flex items-center gap-3 text-red-400 mb-2">
-                            <i data-lucide="shield-alert" class="w-8 h-8"></i>
-                            <h3 class="text-xl font-bold">⚠️ خطأ في صلاحيات قاعدة البيانات</h3>
-                        </div>
-                        <p class="text-gray-300 font-normal leading-relaxed">لقد قمت بربط مشروعك بنجاح، ولكن قاعدة بيانات Firestore مغلقة حالياً للجمهور.</p>
-                        <p class="text-gray-400 font-normal text-sm">لحل هذه المشكلة فوراً، يرجى الذهاب إلى لوحة تحكم <b>Firebase</b> > <b>Firestore Database</b> > ثم تبويب <b>Rules</b>، واستبدال الكود الموجود بالكامل بالكود التالي:</p>
-                        
-                        <div class="bg-black/60 p-4 rounded-xl text-left dir-ltr font-mono text-sm text-green-400 border border-white/10 shadow-inner overflow-x-auto select-all">
-rules_version = '2';<br>
-service cloud.firestore {<br>
-&nbsp;&nbsp;match /databases/{database}/documents {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;match /{document=**} {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow read, write: if true;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;}<br>
-&nbsp;&nbsp;}<br>
-}
-                        </div>
-                    </div>`;
-                    lucide.createIcons();
-                }
             });
         }
 
-        // إظهار نموذج التسجيل عند الضغط على الزر
+        // إظهار/إخفاء نموذج التسجيل
         window.showRegisterForm = () => {
             document.getElementById('show-form-container').classList.add('hidden');
             document.getElementById('register-form').classList.remove('hidden');
+        };
+        window.hideRegisterForm = () => {
+            document.getElementById('register-form').classList.add('hidden');
+            document.getElementById('show-form-container').classList.remove('hidden');
         };
 
         // Handle Registration Submit
@@ -446,6 +533,12 @@ service cloud.firestore {<br>
             e.preventDefault();
             if (!window.currentUserId) return;
             
+            const phoneVal = document.getElementById('form-phone').value.replace(/\s+/g, '');
+            if (window.blacklistedNumbers.includes(phoneVal)) {
+                alert("عذراً، لا يمكن تسجيل هذا الرقم في الدليل لمخالفته شروط الاستخدام.");
+                return;
+            }
+
             const btn = document.getElementById('submit-btn');
             const submitText = document.getElementById('submit-text');
             btn.disabled = true;
@@ -457,7 +550,7 @@ service cloud.firestore {<br>
                 country: document.getElementById('form-country').value,
                 governorate: document.getElementById('form-gov').value,
                 city: document.getElementById('form-city').value,
-                phone: document.getElementById('form-phone').value,
+                phone: phoneVal,
                 portfolioUrl: document.getElementById('form-portfolio').value,
                 imageUrl: window.formDataImages.profile,
                 coverUrl: window.formDataImages.cover,
@@ -474,7 +567,7 @@ service cloud.firestore {<br>
                 
                 setTimeout(() => {
                     document.getElementById('success-msg').classList.add('hidden');
-                    document.getElementById('show-form-container').classList.remove('hidden'); // إظهار زر الإضافة من جديد بدلاً من الفورم
+                    document.getElementById('show-form-container').classList.remove('hidden');
                     document.getElementById('register-form').reset();
                     window.formDataImages = { profile: '', cover: '' };
                     document.getElementById('preview-profile-container').innerHTML = '<i data-lucide="image" class="text-gray-600 w-7 h-7"></i>';
@@ -484,11 +577,7 @@ service cloud.firestore {<br>
                 }, 2000);
             } catch (error) {
                 console.error("Add Error:", error);
-                if(error.code === 'permission-denied') {
-                    alert("⚠️ خطأ في الصلاحيات! يرجى تحديث قواعد الأمان (Rules) في Firestore لتسمح بالكتابة كما هو موضح في رسالة الخطأ بالشاشة الرئيسية.");
-                } else {
-                    alert("حدث خطأ أثناء التسجيل. تأكد من إعدادات قاعدة البيانات.");
-                }
+                alert("حدث خطأ أثناء التسجيل. تأكد من إعدادات قاعدة البيانات.");
             } finally {
                 btn.disabled = false;
                 submitText.textContent = 'تأكيد إضافة البيانات';
@@ -499,9 +588,8 @@ service cloud.firestore {<br>
         // دوال واجهة الإدارة (Admin)
         // -------------------------
 
-        // زر طلب الإدارة
         window.promptAdmin = () => {
-            const pass = prompt("منطقة محمية: الرجاء إدخال كلمة المرور للوصول لإدارة التخصصات:");
+            const pass = prompt("منطقة محمية: الرجاء إدخال كلمة المرور للوصول للوحة التحكم:");
             if (pass === "1234") { 
                 window.switchView('admin');
             } else if (pass !== null) {
@@ -509,17 +597,12 @@ service cloud.firestore {<br>
             }
         };
 
-        // رفع التعديلات لقاعدة البيانات
+        // --- Categories ---
         window.updateCategoriesInDB = async () => {
-            try {
-                await setDoc(doc(db, 'settings', 'categories'), { data: window.MAIN_CATEGORIES });
-            } catch (e) {
-                console.error("Error saving categories:", e);
-                alert("حدث خطأ أثناء حفظ التخصصات. تأكد من صلاحيات قاعدة البيانات.");
-            }
+            try { await setDoc(doc(db, 'settings', 'categories'), { data: window.MAIN_CATEGORIES }); } 
+            catch (e) { alert("حدث خطأ أثناء حفظ التخصصات."); }
         };
 
-        // عرض التخصصات في لوحة الإدارة
         window.renderAdminCategories = () => {
             const container = document.getElementById('admin-categories-container');
             if (!container) return;
@@ -527,80 +610,93 @@ service cloud.firestore {<br>
             let html = '';
             for (const [cat, roles] of Object.entries(window.MAIN_CATEGORIES)) {
                 html += `
-                <div class="bg-black/40 border border-white/10 rounded-xl p-5 shadow-inner">
-                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4 border-b border-white/5 pb-4">
-                        <h3 class="text-xl font-bold text-cyan-400 flex items-center gap-2"><i data-lucide="folder" class="w-5 h-5"></i> ${cat}</h3>
-                        <div class="flex gap-2">
-                            <button onclick="editCategory('${cat}')" class="text-blue-400 hover:text-white bg-blue-500/10 hover:bg-blue-500/30 p-2 rounded-lg transition-colors" title="تعديل اسم القسم"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
-                            <button onclick="deleteCategory('${cat}')" class="text-red-400 hover:text-white bg-red-500/10 hover:bg-red-500/30 p-2 rounded-lg transition-colors" title="حذف القسم"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                            <button onclick="addRole('${cat}')" class="text-emerald-400 hover:text-emerald-900 bg-emerald-500/10 hover:bg-emerald-400 px-3 py-2 rounded-lg flex items-center gap-1 text-sm font-bold transition-colors"><i data-lucide="plus" class="w-4 h-4"></i> تخصص داخل القسم</button>
+                <div class="bg-black/30 border border-white/5 rounded-xl p-4 shadow-inner">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-bold text-cyan-400">${cat}</h3>
+                        <div class="flex gap-1">
+                            <button onclick="deleteCategory('${cat}')" class="text-gray-500 hover:text-red-400 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                            <button onclick="addRole('${cat}')" class="text-emerald-400 hover:text-emerald-300 p-1"><i data-lucide="plus-circle" class="w-4 h-4"></i></button>
                         </div>
                     </div>
                     <div class="flex flex-wrap gap-2">
                         ${roles.map(role => `
-                            <div class="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 flex items-center gap-3">
-                                <span class="text-gray-200 text-sm font-medium">${role}</span>
-                                <div class="flex gap-1.5 border-r border-white/10 pr-3 ml-1">
-                                    <button onclick="editRole('${cat}', '${role}')" class="text-gray-400 hover:text-blue-400 transition-colors" title="تعديل التخصص"><i data-lucide="edit-2" class="w-3.5 h-3.5"></i></button>
-                                    <button onclick="deleteRole('${cat}', '${role}')" class="text-gray-400 hover:text-red-400 transition-colors" title="حذف التخصص"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
-                                </div>
+                            <div class="bg-white/5 rounded px-2 py-1 flex items-center gap-2 text-xs">
+                                <span class="text-gray-300">${role}</span>
+                                <button onclick="deleteRole('${cat}', '${role}')" class="text-gray-500 hover:text-red-400"><i data-lucide="x" class="w-3 h-3"></i></button>
                             </div>
                         `).join('')}
                     </div>
-                </div>
-                `;
+                </div>`;
             }
             container.innerHTML = html;
             lucide.createIcons();
         };
 
         window.addCategory = () => {
-            const name = prompt("أدخل اسم القسم الرئيسي الجديد (مثال: مصممين جرافيك):");
+            const name = prompt("أدخل اسم القسم الرئيسي الجديد:");
             if (name && name.trim() && !window.MAIN_CATEGORIES[name.trim()]) {
                 window.MAIN_CATEGORIES[name.trim()] = [];
                 window.updateCategoriesInDB();
             }
         };
-
         window.deleteCategory = (cat) => {
-            if (confirm(`هل أنت متأكد من حذف قسم "${cat}" بالكامل وجميع التخصصات التابعة له؟`)) {
+            if (confirm(`حذف قسم "${cat}" بالكامل؟`)) {
                 delete window.MAIN_CATEGORIES[cat];
                 window.updateCategoriesInDB();
             }
         };
-
-        window.editCategory = (oldCat) => {
-            const newName = prompt("تعديل اسم القسم الرئيسي:", oldCat);
-            if (newName && newName.trim() && newName !== oldCat) {
-                window.MAIN_CATEGORIES[newName.trim()] = window.MAIN_CATEGORIES[oldCat];
-                delete window.MAIN_CATEGORIES[oldCat];
-                window.updateCategoriesInDB();
-            }
-        };
-
         window.addRole = (cat) => {
-            const name = prompt(`أدخل اسم التخصص الجديد في قسم (${cat}):`);
+            const name = prompt(`أدخل التخصص الجديد لـ (${cat}):`);
             if (name && name.trim() && !window.MAIN_CATEGORIES[cat].includes(name.trim())) {
                 window.MAIN_CATEGORIES[cat].push(name.trim());
                 window.updateCategoriesInDB();
             }
         };
-
         window.deleteRole = (cat, role) => {
-            if (confirm(`هل أنت متأكد من حذف تخصص "${role}"؟`)) {
+            if (confirm(`حذف تخصص "${role}"؟`)) {
                 window.MAIN_CATEGORIES[cat] = window.MAIN_CATEGORIES[cat].filter(r => r !== role);
                 window.updateCategoriesInDB();
             }
         };
 
-        window.editRole = (cat, oldRole) => {
-            const newRole = prompt("تعديل اسم التخصص:", oldRole);
-            if (newRole && newRole.trim() && newRole !== oldRole) {
-                const index = window.MAIN_CATEGORIES[cat].indexOf(oldRole);
-                if (index !== -1) {
-                    window.MAIN_CATEGORIES[cat][index] = newRole.trim();
-                    window.updateCategoriesInDB();
-                }
+        // --- Blacklist ---
+        window.updateBlacklistInDB = async () => {
+            try { await setDoc(doc(db, 'settings', 'blacklist'), { numbers: window.blacklistedNumbers }); } 
+            catch (e) { alert("حدث خطأ أثناء حفظ القائمة السوداء."); }
+        };
+
+        window.renderAdminBlacklist = () => {
+            const container = document.getElementById('blacklist-container');
+            if(!container) return;
+            if(window.blacklistedNumbers.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-sm text-center py-4">لا توجد أرقام محظورة حالياً.</p>';
+                return;
+            }
+            container.innerHTML = window.blacklistedNumbers.map(num => `
+                <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-3 flex justify-between items-center">
+                    <span class="text-red-200 font-mono text-sm" dir="ltr">${num}</span>
+                    <button onclick="removeBlacklist('${num}')" class="text-gray-400 hover:text-white text-xs bg-black/40 px-2 py-1 rounded transition-colors">إلغاء الحظر</button>
+                </div>
+            `).join('');
+        };
+
+        window.addBlacklist = () => {
+            const input = document.getElementById('blacklist-input');
+            const num = input.value.trim().replace(/\s+/g, '');
+            if(!num) return;
+            if(window.blacklistedNumbers.includes(num)) {
+                alert("هذا الرقم محظور بالفعل.");
+                return;
+            }
+            window.blacklistedNumbers.push(num);
+            input.value = '';
+            window.updateBlacklistInDB();
+        };
+
+        window.removeBlacklist = (num) => {
+            if(confirm(`هل أنت متأكد من إلغاء حظر الرقم ${num}؟`)) {
+                window.blacklistedNumbers = window.blacklistedNumbers.filter(n => n !== num);
+                window.updateBlacklistInDB();
             }
         };
 
@@ -609,6 +705,7 @@ service cloud.firestore {<br>
         // -------------------------
 
         window.switchView = (view) => {
+            document.getElementById('view-home').classList.add('hidden-view');
             document.getElementById('view-directory').classList.add('hidden-view');
             document.getElementById('view-register').classList.add('hidden-view');
             document.getElementById('view-admin').classList.add('hidden-view');
@@ -617,25 +714,28 @@ service cloud.firestore {<br>
             document.getElementById('nav-reg-btn').className = "px-3 sm:px-4 py-2.5 rounded-lg transition-all duration-300 flex items-center gap-1.5 text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5";
             document.getElementById('nav-admin-btn').className = "px-3 py-2.5 rounded-lg transition-all duration-300 flex items-center gap-1.5 text-sm font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5";
 
-            if (view === 'directory') {
+            if (view === 'home') {
+                document.getElementById('view-home').classList.remove('hidden-view');
+            } else if (view === 'directory') {
                 document.getElementById('view-directory').classList.remove('hidden-view');
                 document.getElementById('nav-dir-btn').className = "px-3 sm:px-4 py-2.5 rounded-lg transition-all duration-300 flex items-center gap-1.5 text-sm font-medium bg-white/10 text-cyan-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]";
             } else if (view === 'register') {
-                // التأكد من إظهار زر الإضافة وإخفاء الفورم عند فتح هذه الواجهة من جديد
                 document.getElementById('show-form-container').classList.remove('hidden');
                 document.getElementById('register-form').classList.add('hidden');
-
                 document.getElementById('view-register').classList.remove('hidden-view');
                 document.getElementById('nav-reg-btn').className = "px-3 sm:px-4 py-2.5 rounded-lg transition-all duration-300 flex items-center gap-1.5 text-sm font-medium bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-[0_0_15px_rgba(6,182,212,0.4)]";
             } else if (view === 'admin') {
                 document.getElementById('view-admin').classList.remove('hidden-view');
                 document.getElementById('nav-admin-btn').className = "px-3 py-2.5 rounded-lg transition-all duration-300 flex items-center gap-1.5 text-sm font-medium bg-white/10 text-emerald-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] border border-emerald-500/20";
-                window.renderAdminCategories(); // استدعاء دالة الرسم للإدارة
+                window.renderAdminCategories();
+                window.renderAdminBlacklist();
             }
         };
 
         window.updateGovFilter = () => {
-            const govs = [...new Set(window.allProfessionals.map(p => p.governorate).filter(Boolean))];
+            // إخفاء الأرقام المحظورة من إحصائيات المحافظات
+            const validProfs = window.allProfessionals.filter(p => !window.blacklistedNumbers.includes(p.phone));
+            const govs = [...new Set(validProfs.map(p => p.governorate).filter(Boolean))];
             const select = document.getElementById('filter-gov');
             select.innerHTML = '<option value="" class="bg-slate-900 text-gray-100">المنطقة / المحافظة...</option>' + 
                 govs.map(gov => `<option value="${gov}" class="bg-slate-900 text-gray-100">${gov}</option>`).join('');
@@ -649,7 +749,6 @@ service cloud.firestore {<br>
                 html += `<option value="${cat}" class="bg-slate-900 text-gray-100">${cat}</option>`;
             });
             select.innerHTML = html;
-            // محاولة الاحتفاظ بالخيار المحدد مسبقاً إذا كان لايزال موجوداً
             if(window.MAIN_CATEGORIES[currentVal]) select.value = currentVal;
         };
 
@@ -657,11 +756,9 @@ service cloud.firestore {<br>
             const cat = document.getElementById('filter-cat').value;
             const select = document.getElementById('filter-role');
             let roles = [];
-            if (cat && window.MAIN_CATEGORIES[cat]) {
-                roles = window.MAIN_CATEGORIES[cat];
-            } else {
-                roles = Object.values(window.MAIN_CATEGORIES).flat();
-            }
+            if (cat && window.MAIN_CATEGORIES[cat]) roles = window.MAIN_CATEGORIES[cat];
+            else roles = Object.values(window.MAIN_CATEGORIES).flat();
+            
             select.innerHTML = '<option value="" class="bg-slate-900 text-gray-100">التخصص الدقيق...</option>' + 
                 roles.map(role => `<option value="${role}" class="bg-slate-900 text-gray-100">${role}</option>`).join('');
         };
@@ -680,14 +777,13 @@ service cloud.firestore {<br>
         };
 
         window.getRoleIconName = (role) => {
-            // محاولة إيجاد أيقونة مناسبة بناءً على بعض الكلمات المفتاحية
             if (role.includes('مخرج')) return 'clapperboard';
             if (role.includes('ميكسر')) return 'sliders';
             if (role.includes('درون')) return 'navigation';
             if (role.includes('كرين') || role.includes('فيديو')) return 'video';
             if (role.includes('ميديا')) return 'film';
             if (role.includes('محترف')) return 'aperture';
-            return 'camera'; // الافتراضي
+            return 'camera'; 
         };
 
         window.renderProfessionals = () => {
@@ -697,6 +793,9 @@ service cloud.firestore {<br>
             const roleF = document.getElementById('filter-role').value;
 
             const filtered = window.allProfessionals.filter(p => {
+                // إخفاء المحظورين
+                if (window.blacklistedNumbers.includes(p.phone)) return false;
+                
                 const matchesGov = govF === '' || p.governorate === govF;
                 const matchesCat = catF === '' || (window.MAIN_CATEGORIES[catF] && window.MAIN_CATEGORIES[catF].includes(p.role));
                 const matchesRole = roleF === '' || p.role === roleF;
@@ -893,7 +992,18 @@ service cloud.firestore {<br>
             }
         };
 
-        // Initialize UI components (بعد أن تم تعريف جميع الدوال في الأعلى)
+        // --- MOVE URL CHECK HERE ---
+        // Check URL for specific view
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('view') === 'register') {
+            // Default is now Home, so if it's explicitly register, show it
+            window.switchView('register');
+        } else {
+            // Default view is Home
+            window.switchView('home');
+        }
+
+        // Initialize UI components
         document.getElementById('current-year').textContent = new Date().getFullYear();
         lucide.createIcons();
 
