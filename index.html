@@ -317,13 +317,13 @@
 
     <!-- Modal رسائل التنبيه المخصصة (بديل لـ alert) -->
     <div id="alert-modal" class="fixed inset-0 z-[90] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden" onclick="closeAlertModal()">
-        <div class="glass-card bg-[#0f172a] rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl relative p-6 text-center border border-cyan-500/20" onclick="event.stopPropagation()">
-            <div class="w-16 h-16 bg-cyan-500/10 rounded-full flex items-center justify-center text-cyan-400 mx-auto mb-4">
+        <div id="alert-modal-card" class="glass-card bg-[#0f172a] rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl relative p-6 text-center border border-cyan-500/20" onclick="event.stopPropagation()">
+            <div id="alert-modal-icon-wrap" class="w-16 h-16 bg-cyan-500/10 rounded-full flex items-center justify-center text-cyan-400 mx-auto mb-4">
                 <i data-lucide="info" class="w-8 h-8"></i>
             </div>
             <h2 id="alert-title" class="text-xl font-bold text-white mb-2">تنبيه</h2>
             <p id="alert-msg" class="text-gray-300 text-sm leading-relaxed mb-6"></p>
-            <button onclick="closeAlertModal()" class="w-full bg-white/10 hover:bg-cyan-500/20 hover:text-cyan-400 text-white font-bold py-3 rounded-xl transition-all">حسناً</button>
+            <button id="alert-modal-btn" onclick="closeAlertModal()" class="w-full bg-white/10 hover:bg-cyan-500/20 hover:text-cyan-400 text-white font-bold py-3 rounded-xl transition-all">حسناً</button>
         </div>
     </div>
 
@@ -363,19 +363,18 @@
 
         // UI Helpers
         window.showAlert = (title, msg, isError = false) => {
-            const iconWrap = document.querySelector('#alert-modal .w-16');
-            const icon = document.querySelector('#alert-modal i');
-            const borderWrap = document.querySelector('#alert-modal .glass-card');
-            const btn = document.querySelector('#alert-modal button');
+            const iconWrap = document.getElementById('alert-modal-icon-wrap');
+            const borderWrap = document.getElementById('alert-modal-card');
+            const btn = document.getElementById('alert-modal-btn');
             
             if(isError) {
                 iconWrap.className = "w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center text-red-400 mx-auto mb-4";
-                icon.setAttribute('data-lucide', 'alert-triangle');
+                iconWrap.innerHTML = '<i data-lucide="alert-triangle" class="w-8 h-8"></i>';
                 borderWrap.className = "glass-card bg-[#0f172a] rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl relative p-6 text-center border border-red-500/20";
                 btn.className = "w-full bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 font-bold py-3 rounded-xl transition-all";
             } else {
                 iconWrap.className = "w-16 h-16 bg-cyan-500/10 rounded-full flex items-center justify-center text-cyan-400 mx-auto mb-4";
-                icon.setAttribute('data-lucide', 'info');
+                iconWrap.innerHTML = '<i data-lucide="info" class="w-8 h-8"></i>';
                 borderWrap.className = "glass-card bg-[#0f172a] rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl relative p-6 text-center border border-cyan-500/20";
                 btn.className = "w-full bg-white/10 hover:bg-cyan-500/20 hover:text-cyan-400 text-white font-bold py-3 rounded-xl transition-all";
             }
@@ -404,19 +403,19 @@
         };
         window.scrollToDirectory = () => {
             const directorySection = document.getElementById('directory-section');
-            // إظهار قسم الدليل
             directorySection.classList.remove('hidden');
-            // التمرير إليه بسلاسة بعد جزء من الثانية للسماح للمتصفح بالرسم
             setTimeout(() => {
                 directorySection.scrollIntoView({ behavior: 'smooth' });
             }, 50);
         };
 
         // Initialize Auth
+        window.currentUserId = null;
         signInAnonymously(auth).catch(e => console.error(e));
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
+                window.currentUserId = user.uid;
                 document.getElementById('submit-btn').disabled = false;
                 document.getElementById('auth-wait-msg').classList.add('hidden');
                 
@@ -457,6 +456,8 @@
         // Form Submit
         document.getElementById('register-form').addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!window.currentUserId) return;
+            
             const btn = document.getElementById('submit-btn');
             const phoneVal = document.getElementById('form-phone').value.trim();
 
@@ -468,15 +469,17 @@
             btn.disabled = true;
             document.getElementById('submit-text').textContent = "جاري الحفظ...";
 
+            // Fallback for explicitly handling undefined values which break Firestore
             const newProf = {
-                name: document.getElementById('form-name').value,
-                role: document.getElementById('form-role').value,
-                governorate: document.getElementById('form-gov').value,
-                city: document.getElementById('form-city').value,
+                name: document.getElementById('form-name').value || '',
+                role: document.getElementById('form-role').value || '',
+                governorate: document.getElementById('form-gov').value || '',
+                city: document.getElementById('form-city').value || '',
                 phone: phoneVal,
-                portfolioUrl: document.getElementById('form-portfolio').value,
-                imageUrl: window.formDataImages.profile,
-                coverUrl: window.formDataImages.cover,
+                portfolioUrl: document.getElementById('form-portfolio').value || '',
+                imageUrl: window.formDataImages.profile || '',
+                coverUrl: window.formDataImages.cover || '',
+                userId: window.currentUserId || 'unknown',
                 createdAt: serverTimestamp()
             };
 
@@ -485,7 +488,9 @@
                 document.getElementById('register-form-container').classList.add('hidden');
                 document.getElementById('success-msg').classList.remove('hidden');
             } catch (error) {
+                console.error("Registration Error:", error);
                 window.showAlert("خطأ", "حدث خطأ في التسجيل، يرجى المحاولة مجدداً لاحقاً.", true);
+            } finally {
                 btn.disabled = false;
                 document.getElementById('submit-text').textContent = "تأكيد الانضمام للدليل";
             }
@@ -522,6 +527,7 @@
         };
 
         window.getRoleIconName = (role) => {
+            if (!role) return 'camera';
             if (role.includes('مخرج')) return 'clapperboard';
             if (role.includes('ميكسر')) return 'sliders';
             if (role.includes('درون')) return 'navigation';
@@ -557,7 +563,10 @@
                         <div class="h-20 relative bg-black/40">
                             ${prof.coverUrl ? `<img src="${prof.coverUrl}" class="w-full h-full object-cover opacity-60">` : `<div class="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>`}
                             <div class="absolute -bottom-6 right-3 w-14 h-14 bg-slate-900 rounded-full border-2 border-black overflow-hidden shadow-lg group-hover:border-cyan-500 transition-colors">
-                                ${prof.imageUrl ? `<img src="${prof.imageUrl}" class="w-full h-full object-cover">` : `<div class="w-full h-full flex items-center justify-center bg-slate-800"><i data-lucide="${window.getRoleIconName(prof.role)}" class="text-cyan-400 w-6"></i></div>`}
+                                ${prof.imageUrl 
+                                    ? `<img src="${prof.imageUrl}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="w-full h-full bg-slate-800 hidden items-center justify-center"><i data-lucide="${window.getRoleIconName(prof.role)}" class="text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.5)] w-5 h-5"></i></div>` 
+                                    : `<div class="w-full h-full bg-slate-800 flex items-center justify-center"><i data-lucide="${window.getRoleIconName(prof.role)}" class="text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.5)] w-5 h-5"></i></div>`
+                                }
                             </div>
                         </div>
                         <div class="pt-8 pb-4 px-4 flex-1">
@@ -587,7 +596,10 @@
                 <div class="h-32 relative bg-black/60">
                     ${p.coverUrl ? `<img src="${p.coverUrl}" class="w-full h-full object-cover opacity-70">` : `<div class="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20"></div>`}
                     <div class="absolute -bottom-10 right-6 w-24 h-24 bg-[#0f172a] rounded-full border-4 border-[#0f172a] overflow-hidden shadow-xl">
-                        ${p.imageUrl ? `<img src="${p.imageUrl}" class="w-full h-full object-cover">` : `<div class="w-full h-full flex items-center justify-center bg-slate-800"><i data-lucide="${window.getRoleIconName(p.role)}" class="text-cyan-400 w-10"></i></div>`}
+                        ${p.imageUrl 
+                            ? `<img src="${p.imageUrl}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="w-full h-full bg-slate-800 hidden items-center justify-center"><i data-lucide="${window.getRoleIconName(p.role)}" class="text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.5)] w-10 h-10"></i></div>` 
+                            : `<div class="w-full h-full bg-slate-800 flex items-center justify-center"><i data-lucide="${window.getRoleIconName(p.role)}" class="text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.5)] w-10 h-10"></i></div>`
+                        }
                     </div>
                 </div>
                 <div class="p-8 pt-14 text-right">
@@ -622,7 +634,7 @@
 
         // Report Logic
         window.showReportForm = (id, name) => {
-            closeModal(); // أغلق بطاقة الشخص
+            closeModal();
             document.getElementById('report-user-id').value = id;
             document.getElementById('report-user-name').textContent = `إبلاغ عن: ${name}`;
             document.getElementById('report-modal').classList.remove('hidden');
@@ -643,13 +655,14 @@
 
             try {
                 await addDoc(collection(db, 'reports'), {
-                    reportedUserId: id,
-                    reason: reason,
+                    reportedUserId: id || 'unknown',
+                    reason: reason || '',
                     createdAt: serverTimestamp()
                 });
                 window.closeReportForm();
                 window.showAlert("تم الإرسال", "تم إرسال البلاغ بنجاح. سيتم مراجعته من قبل الإدارة واتخاذ الإجراء الصارم فوراً.");
             } catch (e) {
+                console.error(e);
                 window.showAlert("خطأ", "حدث خطأ أثناء الإرسال، يرجى المحاولة لاحقاً.", true);
             } finally {
                 btn.disabled = false; btn.textContent = "إرسال البلاغ للإدارة";
@@ -684,7 +697,6 @@
 
         window.loadChatMessages = () => {
             if(chatUnsubscribe) return;
-            // نجلب أحدث 100 رسالة فقط لتحقيق نظام الساقية
             const chatQ = query(collection(db, 'global_chat'), orderBy('createdAt', 'desc'), limit(100));
             chatUnsubscribe = onSnapshot(chatQ, (snapshot) => {
                 const msgs = [];
@@ -702,20 +714,21 @@
                         ? `<img src="${m.imageUrl}" class="w-full h-full object-cover">` 
                         : `<i data-lucide="user" class="w-4 h-4"></i>`;
 
+                    const displayName = m.name || 'مستخدم';
+
                     return `
                     <div class="flex gap-3 items-end w-full ${alignClass}">
                         <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center shrink-0 border border-white/10 text-gray-400 overflow-hidden shadow-sm">
                             ${imgHtml}
                         </div>
                         <div class="${bgClass} px-4 py-2.5 rounded-2xl ${radiusClass} border max-w-[80%] shadow-sm">
-                            <p class="text-[10px] ${isMe ? 'text-cyan-200' : 'text-cyan-400'} font-bold mb-1 opacity-80">${m.name}</p>
-                            <p class="text-sm ${textClass} leading-relaxed break-words">${m.text}</p>
+                            <p class="text-[10px] ${isMe ? 'text-cyan-200' : 'text-cyan-400'} font-bold mb-1 opacity-80">${displayName}</p>
+                            <p class="text-sm ${textClass} leading-relaxed break-words">${m.text || ''}</p>
                         </div>
                     </div>
                     `;
                 }).join('');
                 
-                // التمرير التلقائي للأسفل
                 container.scrollTop = container.scrollHeight;
                 lucide.createIcons();
             });
@@ -729,15 +742,17 @@
             input.value = '';
             
             try {
+                // استخدام قيم احتياطية لتفادي مشكلة undefined في قواعد البيانات
                 await addDoc(collection(db, 'global_chat'), {
-                    userId: window.currentUserProfile.userId,
-                    name: window.currentUserProfile.name,
+                    userId: window.currentUserId || window.currentUserProfile.userId || 'unknown',
+                    name: window.currentUserProfile.name || 'مستخدم',
                     imageUrl: window.currentUserProfile.imageUrl || '',
                     text: text,
                     createdAt: serverTimestamp()
                 });
             } catch(e) {
                 console.error("Chat send error:", e);
+                window.showAlert("خطأ", "لم نتمكن من إرسال الرسالة، يرجى المحاولة لاحقاً.", true);
             }
         };
 
