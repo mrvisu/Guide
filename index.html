@@ -640,6 +640,19 @@
             }, 50);
         };
 
+        // Formatter for WhatsApp Links
+        window.formatWhatsAppNumber = (phone) => {
+            if (!phone) return '';
+            let num = phone.replace(/[^0-9]/g, '');
+            if (num.startsWith('00')) num = num.substring(2);
+            if (num.startsWith('01') && num.length === 11) {
+                num = '2' + num;
+            } else if (num.startsWith('05') && num.length === 10) {
+                num = '966' + num.substring(1);
+            }
+            return num;
+        };
+
         // Initialize Auth
         window.currentUserId = null;
         const initAuth = async () => {
@@ -940,7 +953,7 @@
                         </div>
                         <div class="grid grid-cols-2 gap-3">
                             <a href="tel:${p.phone}" class="flex items-center justify-center gap-2 bg-emerald-500/10 text-emerald-400 p-4 rounded-2xl border border-emerald-500/20 font-black hover:bg-emerald-500/20 transition-all"><i data-lucide="phone"></i> اتصال</a>
-                            <a href="https://wa.me/${p.phone}" target="_blank" class="flex items-center justify-center gap-2 bg-green-500/10 text-green-400 p-4 rounded-2xl border border-green-500/20 font-black hover:bg-green-500/20 transition-all"><i data-lucide="message-circle"></i> واتساب</a>
+                            <a href="https://wa.me/${window.formatWhatsAppNumber(p.phone)}" target="_blank" class="flex items-center justify-center gap-2 bg-green-500/10 text-green-400 p-4 rounded-2xl border border-green-500/20 font-black hover:bg-green-500/20 transition-all"><i data-lucide="message-circle"></i> واتساب</a>
                         </div>
                         ${p.portfolioUrl ? `<a href="${p.portfolioUrl}" target="_blank" class="flex items-center justify-center gap-2 bg-blue-500/10 text-blue-400 p-4 rounded-2xl border border-blue-500/20 font-black w-full hover:bg-blue-500/20 transition-all"><i data-lucide="link"></i> معرض الأعمال</a>` : ''}
                         
