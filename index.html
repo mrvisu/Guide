@@ -44,6 +44,22 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Toast Animations */
+        .toast-enter {
+            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .toast-leave {
+            animation: slideOutRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideOutRight {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(100%); }
+        }
+
         .glass-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(12px);
@@ -75,6 +91,9 @@
         </div>
     </div>
 
+    <!-- حاوية الإشعارات المنبثقة (Toasts) -->
+    <div id="toast-container" class="fixed top-20 right-4 z-[100] flex flex-col gap-3 pointer-events-none w-80 max-w-[calc(100vw-2rem)]"></div>
+
     <!-- Header الموحد -->
     <header class="py-8 pt-24 text-center relative z-30">
         <div class="flex flex-col items-center gap-3">
@@ -91,22 +110,28 @@
         </div>
         
         <!-- Navbar أدوات سريعة -->
-        <div class="flex justify-center gap-2 mt-6 relative z-20 flex-wrap">
+        <div class="flex justify-center gap-2 mt-6 relative z-20 flex-wrap px-2">
+            <!-- زر الإشعارات الجديد -->
+            <button onclick="requestNotificationPermission()" class="px-4 py-2 rounded-full border border-yellow-500/30 bg-yellow-500/10 hover:bg-yellow-500/20 transition-all flex items-center gap-2 text-sm text-yellow-300 backdrop-blur-md">
+                <i data-lucide="bell" id="notify-btn-icon" class="w-4 h-4"></i>
+                <span class="hidden sm:inline">إشعارات</span>
+            </button>
+
             <button onclick="toggleChat()" class="px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-cyan-500/20 hover:border-cyan-500/30 transition-all flex items-center gap-2 text-sm text-cyan-100 backdrop-blur-md">
                 <i data-lucide="message-square" class="w-4 h-4"></i>
                 <span>الشات العام</span>
             </button>
             <button onclick="installApp()" class="px-4 py-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 hover:bg-indigo-500/20 transition-all flex items-center gap-2 text-sm text-indigo-300 backdrop-blur-md">
                 <i data-lucide="download" class="w-4 h-4"></i>
-                <span>تثبيت التطبيق</span>
+                <span class="hidden sm:inline">تثبيت التطبيق</span>
             </button>
             <button onclick="handleShare()" class="px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-all flex items-center gap-2 text-sm text-gray-300 backdrop-blur-md">
                 <i data-lucide="share-2" id="share-icon" class="w-4 h-4 text-cyan-400"></i>
-                <span id="share-text">مشاركة</span>
+                <span id="share-text" class="hidden sm:inline">مشاركة</span>
             </button>
             <button onclick="showAboutModal()" class="px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-all flex items-center gap-2 text-sm text-gray-300 backdrop-blur-md">
                 <i data-lucide="help-circle" class="w-4 h-4 text-emerald-400"></i>
-                <span>عن البرنامج</span>
+                <span class="hidden sm:inline">عن البرنامج</span>
             </button>
             <button id="btn-edit-profile" onclick="window.openEditForm()" class="hidden px-4 py-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 transition-all flex items-center gap-2 text-sm text-emerald-400 backdrop-blur-md">
                 <i data-lucide="user-cog" class="w-4 h-4"></i>
@@ -482,6 +507,78 @@
         const getColRef = (colName) => collection(db, 'artifacts', appId, 'public', 'data', colName);
         const getDocRef = (colName, docId) => doc(db, 'artifacts', appId, 'public', 'data', colName, docId);
 
+        // --- نظام الإشعارات الجديد --- //
+        window.requestNotificationPermission = async () => {
+            if (!("Notification" in window)) {
+                window.showAlert("غير مدعوم", "متصفحك الحالي لا يدعم إشعارات سطح المكتب.", true);
+                return;
+            }
+            if (Notification.permission === "granted") {
+                window.showToast("الإشعارات مفعلة بالفعل!", "أنت الآن تتلقى تنبيهات الشبكة بانتظام.", "check-circle", "emerald");
+                return;
+            }
+            if (Notification.permission !== "denied") {
+                const permission = await Notification.requestPermission();
+                if (permission === "granted") {
+                    document.getElementById('notify-btn-icon').classList.add('text-yellow-400', 'fill-yellow-400/20');
+                    window.showToast("تم تفعيل الإشعارات بنجاح!", "سيتم تنبيهك عند وجود رسائل جديدة في الشات.", "bell", "yellow");
+                }
+            } else {
+                window.showAlert("مرفوض", "لقد قمت برفض الإشعارات مسبقاً. يرجى تفعيلها من إعدادات المتصفح إذا رغبت بذلك.", true);
+            }
+        };
+
+        // تفعيل لون أيقونة الإشعار عند بداية التحميل إذا كانت مفعلة مسبقاً
+        if ("Notification" in window && Notification.permission === "granted") {
+            const icon = document.getElementById('notify-btn-icon');
+            if(icon) icon.classList.add('text-yellow-400', 'fill-yellow-400/20');
+        }
+
+        window.showToast = (title, message, iconName = 'bell', colorPrefix = 'cyan') => {
+            const container = document.getElementById('toast-container');
+            const toastId = 'toast-' + Date.now();
+            
+            const toastHtml = `
+                <div id="${toastId}" class="toast-enter glass-card p-4 rounded-2xl border-l-4 border-l-${colorPrefix}-400 shadow-[0_10px_40px_rgba(0,0,0,0.5)] flex items-start gap-3 bg-[#0f172a]/90 backdrop-blur-xl relative overflow-hidden cursor-pointer" onclick="this.classList.replace('toast-enter', 'toast-leave'); setTimeout(() => this.remove(), 400)">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-${colorPrefix}-500/10 rounded-full blur-2xl -translate-y-10 translate-x-10 pointer-events-none"></div>
+                    <div class="w-10 h-10 rounded-full bg-${colorPrefix}-500/20 flex items-center justify-center text-${colorPrefix}-400 shrink-0 z-10 border border-${colorPrefix}-500/30">
+                        <i data-lucide="${iconName}" class="w-5 h-5"></i>
+                    </div>
+                    <div class="flex-1 z-10 pointer-events-auto">
+                        <h4 class="text-sm font-bold text-white mb-1">${title}</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">${message}</p>
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', toastHtml);
+            lucide.createIcons();
+            
+            const toastEl = document.getElementById(toastId);
+            setTimeout(() => {
+                if(toastEl) {
+                    toastEl.classList.replace('toast-enter', 'toast-leave');
+                    setTimeout(() => toastEl.remove(), 400);
+                }
+            }, 5000); // يختفي بعد 5 ثواني
+        };
+
+        window.notifyUser = (title, body, iconUrl = null) => {
+            // 1. In-app Toast
+            window.showToast(title, body, 'message-circle', 'cyan');
+            
+            // 2. Browser Notification (if granted and page is not active/focused)
+            if ("Notification" in window && Notification.permission === "granted" && document.visibilityState !== "visible") {
+                const options = {
+                    body: body,
+                    icon: iconUrl || "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2322d3ee' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z'/><circle cx='12' cy='13' r='3'/></svg>",
+                    dir: "rtl"
+                };
+                new Notification(title, options);
+            }
+        };
+        // --- نهاية نظام الإشعارات --- //
+
         // UI Helpers
         window.showAboutModal = () => document.getElementById('about-modal').classList.remove('hidden');
         window.closeAboutModal = () => document.getElementById('about-modal').classList.add('hidden');
@@ -666,6 +763,7 @@
             });
         }
 
+        let isInitialProfLoaded = false;
         function fetchData() {
             onSnapshot(getColRef('professionals'), (snapshot) => {
                 window.allProfessionals = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
@@ -676,6 +774,19 @@
                 window.checkUserRegistrationStatus();
                 window.updateGovFilter();
                 window.renderProfessionals();
+
+                // Notification for new members
+                if (isInitialProfLoaded) {
+                    snapshot.docChanges().forEach((change) => {
+                        if (change.type === 'added') {
+                            const p = change.doc.data();
+                            if (p.userId !== window.currentUserId) {
+                                window.notifyUser("عضو جديد في الدليل!", `انضم ${p.name} (${p.role}) إلى الشبكة للتو.`, p.imageUrl);
+                            }
+                        }
+                    });
+                }
+                isInitialProfLoaded = true;
             });
         }
 
@@ -695,7 +806,6 @@
             btn.disabled = true;
             document.getElementById('submit-text').textContent = "جاري الحفظ...";
 
-            // Fallback for explicitly handling undefined values which break Firestore
             const updatedProf = {
                 name: document.getElementById('form-name').value || '',
                 role: document.getElementById('form-role').value || '',
@@ -799,7 +909,6 @@
             const catF = document.getElementById('filter-cat').value;
             const roleF = document.getElementById('filter-role').value;
 
-            // تحديث بطاقة العداد بناء على العدد الكلي الفعلي (غير المحظور)
             const totalValid = window.allProfessionals.filter(p => !window.blacklistedNumbers.includes(p.phone)).length;
             const countEl = document.getElementById('public-users-count');
             if (countEl) countEl.textContent = totalValid;
@@ -938,6 +1047,7 @@
         // Chat Logic
         let chatUnsubscribe = null;
         window.currentUserProfile = null;
+        let isInitialChatLoaded = false;
 
         window.toggleChat = () => {
             const drawer = document.getElementById('chat-drawer');
@@ -999,6 +1109,19 @@
                 
                 container.scrollTop = container.scrollHeight;
                 lucide.createIcons();
+
+                // التنبيه بالرسائل الجديدة للمستخدمين
+                if (isInitialChatLoaded) {
+                    snapshot.docChanges().forEach((change) => {
+                        if (change.type === "added") {
+                            const m = change.doc.data();
+                            if (m.userId !== window.currentUserId) {
+                                window.notifyUser(`رسالة جديدة من ${m.name || 'مستخدم'}`, m.text, m.imageUrl);
+                            }
+                        }
+                    });
+                }
+                isInitialChatLoaded = true;
             });
         };
 
@@ -1085,7 +1208,7 @@
         };
 
         // Zikr interval 10s
-        const l = ["سُبْحَانَ اللَّهِ وَبِحَمْدِهِ ، سُبْحَانَ اللَّهِ الْعَظِيمِ", "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ", "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ ﷺ", "أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ", "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ"];
+        const l = ["سُبْحَانَ اللَّهِ وَبِحَمْدِهِ ، سُبْحَانَ اللَّهِ الْعَظِيمِ", "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ", "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ ﷺ", "أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ", "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ"];
         let idx = 0;
         setInterval(() => {
             const el = document.getElementById('zikr-text');
