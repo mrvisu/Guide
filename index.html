@@ -225,7 +225,7 @@
                             
                             <div class="space-y-2">
                                 <label class="text-sm text-gray-400 mr-2">رقم الهاتف <span class="text-cyan-500">*</span></label>
-                                <input required type="tel" id="form-phone" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white text-left font-mono" placeholder="رقم الهاتف بدون كود">
+                                <input required type="tel" id="form-phone" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white text-left font-mono" placeholder="رقم الهاتف بدون كود" oninput="this.value = window.convertArToEnNumbers(this.value)">
                             </div>
                             <div class="space-y-2">
                                 <label class="text-sm text-gray-400 mr-2">الدولة <span class="text-cyan-500">*</span></label>
@@ -458,7 +458,7 @@
         window.blacklistedNumbers = [];
         window.formDataImages = { profile: '', cover: '' };
         
-        // التخصصات الافتراضية
+        // التخصصات الافتراضية المحدثة
         window.MAIN_CATEGORIES = {
             "مصورين": ['مصور فوتوغرافيا', 'مصور فيديوغرافي', 'مصور فيديو', 'مصور كرين', 'مصور منتجات'],
             "مخرجين": ['مخرج', 'مساعد مخرج'],
@@ -486,9 +486,15 @@
         const getColRef = (colName) => collection(db, 'artifacts', appId, 'public', 'data', colName);
         const getDocRef = (colName, docId) => doc(db, 'artifacts', appId, 'public', 'data', colName, docId);
 
+        // --- دالة تحويل الأرقام العربية إلى إنجليزية ---
+        window.convertArToEnNumbers = (str) => {
+            return str.replace(/[٠١٢٣٤٥٦٧٨٩]/g, (d) => d.charCodeAt(0) - 1632);
+        };
+
         // --- Notification Logic ---
         let initialProfLoad = true;
         let initialChatLoad = true;
+        let chatUnsubscribe = null;
 
         window.requestNotificationPermission = () => {
             if (!("Notification" in window)) {
@@ -510,23 +516,24 @@
                 try {
                     new Notification(title, {
                         body: body,
+                        icon: "https://cdn-icons-png.flaticon.com/512/1042/1042339.png",
                         dir: "rtl"
                     });
                 } catch (e) {
-                    console.log("Notification error (probably requires ServiceWorker):", e);
+                    console.log("Notification error:", e);
                 }
             }
         };
 
-        // Check if permission already granted to hide button
-        if ("Notification" in window && Notification.permission === "granted") {
+        // Check permission state
+        if ("Notification" in window) {
             const notifyBtn = document.getElementById('notify-btn');
-            if(notifyBtn) notifyBtn.classList.add('hidden');
-        } else if ("Notification" in window && Notification.permission === "default") {
-            const notifyBtn = document.getElementById('notify-btn');
-            if(notifyBtn) notifyBtn.classList.remove('hidden');
+            if (Notification.permission === "granted") {
+                if(notifyBtn) notifyBtn.classList.add('hidden');
+            } else if (Notification.permission === "default") {
+                if(notifyBtn) notifyBtn.classList.remove('hidden');
+            }
         }
-
 
         // UI Helpers
         window.showAboutModal = () => document.getElementById('about-modal').classList.remove('hidden');
@@ -566,7 +573,6 @@
             window.isEditing = true;
             window.editingDocId = window.currentUserProfile.id;
 
-            // تعبئة الحقول بالبيانات الحالية
             document.getElementById('form-name').value = window.currentUserProfile.name || '';
             document.getElementById('form-phone').value = window.currentUserProfile.phone || '';
             document.getElementById('form-country').value = window.currentUserProfile.country || 'مصر';
@@ -574,7 +580,6 @@
             document.getElementById('form-city').value = window.currentUserProfile.city || '';
             document.getElementById('form-portfolio').value = window.currentUserProfile.portfolioUrl || '';
 
-            // تعبئة القسم والتخصص
             let foundCat = '';
             for (const [cat, roles] of Object.entries(window.MAIN_CATEGORIES)) {
                 if (roles.includes(window.currentUserProfile.role)) {
@@ -586,7 +591,6 @@
             window.updateFormRoleFilter();
             document.getElementById('form-role').value = window.currentUserProfile.role || '';
 
-            // الصور
             window.formDataImages.profile = window.currentUserProfile.imageUrl || '';
             window.formDataImages.cover = window.currentUserProfile.coverUrl || '';
 
@@ -640,15 +644,20 @@
             }, 50);
         };
 
-        // Formatter for WhatsApp Links
+        // --- دالة تنسيق رقم الواتساب الذكية ---
         window.formatWhatsAppNumber = (phone) => {
             if (!phone) return '';
+            // تنظيف الرقم من أي مسافات أو رموز
             let num = phone.replace(/[^0-9]/g, '');
+            
+            // إذا بدأ بـ 00 نحذفها
             if (num.startsWith('00')) num = num.substring(2);
+
+            // منطق مفاتيح الدول الشائعة (مصر، السعودية)
             if (num.startsWith('01') && num.length === 11) {
-                num = '2' + num;
+                num = '2' + num; // مفتاح مصر
             } else if (num.startsWith('05') && num.length === 10) {
-                num = '966' + num.substring(1);
+                num = '966' + num.substring(1); // مفتاح السعودية
             }
             return num;
         };
@@ -673,32 +682,29 @@
                 window.currentUserId = user.uid;
                 document.getElementById('submit-btn').disabled = false;
                 
-                // Track stats
                 const statsRef = getDocRef('settings', 'stats');
                 try { await updateDoc(statsRef, { views: increment(1) }); } 
                 catch (e) { if(e.code === 'not-found') await setDoc(statsRef, { views: 1 }); }
 
                 fetchSettings();
                 fetchData();
+                // بدء مراقبة الشات للحصول على الإشعارات
+                window.loadChatMessages(true); 
             }
         });
 
-        // التحقق من حالة التسجيل وإخفاء قسم "أضف نفسك" ذكياً
         window.checkUserRegistrationStatus = () => {
             if (!window.currentUserId || !window.allProfessionals.length) return;
             const myProf = window.allProfessionals.find(p => p.userId === window.currentUserId);
             
             if (myProf) {
                 window.currentUserProfile = myProf;
-                // إخفاء زر أضف نفسك
                 const btnAdd = document.getElementById('btn-add-yourself');
                 if (btnAdd) btnAdd.classList.add('hidden');
                 
-                // إظهار زر تعديل البطاقة
                 const btnEdit = document.getElementById('btn-edit-profile');
                 if (btnEdit) btnEdit.classList.remove('hidden');
                 
-                // إظهار الدليل مباشرة لهم إذا لم يكونوا في وضع التعديل
                 if (!window.isEditing) {
                     const dirSection = document.getElementById('directory-section');
                     if (dirSection) dirSection.classList.remove('hidden');
@@ -712,12 +718,10 @@
 
         function fetchSettings() {
             onSnapshot(getDocRef('settings', 'categories'), (docSnap) => {
-                if (docSnap.exists()) {
-                    window.MAIN_CATEGORIES = docSnap.data().data;
-                }
+                if (docSnap.exists()) window.MAIN_CATEGORIES = docSnap.data().data;
                 window.updateCatFilter();
                 window.updateRoleFilter();
-                window.populateFormCategories(); // تحديث الفئات في نموذج التسجيل
+                window.populateFormCategories();
             });
             onSnapshot(getDocRef('settings', 'blacklist'), (docSnap) => {
                 if (docSnap.exists()) window.blacklistedNumbers = docSnap.data().numbers || [];
@@ -727,13 +731,13 @@
 
         function fetchData() {
             onSnapshot(getColRef('professionals'), (snapshot) => {
-                // Notifications for new professionals
+                // إشعارات العضو الجديد
                 if (!initialProfLoad) {
                     snapshot.docChanges().forEach((change) => {
                         if (change.type === 'added') {
                             const data = change.doc.data();
                             if (data.userId !== window.currentUserId) {
-                                window.showNativeNotification("عضو جديد في الشبكة", `انضم ${data.name} كـ ${data.role} إلى الدليل.`);
+                                window.showNativeNotification("عضو جديد انضم للشبكة", `المحترف ${data.name} متاح الآن في تخصص ${data.role}.`);
                             }
                         }
                     });
@@ -744,14 +748,12 @@
                     .sort((a, b) => (b.createdAt?.toMillis() || 0) - (a.createdAt?.toMillis() || 0));
                 
                 document.getElementById('loading-spinner').classList.add('hidden');
-                
                 window.checkUserRegistrationStatus();
                 window.updateGovFilter();
                 window.renderProfessionals();
             });
         }
 
-        // Form Submit
         document.getElementById('register-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!window.currentUserId) return;
@@ -767,13 +769,13 @@
             btn.disabled = true;
             document.getElementById('submit-text').textContent = "جاري الحفظ...";
 
-            // Fallback for explicitly handling undefined values which break Firestore
             const updatedProf = {
                 name: document.getElementById('form-name').value || '',
                 role: document.getElementById('form-role').value || '',
                 governorate: document.getElementById('form-gov').value || '',
                 city: document.getElementById('form-city').value || '',
                 phone: phoneVal,
+                country: document.getElementById('form-country').value || 'مصر',
                 portfolioUrl: document.getElementById('form-portfolio').value || '',
                 imageUrl: window.formDataImages.profile || '',
                 coverUrl: window.formDataImages.cover || ''
@@ -810,7 +812,6 @@
             }
         });
 
-        // Filter Logic
         window.updateGovFilter = () => {
             const govs = [...new Set(window.allProfessionals.filter(p => !window.blacklistedNumbers.includes(p.phone)).map(p => p.governorate).filter(Boolean))];
             const select = document.getElementById('filter-gov');
@@ -829,7 +830,6 @@
             select.innerHTML = '<option value="">التخصص الدقيق...</option>' + roles.map(r => `<option value="${r}">${r}</option>`).join('');
         };
 
-        // Form Categories Logic
         window.populateFormCategories = () => {
             const select = document.getElementById('form-category');
             if (!select) return;
@@ -838,14 +838,13 @@
                 html += `<option value="${c}" class="bg-slate-900 text-white">${c}</option>`;
             });
             select.innerHTML = html;
-            window.updateFormRoleFilter(); // تحديث التخصص الدقيق
+            window.updateFormRoleFilter();
         };
 
         window.updateFormRoleFilter = () => {
             const cat = document.getElementById('form-category')?.value;
             const select = document.getElementById('form-role');
             if (!select) return;
-            
             let html = '<option value="">اختر التخصص...</option>';
             if (cat && window.MAIN_CATEGORIES[cat]) {
                 window.MAIN_CATEGORIES[cat].forEach(r => {
@@ -871,7 +870,6 @@
             const catF = document.getElementById('filter-cat').value;
             const roleF = document.getElementById('filter-role').value;
 
-            // تحديث بطاقة العداد بناء على العدد الكلي الفعلي (غير المحظور)
             const totalValid = window.allProfessionals.filter(p => !window.blacklistedNumbers.includes(p.phone)).length;
             const countEl = document.getElementById('public-users-count');
             if (countEl) countEl.textContent = totalValid;
@@ -917,7 +915,7 @@
                                 </div>
                                 <div class="flex items-center gap-2 text-[10px] text-emerald-400 bg-emerald-500/5 p-1.5 rounded-lg border border-emerald-500/10">
                                     <i data-lucide="phone" class="w-3"></i>
-                                    <span class="font-bold tracking-wider">${prof.phone}</span>
+                                    <span class="font-bold tracking-wider" dir="ltr">${prof.phone}</span>
                                 </div>
                             </div>
                         </div>
@@ -957,7 +955,6 @@
                         </div>
                         ${p.portfolioUrl ? `<a href="${p.portfolioUrl}" target="_blank" class="flex items-center justify-center gap-2 bg-blue-500/10 text-blue-400 p-4 rounded-2xl border border-blue-500/20 font-black w-full hover:bg-blue-500/20 transition-all"><i data-lucide="link"></i> معرض الأعمال</a>` : ''}
                         
-                        <!-- زر الإبلاغ -->
                         <button onclick="showReportForm('${p.id}', '${p.name}')" class="flex items-center justify-center gap-2 bg-red-500/10 text-red-400 p-4 rounded-2xl border border-red-500/20 font-black w-full hover:bg-red-500/20 transition-all mt-2">
                             <i data-lucide="alert-octagon"></i> إبلاغ عن هذا الشخص
                         </button>
@@ -970,7 +967,6 @@
 
         window.closeModal = () => document.getElementById('prof-modal').classList.add('hidden');
 
-        // Report Logic
         window.showReportForm = (id, name) => {
             closeModal();
             document.getElementById('report-user-id').value = id;
@@ -1008,7 +1004,57 @@
         };
 
         // Chat Logic
-        window.currentUserProfile = null;
+        window.loadChatMessages = (isObserverOnly = false) => {
+            if(chatUnsubscribe) return;
+            const chatQ = query(getColRef('global_chat'), orderBy('createdAt', 'desc'), limit(100));
+            chatUnsubscribe = onSnapshot(chatQ, (snapshot) => {
+                // إشعارات رسائل الشات الجديدة
+                if (!initialChatLoad) {
+                    snapshot.docChanges().forEach((change) => {
+                        if (change.type === 'added') {
+                            const data = change.doc.data();
+                            if (data.userId !== window.currentUserId) {
+                                window.showNativeNotification(`رسالة جديدة من ${data.name}`, data.text);
+                            }
+                        }
+                    });
+                }
+                initialChatLoad = false;
+
+                if (isObserverOnly) return; // لو كنا بنراقب للإشعارات بس من غير ما نفتح الشات
+
+                const msgs = [];
+                snapshot.forEach(doc => msgs.push({id: doc.id, ...doc.data()}));
+                msgs.reverse();
+
+                const container = document.getElementById('chat-messages');
+                container.innerHTML = msgs.map(m => {
+                    const isMe = m.userId === window.currentUserId;
+                    const alignClass = isMe ? 'flex-row-reverse' : 'flex-row';
+                    const bgClass = isMe ? 'bg-cyan-500/20 border-cyan-500/30' : 'bg-white/5 border-white/5';
+                    const radiusClass = isMe ? 'rounded-tl-sm' : 'rounded-tr-sm';
+                    const textClass = isMe ? 'text-white' : 'text-gray-200';
+                    const imgHtml = m.imageUrl 
+                        ? `<img src="${m.imageUrl}" class="w-full h-full object-cover">` 
+                        : `<i data-lucide="user" class="w-4 h-4"></i>`;
+
+                    return `
+                    <div class="flex gap-3 items-end w-full ${alignClass}">
+                        <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center shrink-0 border border-white/10 text-gray-400 overflow-hidden shadow-sm">
+                            ${imgHtml}
+                        </div>
+                        <div class="${bgClass} px-4 py-2.5 rounded-2xl ${radiusClass} border max-w-[80%] shadow-sm">
+                            <p class="text-[10px] ${isMe ? 'text-cyan-200' : 'text-cyan-400'} font-bold mb-1 opacity-80">${m.name || 'مستخدم'}</p>
+                            <p class="text-sm ${textClass} leading-relaxed break-words">${m.text || ''}</p>
+                        </div>
+                    </div>
+                    `;
+                }).join('');
+                
+                container.scrollTop = container.scrollHeight;
+                lucide.createIcons();
+            });
+        };
 
         window.toggleChat = () => {
             const drawer = document.getElementById('chat-drawer');
@@ -1032,58 +1078,6 @@
                 overlay.classList.add('hidden');
                 if (floatingBtn) floatingBtn.classList.remove('hidden');
             }
-        };
-
-        window.loadChatMessages = () => {
-            if(chatUnsubscribe) return;
-            const chatQ = query(getColRef('global_chat'), orderBy('createdAt', 'desc'), limit(100));
-            chatUnsubscribe = onSnapshot(chatQ, (snapshot) => {
-                // Notifications for new chat messages
-                if (!initialChatLoad) {
-                    snapshot.docChanges().forEach((change) => {
-                        if (change.type === 'added') {
-                            const data = change.doc.data();
-                            if (data.userId !== window.currentUserId) {
-                                window.showNativeNotification(`رسالة جديدة من ${data.name}`, data.text);
-                            }
-                        }
-                    });
-                }
-                initialChatLoad = false;
-
-                const msgs = [];
-                snapshot.forEach(doc => msgs.push({id: doc.id, ...doc.data()}));
-                msgs.reverse();
-
-                const container = document.getElementById('chat-messages');
-                container.innerHTML = msgs.map(m => {
-                    const isMe = m.userId === window.currentUserId;
-                    const alignClass = isMe ? 'flex-row-reverse' : 'flex-row';
-                    const bgClass = isMe ? 'bg-cyan-500/20 border-cyan-500/30' : 'bg-white/5 border-white/5';
-                    const radiusClass = isMe ? 'rounded-tl-sm' : 'rounded-tr-sm';
-                    const textClass = isMe ? 'text-white' : 'text-gray-200';
-                    const imgHtml = m.imageUrl 
-                        ? `<img src="${m.imageUrl}" class="w-full h-full object-cover">` 
-                        : `<i data-lucide="user" class="w-4 h-4"></i>`;
-
-                    const displayName = m.name || 'مستخدم';
-
-                    return `
-                    <div class="flex gap-3 items-end w-full ${alignClass}">
-                        <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center shrink-0 border border-white/10 text-gray-400 overflow-hidden shadow-sm">
-                            ${imgHtml}
-                        </div>
-                        <div class="${bgClass} px-4 py-2.5 rounded-2xl ${radiusClass} border max-w-[80%] shadow-sm">
-                            <p class="text-[10px] ${isMe ? 'text-cyan-200' : 'text-cyan-400'} font-bold mb-1 opacity-80">${displayName}</p>
-                            <p class="text-sm ${textClass} leading-relaxed break-words">${m.text || ''}</p>
-                        </div>
-                    </div>
-                    `;
-                }).join('');
-                
-                container.scrollTop = container.scrollHeight;
-                lucide.createIcons();
-            });
         };
 
         window.sendChatMessage = async () => {
@@ -1144,7 +1138,6 @@
 
         // PWA Install Logic
         let deferredPrompt;
-
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
@@ -1154,36 +1147,31 @@
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    console.log('User accepted the install prompt');
-                }
                 deferredPrompt = null;
             } else {
                 const isIOS = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
                 if (isIOS) {
                     window.showAlert("تثبيت التطبيق على آيفون", "لتثبيت البرنامج: انقر على أيقونة 'المشاركة' في الأسفل (مربع يخرج منه سهم)، ثم اختر 'إضافة إلى الصفحة الرئيسية' (Add to Home Screen).", false);
                 } else {
-                    window.showAlert("تثبيت التطبيق", "لتثبيت البرنامج: انقر على القائمة في متصفحك (الثلاث نقاط) واختر 'إضافة إلى الشاشة الرئيسية' أو 'Add to Home Screen' أو 'Install app'.", false);
+                    window.showAlert("تثبيت التطبيق", "لتثبيت البرنامج: انقر على القائمة في متصفحك (الثلاث نقاط) واختر 'إضافة إلى الشاشة الرئيسية' أو 'Install app'.", false);
                 }
             }
         };
 
         // Zikr interval 10s
-        const l = ["سُبْحَانَ اللَّهِ وَبِحَمْدِهِ ، سُبْحَانَ اللَّهِ الْعَظِيمِ", "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ", "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ ﷺ", "أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ", "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ"];
-        let idx = 0;
+        const adhkar = ["سُبْحَانَ اللَّهِ وَبِحَمْدِهِ ، سُبْحَانَ اللَّهِ الْعَظِيمِ", "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ", "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ ﷺ", "أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ", "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ"];
+        let zikrIdx = 0;
         setInterval(() => {
             const el = document.getElementById('zikr-text');
             if (el) {
                 el.style.opacity = '0';
-                setTimeout(() => { idx = (idx + 1) % l.length; el.textContent = l[idx]; el.style.opacity = '1'; }, 500);
+                setTimeout(() => { zikrIdx = (zikrIdx + 1) % adhkar.length; el.textContent = adhkar[zikrIdx]; el.style.opacity = '1'; }, 500);
             }
         }, 10000);
 
-        // التنفيذ الأولي لدوال التعبئة
         window.updateCatFilter();
         window.updateRoleFilter();
-        window.populateFormCategories(); // الاعتماد على الدالة الجديدة
-
+        window.populateFormCategories();
         document.getElementById('current-year').textContent = new Date().getFullYear();
         lucide.createIcons();
     </script>
