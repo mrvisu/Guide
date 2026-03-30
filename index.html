@@ -40,19 +40,24 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .btn-glow:hover {
-            shadow: 0 0 20px rgba(34, 211, 238, 0.4);
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
     </style>
 </head>
 <body class="min-h-screen bg-[#050505] bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(30,58,138,0.3),rgba(255,255,255,0))] text-gray-100 font-bold selection:bg-cyan-500/30 overflow-x-hidden">
 
+    <!-- شريط الذكر العلوي العائم والثابت -->
+    <div class="fixed top-0 left-0 right-0 w-full bg-cyan-950/40 border-b border-cyan-500/20 backdrop-blur-2xl shadow-lg z-[60]">
+        <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-center gap-3">
+            <i data-lucide="sparkles" class="text-yellow-400/80 animate-pulse w-4 h-4 shrink-0"></i>
+            <p id="zikr-text" class="text-cyan-50/90 text-xs md:text-sm font-bold text-center tracking-wide transition-opacity duration-500">
+                سُبْحَانَ اللَّهِ وَبِحَمْدِهِ ، سُبْحَانَ اللَّهِ الْعَظِيمِ
+            </p>
+            <i data-lucide="sparkles" class="text-yellow-400/80 animate-pulse w-4 h-4 shrink-0"></i>
+        </div>
+    </div>
+
     <!-- Header الموحد -->
-    <header class="py-8 text-center relative z-30">
+    <header class="py-8 pt-24 text-center relative z-30">
         <div class="flex flex-col items-center gap-3">
             <div class="relative">
                 <div class="absolute inset-0 bg-cyan-400 blur-2xl opacity-30 rounded-full"></div>
@@ -65,6 +70,18 @@
             </h1>
             <p class="text-cyan-500/80 text-xs tracking-[0.3em] uppercase font-black">دليل المصورين للطوارئ</p>
         </div>
+        
+        <!-- Navbar أدوات سريعة -->
+        <div class="flex justify-center gap-2 mt-6 relative z-20">
+            <button onclick="toggleChat()" class="px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-cyan-500/20 hover:border-cyan-500/30 transition-all flex items-center gap-2 text-sm text-cyan-100 backdrop-blur-md">
+                <i data-lucide="message-square" class="w-4 h-4"></i>
+                <span>الشات العام</span>
+            </button>
+            <button onclick="handleShare()" class="px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-all flex items-center gap-2 text-sm text-gray-300 backdrop-blur-md">
+                <i data-lucide="share-2" id="share-icon" class="w-4 h-4 text-cyan-400"></i>
+                <span id="share-text">مشاركة</span>
+            </button>
+        </div>
     </header>
 
     <main class="max-w-6xl mx-auto px-4 pb-20 relative">
@@ -72,18 +89,8 @@
         <div class="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
         <div class="absolute bottom-0 left-0 w-96 h-96 bg-cyan-600/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-        <!-- بطاقة الذكر -->
-        <div class="mb-10 glass-card p-3 sm:p-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] flex items-center justify-center gap-3 md:gap-4 relative overflow-hidden group">
-            <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-transparent to-blue-500/5 opacity-50"></div>
-            <i data-lucide="sparkles" class="text-yellow-400/80 animate-pulse w-5 h-5"></i>
-            <p id="zikr-text" class="text-cyan-50/90 text-sm md:text-lg font-bold text-center z-10 tracking-wide drop-shadow-sm transition-opacity duration-500">
-                سُبْحَانَ اللَّهِ وَبِحَمْدِهِ ، سُبْحَانَ اللَّهِ الْعَظِيمِ
-            </p>
-            <i data-lucide="sparkles" class="text-yellow-400/80 animate-pulse w-5 h-5"></i>
-        </div>
-
         <!-- قسم الانضمام والدعوة -->
-        <section id="registration-section" class="mb-16 fade-in-up">
+        <section id="registration-section" class="mb-16 mt-6 fade-in-up">
             <div class="glass-card rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative transition-all duration-500">
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-400 animate-pulse"></div>
 
@@ -96,7 +103,6 @@
                     </p>
                     
                     <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <!-- أضف نفسك وتصفح الدليل جنباً إلى جنب -->
                         <button type="button" onclick="showRegisterForm()" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_35px_rgba(6,182,212,0.6)] transform hover:-translate-y-1 flex-1 sm:flex-none min-w-[200px] group">
                             <i data-lucide="user-plus" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
                             <span>أضف نفسك للدليل</span>
@@ -105,18 +111,6 @@
                         <button onclick="scrollToDirectory()" class="bg-white/5 hover:bg-white/10 border border-white/10 text-white py-4 px-8 rounded-2xl transition-all flex items-center justify-center gap-3 flex-1 sm:flex-none min-w-[200px] group">
                             <i data-lucide="search" class="w-5 h-5 text-cyan-400 group-hover:scale-110 transition-transform"></i>
                             <span>تصفح الدليل</span>
-                        </button>
-                    </div>
-
-                    <!-- أيقونات المشاركة والقالب -->
-                    <div class="mt-10 flex items-center justify-center gap-4 border-t border-white/5 pt-6">
-                        <button onclick="handleShare()" class="flex items-center gap-2 text-xs text-gray-400 hover:text-cyan-400 transition-colors bg-white/5 px-4 py-2 rounded-full border border-white/5">
-                            <i data-lucide="share-2" class="w-4 h-4"></i>
-                            <span>مشاركة البرنامج</span>
-                        </button>
-                        <button onclick="scrollToDirectory()" class="flex items-center gap-2 text-xs text-gray-400 hover:text-blue-400 transition-colors bg-white/5 px-4 py-2 rounded-full border border-white/5">
-                            <i data-lucide="layout-grid" class="w-4 h-4"></i>
-                            <span>قالب الدليل</span>
                         </button>
                     </div>
                 </div>
@@ -143,10 +137,14 @@
                                 <select required id="form-role" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none"></select>
                             </div>
                             <div class="space-y-2">
+                                <label class="text-sm text-gray-400 mr-2">الدولة <span class="text-cyan-500">*</span></label>
+                                <input required type="text" id="form-country" value="مصر" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white" placeholder="مثال: مصر، السعودية...">
+                            </div>
+                            <div class="space-y-2">
                                 <label class="text-sm text-gray-400 mr-2">المحافظة <span class="text-cyan-500">*</span></label>
                                 <input required type="text" id="form-gov" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white" placeholder="مثال: القاهرة، الجيزة...">
                             </div>
-                            <div class="space-y-2">
+                            <div class="space-y-2 md:col-span-2">
                                 <label class="text-sm text-gray-400 mr-2">المدينة / المركز <span class="text-cyan-500">*</span></label>
                                 <input required type="text" id="form-city" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white" placeholder="المنطقة أو المركز">
                             </div>
@@ -177,7 +175,7 @@
 
                             <div class="space-y-2 md:col-span-2">
                                 <label class="text-sm text-gray-400 mr-2">رابط معرض الأعمال (Portfolio)</label>
-                                <input type="url" id="form-portfolio" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white font-mono" placeholder="رابط فيسبوك، انستجرام أو غيره">
+                                <input type="url" id="form-portfolio" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white font-mono" placeholder="رابط فيسبوك، انستجرام أو غيره" dir="ltr">
                             </div>
                         </div>
 
@@ -185,7 +183,7 @@
                             <div class="bg-red-500/10 border border-red-500/20 rounded-2xl p-4 flex gap-3 items-start">
                                 <i data-lucide="shield-alert" class="text-red-400 w-6 h-6 shrink-0"></i>
                                 <p class="text-xs md:text-sm text-red-200/90 leading-relaxed text-right">
-                                    <strong>إقرار التزام وقواعد:</strong> أي بلاغ موثق عن نصب أو عدم التزام بالمواعيد سيؤدي إلى <strong>حظر رقمك نهائياً</strong>.
+                                    <strong>إقرار التزام وقواعد:</strong> أي بلاغ موثق عن نصب أو عدم التزام بالمواعيد سيؤدي إلى <strong>حظر رقمك نهائياً</strong> من البرنامج.
                                 </p>
                             </div>
                             <button type="submit" id="submit-btn" disabled class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black py-5 rounded-2xl transition-all shadow-[0_0_25px_rgba(6,182,212,0.4)] hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] disabled:opacity-50">
@@ -209,7 +207,7 @@
         </section>
 
         <!-- قسم الدليل (تصفح الدليل) -->
-        <section id="directory-section" class="space-y-8 fade-in-up" style="animation-delay: 0.2s;">
+        <section id="directory-section" class="space-y-8 fade-in-up hidden" style="animation-delay: 0.2s;">
             <div class="flex items-center justify-between gap-4 mb-6">
                 <h2 class="text-2xl font-black text-white flex items-center gap-2">
                     <i data-lucide="users" class="text-cyan-400"></i> تصفح المحترفين
@@ -253,6 +251,39 @@
         </section>
     </main>
 
+    <!-- نافذة الشات الجانبية الزجاجية العائمة -->
+    <div id="chat-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[70] hidden transition-opacity duration-300" onclick="toggleChat()"></div>
+    <div id="chat-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-black/50 backdrop-blur-3xl border-l border-white/10 shadow-[-10px_0_40px_rgba(0,0,0,0.7)] z-[80] transform translate-x-full transition-transform duration-500 ease-out flex flex-col">
+        <!-- Header -->
+        <div class="p-5 border-b border-white/10 flex justify-between items-center bg-white/5">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+                    <i data-lucide="messages-square"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-bold text-white">شات المحترفين</h3>
+                    <p class="text-[10px] text-cyan-400">لتبادل الخبرات والاستفسارات</p>
+                </div>
+            </div>
+            <button onclick="toggleChat()" class="text-gray-400 hover:text-white bg-white/5 hover:bg-red-500/20 hover:text-red-400 p-2 rounded-full transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        
+        <!-- Messages Area -->
+        <div id="chat-main-area" class="flex flex-col flex-1 overflow-hidden bg-transparent">
+            <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-5 custom-scrollbar">
+                <!-- Messages will appear here -->
+            </div>
+
+            <!-- Input Area -->
+            <div class="p-4 border-t border-white/10 bg-white/5 flex gap-2">
+                <input type="text" id="chat-msg-input" placeholder="اكتب رسالتك..." class="flex-1 p-3.5 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white text-sm" onkeypress="if(event.key === 'Enter') sendChatMessage()">
+                <button onclick="sendChatMessage()" class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white w-14 rounded-xl hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all flex items-center justify-center shrink-0">
+                    <i data-lucide="send" class="w-5 h-5 mr-1"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal التفاصيل -->
     <div id="prof-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden" onclick="closeModal()">
         <div class="glass-card bg-[#0f172a] rounded-3xl w-full max-w-md overflow-hidden shadow-2xl relative" onclick="event.stopPropagation()">
@@ -260,6 +291,39 @@
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
             <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <!-- Modal إرسال بلاغ -->
+    <div id="report-modal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden" onclick="closeReportForm()">
+        <div class="glass-card bg-[#0f172a] rounded-3xl w-full max-w-md overflow-hidden shadow-2xl relative p-6 border border-red-500/20" onclick="event.stopPropagation()">
+            <button class="absolute top-4 right-4 z-20 bg-black/50 p-2 rounded-full text-white hover:bg-red-500/80 transition-colors" onclick="closeReportForm()">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center text-red-400">
+                    <i data-lucide="alert-triangle"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-white">تقديم بلاغ</h2>
+                    <p class="text-xs text-gray-400 mt-1" id="report-user-name"></p>
+                </div>
+            </div>
+            <textarea id="report-reason" rows="4" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-red-500/50 outline-none text-white transition-all mb-4 text-sm leading-relaxed" placeholder="اشرح المشكلة بالتفصيل (نصب، إخلاف ميعاد، إلخ)..."></textarea>
+            <input type="hidden" id="report-user-id">
+            <button onclick="submitReport()" id="submit-report-btn" class="w-full bg-red-500 hover:bg-red-400 text-white font-bold py-3.5 rounded-xl transition-all shadow-[0_0_20px_rgba(239,68,68,0.3)]">إرسال البلاغ للإدارة</button>
+        </div>
+    </div>
+
+    <!-- Modal رسائل التنبيه المخصصة (بديل لـ alert) -->
+    <div id="alert-modal" class="fixed inset-0 z-[90] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden" onclick="closeAlertModal()">
+        <div class="glass-card bg-[#0f172a] rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl relative p-6 text-center border border-cyan-500/20" onclick="event.stopPropagation()">
+            <div class="w-16 h-16 bg-cyan-500/10 rounded-full flex items-center justify-center text-cyan-400 mx-auto mb-4">
+                <i data-lucide="info" class="w-8 h-8"></i>
+            </div>
+            <h2 id="alert-title" class="text-xl font-bold text-white mb-2">تنبيه</h2>
+            <p id="alert-msg" class="text-gray-300 text-sm leading-relaxed mb-6"></p>
+            <button onclick="closeAlertModal()" class="w-full bg-white/10 hover:bg-cyan-500/20 hover:text-cyan-400 text-white font-bold py-3 rounded-xl transition-all">حسناً</button>
         </div>
     </div>
 
@@ -271,7 +335,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, onSnapshot, addDoc, serverTimestamp, doc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, addDoc, serverTimestamp, doc, setDoc, updateDoc, increment, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Global Variables
         window.allProfessionals = [];
@@ -298,6 +362,32 @@
         const db = getFirestore(app);
 
         // UI Helpers
+        window.showAlert = (title, msg, isError = false) => {
+            const iconWrap = document.querySelector('#alert-modal .w-16');
+            const icon = document.querySelector('#alert-modal i');
+            const borderWrap = document.querySelector('#alert-modal .glass-card');
+            const btn = document.querySelector('#alert-modal button');
+            
+            if(isError) {
+                iconWrap.className = "w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center text-red-400 mx-auto mb-4";
+                icon.setAttribute('data-lucide', 'alert-triangle');
+                borderWrap.className = "glass-card bg-[#0f172a] rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl relative p-6 text-center border border-red-500/20";
+                btn.className = "w-full bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 font-bold py-3 rounded-xl transition-all";
+            } else {
+                iconWrap.className = "w-16 h-16 bg-cyan-500/10 rounded-full flex items-center justify-center text-cyan-400 mx-auto mb-4";
+                icon.setAttribute('data-lucide', 'info');
+                borderWrap.className = "glass-card bg-[#0f172a] rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl relative p-6 text-center border border-cyan-500/20";
+                btn.className = "w-full bg-white/10 hover:bg-cyan-500/20 hover:text-cyan-400 text-white font-bold py-3 rounded-xl transition-all";
+            }
+            
+            document.getElementById('alert-title').textContent = title;
+            document.getElementById('alert-msg').textContent = msg;
+            document.getElementById('alert-modal').classList.remove('hidden');
+            lucide.createIcons();
+        };
+
+        window.closeAlertModal = () => document.getElementById('alert-modal').classList.add('hidden');
+
         window.showRegisterForm = () => {
             document.getElementById('cta-container').classList.add('hidden');
             document.getElementById('register-form-container').classList.remove('hidden');
@@ -313,7 +403,13 @@
             document.getElementById('cta-container').classList.remove('hidden');
         };
         window.scrollToDirectory = () => {
-            document.getElementById('directory-section').scrollIntoView({ behavior: 'smooth' });
+            const directorySection = document.getElementById('directory-section');
+            // إظهار قسم الدليل
+            directorySection.classList.remove('hidden');
+            // التمرير إليه بسلاسة بعد جزء من الثانية للسماح للمتصفح بالرسم
+            setTimeout(() => {
+                directorySection.scrollIntoView({ behavior: 'smooth' });
+            }, 50);
         };
 
         // Initialize Auth
@@ -365,7 +461,7 @@
             const phoneVal = document.getElementById('form-phone').value.trim();
 
             if (window.blacklistedNumbers.includes(phoneVal)) {
-                alert("⚠️ عذراً، هذا الرقم محظور من النظام لمخالفته القواعد.");
+                window.showAlert("ممنوع من التسجيل", "عذراً، هذا الرقم محظور من النظام لمخالفته القواعد.", true);
                 return;
             }
 
@@ -389,7 +485,7 @@
                 document.getElementById('register-form-container').classList.add('hidden');
                 document.getElementById('success-msg').classList.remove('hidden');
             } catch (error) {
-                alert("حدث خطأ في التسجيل، حاول مجدداً.");
+                window.showAlert("خطأ", "حدث خطأ في التسجيل، يرجى المحاولة مجدداً لاحقاً.", true);
                 btn.disabled = false;
                 document.getElementById('submit-text').textContent = "تأكيد الانضمام للدليل";
             }
@@ -510,6 +606,11 @@
                             <a href="https://wa.me/${p.phone}" target="_blank" class="flex items-center justify-center gap-2 bg-green-500/10 text-green-400 p-4 rounded-2xl border border-green-500/20 font-black hover:bg-green-500/20 transition-all"><i data-lucide="message-circle"></i> واتساب</a>
                         </div>
                         ${p.portfolioUrl ? `<a href="${p.portfolioUrl}" target="_blank" class="flex items-center justify-center gap-2 bg-blue-500/10 text-blue-400 p-4 rounded-2xl border border-blue-500/20 font-black w-full hover:bg-blue-500/20 transition-all"><i data-lucide="link"></i> معرض الأعمال</a>` : ''}
+                        
+                        <!-- زر الإبلاغ -->
+                        <button onclick="showReportForm('${p.id}', '${p.name}')" class="flex items-center justify-center gap-2 bg-red-500/10 text-red-400 p-4 rounded-2xl border border-red-500/20 font-black w-full hover:bg-red-500/20 transition-all mt-2">
+                            <i data-lucide="alert-octagon"></i> إبلاغ عن هذا الشخص
+                        </button>
                     </div>
                 </div>
             `;
@@ -518,6 +619,127 @@
         };
 
         window.closeModal = () => document.getElementById('prof-modal').classList.add('hidden');
+
+        // Report Logic
+        window.showReportForm = (id, name) => {
+            closeModal(); // أغلق بطاقة الشخص
+            document.getElementById('report-user-id').value = id;
+            document.getElementById('report-user-name').textContent = `إبلاغ عن: ${name}`;
+            document.getElementById('report-modal').classList.remove('hidden');
+        };
+
+        window.closeReportForm = () => {
+            document.getElementById('report-modal').classList.add('hidden');
+            document.getElementById('report-reason').value = '';
+        };
+
+        window.submitReport = async () => {
+            const id = document.getElementById('report-user-id').value;
+            const reason = document.getElementById('report-reason').value.trim();
+            const btn = document.getElementById('submit-report-btn');
+            
+            if(!reason) { window.showAlert("تنبيه", "يرجى كتابة سبب الإبلاغ بوضوح لتتمكن الإدارة من اتخاذ اللازم.", true); return; }
+            btn.disabled = true; btn.textContent = "جاري الإرسال...";
+
+            try {
+                await addDoc(collection(db, 'reports'), {
+                    reportedUserId: id,
+                    reason: reason,
+                    createdAt: serverTimestamp()
+                });
+                window.closeReportForm();
+                window.showAlert("تم الإرسال", "تم إرسال البلاغ بنجاح. سيتم مراجعته من قبل الإدارة واتخاذ الإجراء الصارم فوراً.");
+            } catch (e) {
+                window.showAlert("خطأ", "حدث خطأ أثناء الإرسال، يرجى المحاولة لاحقاً.", true);
+            } finally {
+                btn.disabled = false; btn.textContent = "إرسال البلاغ للإدارة";
+            }
+        };
+
+        // Chat Logic
+        let chatUnsubscribe = null;
+        window.currentUserProfile = null;
+
+        window.toggleChat = () => {
+            const drawer = document.getElementById('chat-drawer');
+            const overlay = document.getElementById('chat-overlay');
+            if (drawer.classList.contains('translate-x-full')) {
+                // التحقق من التسجيل في الدليل
+                const myProf = window.allProfessionals.find(p => p.userId === window.currentUserId);
+                if (!myProf) {
+                    window.showAlert("غير مصرح بالدخول", "عذراً، الشات متاح فقط للمحترفين المسجلين في الدليل. يرجى (إضافة نفسك للدليل) لتتمكن من الدردشة مع زملائك.", true);
+                    return;
+                }
+                
+                // تعيين بيانات المستخدم وفتح الشات
+                window.currentUserProfile = myProf;
+                drawer.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                window.loadChatMessages();
+            } else {
+                drawer.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        };
+
+        window.loadChatMessages = () => {
+            if(chatUnsubscribe) return;
+            // نجلب أحدث 100 رسالة فقط لتحقيق نظام الساقية
+            const chatQ = query(collection(db, 'global_chat'), orderBy('createdAt', 'desc'), limit(100));
+            chatUnsubscribe = onSnapshot(chatQ, (snapshot) => {
+                const msgs = [];
+                snapshot.forEach(doc => msgs.push({id: doc.id, ...doc.data()}));
+                msgs.reverse(); // اعكس الترتيب ليكون الأحدث في الأسفل
+
+                const container = document.getElementById('chat-messages');
+                container.innerHTML = msgs.map(m => {
+                    const isMe = m.userId === window.currentUserId;
+                    const alignClass = isMe ? 'flex-row-reverse' : 'flex-row';
+                    const bgClass = isMe ? 'bg-cyan-500/20 border-cyan-500/30' : 'bg-white/5 border-white/5';
+                    const radiusClass = isMe ? 'rounded-tl-sm' : 'rounded-tr-sm';
+                    const textClass = isMe ? 'text-white' : 'text-gray-200';
+                    const imgHtml = m.imageUrl 
+                        ? `<img src="${m.imageUrl}" class="w-full h-full object-cover">` 
+                        : `<i data-lucide="user" class="w-4 h-4"></i>`;
+
+                    return `
+                    <div class="flex gap-3 items-end w-full ${alignClass}">
+                        <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center shrink-0 border border-white/10 text-gray-400 overflow-hidden shadow-sm">
+                            ${imgHtml}
+                        </div>
+                        <div class="${bgClass} px-4 py-2.5 rounded-2xl ${radiusClass} border max-w-[80%] shadow-sm">
+                            <p class="text-[10px] ${isMe ? 'text-cyan-200' : 'text-cyan-400'} font-bold mb-1 opacity-80">${m.name}</p>
+                            <p class="text-sm ${textClass} leading-relaxed break-words">${m.text}</p>
+                        </div>
+                    </div>
+                    `;
+                }).join('');
+                
+                // التمرير التلقائي للأسفل
+                container.scrollTop = container.scrollHeight;
+                lucide.createIcons();
+            });
+        };
+
+        window.sendChatMessage = async () => {
+            const input = document.getElementById('chat-msg-input');
+            const text = input.value.trim();
+            if(!text || !window.currentUserProfile) return;
+            
+            input.value = '';
+            
+            try {
+                await addDoc(collection(db, 'global_chat'), {
+                    userId: window.currentUserProfile.userId,
+                    name: window.currentUserProfile.name,
+                    imageUrl: window.currentUserProfile.imageUrl || '',
+                    text: text,
+                    createdAt: serverTimestamp()
+                });
+            } catch(e) {
+                console.error("Chat send error:", e);
+            }
+        };
 
         window.processImage = (e, targetField, maxWidth, maxHeight) => {
             const file = e.target.files[0];
@@ -542,8 +764,16 @@
 
         window.handleShare = async () => {
             const d = { title: "Photographers' Guide", text: 'دليل المصورين للطوارئ والميديا، انضم الآن!', url: window.location.href };
-            if (navigator.share) await navigator.share(d);
-            else { alert("تم نسخ رابط البرنامج بنجاح!"); navigator.clipboard.writeText(window.location.href); }
+            const iconContainer = document.getElementById('share-icon'), textContainer = document.getElementById('share-text');
+            if (navigator.share) { try { await navigator.share(d); } catch (e) {} } 
+            else {
+                try {
+                    const textArea = document.createElement("textarea"); textArea.value = window.location.href;
+                    document.body.appendChild(textArea); textArea.select(); document.execCommand("copy"); document.body.removeChild(textArea);
+                    iconContainer.setAttribute('data-lucide', 'check'); iconContainer.classList.replace('text-cyan-400', 'text-green-400'); textContainer.textContent = 'تم النسخ'; lucide.createIcons();
+                    setTimeout(() => { iconContainer.setAttribute('data-lucide', 'share-2'); iconContainer.classList.replace('text-green-400', 'text-cyan-400'); textContainer.textContent = 'مشاركة'; lucide.createIcons(); }, 2000);
+                } catch (err) {}
+            }
         };
 
         // Zikr interval 10s
