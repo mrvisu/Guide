@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photographers' Guide | دليل المصورين</title>
+    <title>شبكة صناع الصورة | الدليل الاحترافي</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -75,9 +75,9 @@
                 </div>
             </div>
             <h1 class="text-3xl md:text-4xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white via-cyan-100 to-cyan-400 drop-shadow-lg">
-                Photographers' Guide
+                شبكة صناع الصورة
             </h1>
-            <p class="text-cyan-500/80 text-xs tracking-[0.3em] uppercase font-black">دليل المصورين للطوارئ</p>
+            <p class="text-cyan-500/80 text-xs tracking-[0.3em] font-black">الدليل الاحترافي للميديا والطوارئ</p>
         </div>
         
         <!-- Navbar أدوات سريعة -->
@@ -142,12 +142,12 @@
                     </div>
                     
                     <div class="flex flex-col items-center justify-center gap-5 w-full max-w-md mx-auto relative z-10">
-                        <!-- الزر المتوهج الجذاب لتصفح المحترفين -->
+                        <!-- الزر المتوهج الجذاب للبحث عن المحترفين -->
                         <button onclick="scrollToDirectory()" class="w-full glow-button rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 p-[2px] transition-all duration-300">
                             <div class="bg-[#0f172a] hover:bg-transparent transition-colors duration-500 rounded-2xl">
                                 <div class="bg-gradient-to-r from-cyan-600/50 to-blue-700/50 hover:from-cyan-500 hover:to-blue-600 px-8 py-5 rounded-2xl flex items-center justify-center gap-3 transition-all duration-500">
                                     <i data-lucide="search" class="w-7 h-7 text-white"></i>
-                                    <span class="text-2xl font-black text-white tracking-wide">تصفح المحترفين</span>
+                                    <span class="text-2xl font-black text-white tracking-wide">ابحث عن محترف</span>
                                 </div>
                             </div>
                         </button>
@@ -246,17 +246,23 @@
                     </div>
                     <h3 class="text-xl font-black text-white mb-2">تم تسجيلك بنجاح!</h3>
                     <p class="text-gray-400 text-sm mb-4">بياناتك تظهر الآن في الدليل بالأسفل.</p>
+                    <button onclick="resetView()" class="text-cyan-400 text-xs border border-cyan-500/20 px-4 py-1.5 rounded-full hover:bg-cyan-500/10 transition-all">العودة للرئيسية</button>
                 </div>
             </div>
         </section>
 
         <!-- قسم الدليل (تصفح الدليل) -->
         <section id="directory-section" class="space-y-8 fade-in-up hidden" style="animation-delay: 0.2s;">
-            <div class="flex items-center justify-between gap-4 mb-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
                 <h2 class="text-2xl font-black text-white flex items-center gap-2">
-                    <i data-lucide="users" class="text-cyan-400"></i> المحترفين المسجلين
+                    <i data-lucide="users" class="text-cyan-400"></i> نخبة صناع الميديا
                 </h2>
-                <div class="h-[1px] flex-1 bg-gradient-to-r from-cyan-500/50 to-transparent"></div>
+                <div class="h-[1px] flex-1 bg-gradient-to-r from-cyan-500/50 to-transparent hidden md:block"></div>
+                <div class="glass-card px-5 py-2.5 rounded-2xl flex items-center gap-3 border-cyan-500/20 shadow-[0_0_15px_rgba(6,182,212,0.1)]">
+                    <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
+                    <span class="text-gray-300 text-sm font-bold">إجمالي المحترفين:</span>
+                    <span id="public-users-count" class="text-xl font-black text-cyan-400">0</span>
+                </div>
             </div>
 
             <!-- الفلاتر -->
@@ -270,7 +276,7 @@
                 <div class="flex-1 relative">
                     <i data-lucide="briefcase" class="absolute right-3 top-3.5 text-gray-400 w-[18px]"></i>
                     <select id="filter-cat" onchange="updateRoleFilter(); renderProfessionals();" class="w-full pr-10 pl-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none text-sm">
-                        <option value="">كل الأقسام...</option>
+                        <option value="">كل الأقسام (مصور، مخرج، معدات...)</option>
                     </select>
                 </div>
                 <div class="flex-1 relative">
@@ -352,7 +358,7 @@
             <div class="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-400 mb-6 border border-emerald-500/30">
                 <i data-lucide="info" class="w-8 h-8"></i>
             </div>
-            <h2 class="text-2xl font-black text-white mb-4">ما هو دليل المصورين للطوارئ؟</h2>
+            <h2 class="text-2xl font-black text-white mb-4">ما هي شبكة صناع الصورة؟</h2>
             <div class="space-y-4 text-gray-300 text-sm leading-relaxed">
                 <p>هذا البرنامج هو <strong>المنصة الأولى والأكثر احترافية</strong> المخصصة لخدمة قطاع الميديا (مصورين، مخرجين، أصحاب معدات) والعملاء على حد سواء.</p>
                 <div class="bg-white/5 p-4 rounded-xl border border-white/5">
@@ -390,7 +396,7 @@
         </div>
     </div>
 
-    <!-- Modal رسائل التنبيه المخصصة (بديل لـ alert) -->
+    <!-- Modal رسائل التنبيه المخصصة -->
     <div id="alert-modal" class="fixed inset-0 z-[90] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden" onclick="closeAlertModal()">
         <div id="alert-modal-card" class="glass-card bg-[#0f172a] rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl relative p-6 text-center border border-cyan-500/20" onclick="event.stopPropagation()">
             <div id="alert-modal-icon-wrap" class="w-16 h-16 bg-cyan-500/10 rounded-full flex items-center justify-center text-cyan-400 mx-auto mb-4">
@@ -403,38 +409,39 @@
     </div>
 
     <footer class="bg-black/80 backdrop-blur-lg border-t border-white/10 text-gray-500 py-8 text-center text-sm relative z-20">
-        <p>© <span id="current-year"></span> Photographers' Guide.</p>
+        <p>© <span id="current-year"></span> شبكة صناع الصورة.</p>
     </footer>
 
     <!-- Firebase Scripts -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, onSnapshot, addDoc, serverTimestamp, doc, setDoc, updateDoc, increment, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Global Variables
         window.allProfessionals = [];
         window.blacklistedNumbers = [];
         window.formDataImages = { profile: '', cover: '' };
-        window.MAIN_CATEGORIES = {
-            "مصورين": ['مصور', 'مصور كرين'],
-            "مخرجين": ['مخرج'],
-            "شغل ميديا": ['مصور ميديا', 'مصور ميديا محترف'],
-            "أصحاب معدات": ['صاحب وحدة ميكسر', 'صاحب درون', 'صاحب كاميرا كرين']
-        };
+        window.MAIN_CATEGORIES = {};
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDPoU1ymN5apK0jtddfOi7R7G7cK-RuSu8",
-            authDomain: "dalil-ca8c4.firebaseapp.com",
-            projectId: "dalil-ca8c4",
-            storageBucket: "dalil-ca8c4.firebasestorage.app",
-            messagingSenderId: "733342185007",
-            appId: "1:733342185007:web:b44e5041777a94601638da"
-        };
+        const firebaseConfig = typeof __firebase_config !== 'undefined' 
+            ? JSON.parse(__firebase_config) 
+            : {
+                apiKey: "AIzaSyDPoU1ymN5apK0jtddfOi7R7G7cK-RuSu8",
+                authDomain: "dalil-ca8c4.firebaseapp.com",
+                projectId: "dalil-ca8c4",
+                storageBucket: "dalil-ca8c4.firebasestorage.app",
+                messagingSenderId: "733342185007",
+                appId: "1:733342185007:web:b44e5041777a94601638da"
+            };
         
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        const getColRef = (colName) => collection(db, 'artifacts', appId, 'public', 'data', colName);
+        const getDocRef = (colName, docId) => doc(db, 'artifacts', appId, 'public', 'data', colName, docId);
 
         // UI Helpers
         window.showAboutModal = () => document.getElementById('about-modal').classList.remove('hidden');
@@ -489,7 +496,18 @@
 
         // Initialize Auth
         window.currentUserId = null;
-        signInAnonymously(auth).catch(e => console.error(e));
+        const initAuth = async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Auth Error:", error);
+            }
+        };
+        initAuth();
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
@@ -497,7 +515,7 @@
                 document.getElementById('submit-btn').disabled = false;
                 
                 // Track stats
-                const statsRef = doc(db, 'settings', 'stats');
+                const statsRef = getDocRef('settings', 'stats');
                 try { await updateDoc(statsRef, { views: increment(1) }); } 
                 catch (e) { if(e.code === 'not-found') await setDoc(statsRef, { views: 1 }); }
 
@@ -526,28 +544,26 @@
         };
 
         function fetchSettings() {
-            onSnapshot(doc(db, 'settings', 'categories'), (docSnap) => {
+            onSnapshot(getDocRef('settings', 'categories'), (docSnap) => {
                 if (docSnap.exists()) window.MAIN_CATEGORIES = docSnap.data().data;
                 window.updateCatFilter();
                 window.updateRoleFilter();
                 window.populateFormRoles();
             });
-            onSnapshot(doc(db, 'settings', 'blacklist'), (docSnap) => {
+            onSnapshot(getDocRef('settings', 'blacklist'), (docSnap) => {
                 if (docSnap.exists()) window.blacklistedNumbers = docSnap.data().numbers || [];
                 window.renderProfessionals();
             });
         }
 
         function fetchData() {
-            onSnapshot(collection(db, 'professionals'), (snapshot) => {
+            onSnapshot(getColRef('professionals'), (snapshot) => {
                 window.allProfessionals = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
                     .sort((a, b) => (b.createdAt?.toMillis() || 0) - (a.createdAt?.toMillis() || 0));
                 
                 document.getElementById('loading-spinner').classList.add('hidden');
                 
-                // التأكد من حالة تسجيل المستخدم الحالي
                 window.checkUserRegistrationStatus();
-                
                 window.updateGovFilter();
                 window.renderProfessionals();
             });
@@ -584,11 +600,10 @@
             };
 
             try {
-                await addDoc(collection(db, 'professionals'), newProf);
+                await addDoc(getColRef('professionals'), newProf);
                 document.getElementById('register-form-container').classList.add('hidden');
                 document.getElementById('success-msg').classList.remove('hidden');
                 
-                // بعد التسجيل بنجاح نظهر الدليل للمستخدم ونخفي زر الاضافة
                 setTimeout(() => {
                     window.checkUserRegistrationStatus();
                     document.getElementById('directory-section').classList.remove('hidden');
@@ -612,7 +627,7 @@
 
         window.updateCatFilter = () => {
             const select = document.getElementById('filter-cat');
-            select.innerHTML = '<option value="">كل الأقسام...</option>' + Object.keys(window.MAIN_CATEGORIES).map(c => `<option value="${c}">${c}</option>`).join('');
+            select.innerHTML = '<option value="">كل الأقسام (مصور، مخرج، معدات...)</option>' + Object.keys(window.MAIN_CATEGORIES).map(c => `<option value="${c}">${c}</option>`).join('');
         };
 
         window.updateRoleFilter = () => {
@@ -647,6 +662,11 @@
             const govF = document.getElementById('filter-gov').value;
             const catF = document.getElementById('filter-cat').value;
             const roleF = document.getElementById('filter-role').value;
+
+            // تحديث بطاقة العداد بناء على العدد الكلي الفعلي (غير المحظور)
+            const totalValid = window.allProfessionals.filter(p => !window.blacklistedNumbers.includes(p.phone)).length;
+            const countEl = document.getElementById('public-users-count');
+            if (countEl) countEl.textContent = totalValid;
 
             const filtered = window.allProfessionals.filter(p => {
                 if (window.blacklistedNumbers.includes(p.phone)) return false;
@@ -761,7 +781,7 @@
             btn.disabled = true; btn.textContent = "جاري الإرسال...";
 
             try {
-                await addDoc(collection(db, 'reports'), {
+                await addDoc(getColRef('reports'), {
                     reportedUserId: id || 'unknown',
                     reason: reason || '',
                     createdAt: serverTimestamp()
@@ -786,33 +806,31 @@
             const floatingBtn = document.getElementById('floating-chat-btn');
 
             if (drawer.classList.contains('translate-x-full')) {
-                // التحقق من التسجيل في الدليل
                 const myProf = window.allProfessionals.find(p => p.userId === window.currentUserId);
                 if (!myProf) {
                     window.showAlert("غير مصرح بالدخول", "عذراً، الشات متاح فقط للمحترفين المسجلين في الدليل. يرجى (إضافة نفسك للدليل) لتتمكن من الدردشة مع زملائك.", true);
                     return;
                 }
                 
-                // تعيين بيانات المستخدم وفتح الشات
                 window.currentUserProfile = myProf;
                 drawer.classList.remove('translate-x-full');
                 overlay.classList.remove('hidden');
-                if (floatingBtn) floatingBtn.classList.add('hidden'); // إخفاء الأيقونة العائمة عند فتح الشات
+                if (floatingBtn) floatingBtn.classList.add('hidden');
                 window.loadChatMessages();
             } else {
                 drawer.classList.add('translate-x-full');
                 overlay.classList.add('hidden');
-                if (floatingBtn) floatingBtn.classList.remove('hidden'); // إظهار الأيقونة العائمة بعد إغلاق الشات
+                if (floatingBtn) floatingBtn.classList.remove('hidden');
             }
         };
 
         window.loadChatMessages = () => {
             if(chatUnsubscribe) return;
-            const chatQ = query(collection(db, 'global_chat'), orderBy('createdAt', 'desc'), limit(100));
+            const chatQ = query(getColRef('global_chat'), orderBy('createdAt', 'desc'), limit(100));
             chatUnsubscribe = onSnapshot(chatQ, (snapshot) => {
                 const msgs = [];
                 snapshot.forEach(doc => msgs.push({id: doc.id, ...doc.data()}));
-                msgs.reverse(); // اعكس الترتيب ليكون الأحدث في الأسفل
+                msgs.reverse();
 
                 const container = document.getElementById('chat-messages');
                 container.innerHTML = msgs.map(m => {
@@ -853,8 +871,7 @@
             input.value = '';
             
             try {
-                // استخدام قيم احتياطية لتفادي مشكلة undefined في قواعد البيانات
-                await addDoc(collection(db, 'global_chat'), {
+                await addDoc(getColRef('global_chat'), {
                     userId: window.currentUserId || window.currentUserProfile.userId || 'unknown',
                     name: window.currentUserProfile.name || 'مستخدم',
                     imageUrl: window.currentUserProfile.imageUrl || '',
@@ -889,7 +906,7 @@
         };
 
         window.handleShare = async () => {
-            const d = { title: "Photographers' Guide", text: 'دليل المصورين للطوارئ والميديا، انضم الآن!', url: window.location.href };
+            const d = { title: "شبكة صناع الصورة", text: 'الدليل الاحترافي لصناع الصورة والميديا، انضم الآن!', url: window.location.href };
             const iconContainer = document.getElementById('share-icon'), textContainer = document.getElementById('share-text');
             if (navigator.share) { try { await navigator.share(d); } catch (e) {} } 
             else {
