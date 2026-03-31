@@ -247,7 +247,37 @@
 
                             <div class="space-y-2">
                                 <label class="text-sm text-gray-400 mr-2">المحافظة <span class="text-cyan-500">*</span></label>
-                                <input required type="text" id="form-gov" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white" placeholder="مثال: القاهرة، الجيزة...">
+                                <select required id="form-gov" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E&quot;); background-position: left 1rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em;">
+                                    <option value="">اختر المحافظة...</option>
+                                    <option value="القاهرة" class="bg-slate-900 text-white">القاهرة</option>
+                                    <option value="الجيزة" class="bg-slate-900 text-white">الجيزة</option>
+                                    <option value="الإسكندرية" class="bg-slate-900 text-white">الإسكندرية</option>
+                                    <option value="الدقهلية" class="bg-slate-900 text-white">الدقهلية</option>
+                                    <option value="البحر الأحمر" class="bg-slate-900 text-white">البحر الأحمر</option>
+                                    <option value="البحيرة" class="bg-slate-900 text-white">البحيرة</option>
+                                    <option value="الفيوم" class="bg-slate-900 text-white">الفيوم</option>
+                                    <option value="الغربية" class="bg-slate-900 text-white">الغربية</option>
+                                    <option value="الإسماعيلية" class="bg-slate-900 text-white">الإسماعيلية</option>
+                                    <option value="المنوفية" class="bg-slate-900 text-white">المنوفية</option>
+                                    <option value="المنيا" class="bg-slate-900 text-white">المنيا</option>
+                                    <option value="القليوبية" class="bg-slate-900 text-white">القليوبية</option>
+                                    <option value="الشرقية" class="bg-slate-900 text-white">الشرقية</option>
+                                    <option value="بورسعيد" class="bg-slate-900 text-white">بورسعيد</option>
+                                    <option value="جنوب سيناء" class="bg-slate-900 text-white">جنوب سيناء</option>
+                                    <option value="دمياط" class="bg-slate-900 text-white">دمياط</option>
+                                    <option value="السويس" class="bg-slate-900 text-white">السويس</option>
+                                    <option value="كفر الشيخ" class="bg-slate-900 text-white">كفر الشيخ</option>
+                                    <option value="أسيوط" class="bg-slate-900 text-white">أسيوط</option>
+                                    <option value="بني سويف" class="bg-slate-900 text-white">بني سويف</option>
+                                    <option value="سوهاج" class="bg-slate-900 text-white">سوهاج</option>
+                                    <option value="الأقصر" class="bg-slate-900 text-white">الأقصر</option>
+                                    <option value="قنا" class="bg-slate-900 text-white">قنا</option>
+                                    <option value="أسوان" class="bg-slate-900 text-white">أسوان</option>
+                                    <option value="الوادى الجديد" class="bg-slate-900 text-white">الوادى الجديد</option>
+                                    <option value="مطروح" class="bg-slate-900 text-white">مطروح</option>
+                                    <option value="شمال سيناء" class="bg-slate-900 text-white">شمال سيناء</option>
+                                    <option value="أخرى (خارج مصر)" class="bg-slate-900 text-white">أخرى (خارج مصر)</option>
+                                </select>
                             </div>
                             <div class="space-y-2">
                                 <label class="text-sm text-gray-400 mr-2">المدينة / المركز <span class="text-cyan-500">*</span></label>
@@ -486,6 +516,7 @@
         window.allProfessionals = [];
         window.blacklistedNumbers = [];
         window.formDataImages = { profile: '', cover: '' };
+        window.sharedCardOpened = false; // لمنع فتح البطاقة المرجعية أكثر من مرة
         
         // التخصصات الافتراضية
         window.MAIN_CATEGORIES = {
@@ -506,7 +537,7 @@
         };
 
         window.formatPhoneNumber = (phone, country) => {
-            let cleanedPhone = phone.trim().replace(/[^0-9+]/g, ''); // إزالة المسافات والعلامات ما عدا +
+            let cleanedPhone = phone.trim().replace(/[^0-9+]/g, ''); 
             if (cleanedPhone.startsWith('+')) return cleanedPhone;
             if (cleanedPhone.startsWith('00')) return '+' + cleanedPhone.substring(2);
 
@@ -519,7 +550,6 @@
             }
             
             if (!code) {
-                // افتراضي لمصر إذا كان يبدأ بـ 01 و 11 رقم
                 if (cleanedPhone.startsWith('01') && cleanedPhone.length === 11) {
                     code = "+20";
                 } else {
@@ -553,7 +583,7 @@
         const getColRef = (colName) => collection(db, 'artifacts', appId, 'public', 'data', colName);
         const getDocRef = (colName, docId) => doc(db, 'artifacts', appId, 'public', 'data', colName, docId);
 
-        // --- نظام الإشعارات الجديد --- //
+        // --- نظام الإشعارات --- //
         window.requestNotificationPermission = async () => {
             if (!("Notification" in window)) {
                 window.showAlert("غير مدعوم", "متصفحك الحالي لا يدعم إشعارات سطح المكتب.", true);
@@ -616,7 +646,6 @@
                 new Notification(title, options);
             }
         };
-        // --- نهاية نظام الإشعارات --- //
 
         // UI Helpers
         window.showAboutModal = () => document.getElementById('about-modal').classList.remove('hidden');
@@ -663,7 +692,6 @@
             document.getElementById('form-city').value = window.currentUserProfile.city || '';
             document.getElementById('form-portfolio').value = window.currentUserProfile.portfolioUrl || '';
 
-            // العثور على القسم الرئيسي بناءً على التخصص (نأخذ أول تخصص تم تسجيله لتحديد القسم)
             let foundCat = '';
             const userRoles = window.currentUserProfile.roles || [window.currentUserProfile.role];
             for (const [cat, roles] of Object.entries(window.MAIN_CATEGORIES)) {
@@ -674,9 +702,8 @@
             }
             
             document.getElementById('form-category').value = foundCat;
-            window.updateFormRoleFilter(); // سيقوم هذا ببناء الـ Checkboxes
+            window.updateFormRoleFilter(); 
             
-            // تحديد الـ Checkboxes المحفوظة مسبقاً
             setTimeout(() => {
                 const checkboxes = document.querySelectorAll('input[name="roles[]"]');
                 checkboxes.forEach(cb => {
@@ -686,7 +713,6 @@
                 });
             }, 50);
 
-            // الصور
             window.formDataImages.profile = window.currentUserProfile.imageUrl || '';
             window.formDataImages.cover = window.currentUserProfile.coverUrl || '';
 
@@ -731,6 +757,12 @@
                 document.getElementById('directory-section').classList.remove('hidden');
             }
             lucide.createIcons();
+        };
+
+        window.triggerRegistrationFromModal = () => {
+            window.closeModal();
+            window.showRegisterForm();
+            document.getElementById('registration-section').scrollIntoView({ behavior: 'smooth' });
         };
         
         window.resetView = () => {
@@ -826,6 +858,21 @@
                 window.updateGovFilter();
                 window.renderProfessionals();
 
+                // فحص الرابط ومحاولة فتح البطاقة المشتركة
+                const urlParams = new URLSearchParams(window.location.search);
+                const sharedPhone = urlParams.get('phone');
+                if (sharedPhone && !window.sharedCardOpened) {
+                    // إزالة أي رموز غير رقمية للمقارنة بشكل صحيح
+                    const cleanShared = decodeURIComponent(sharedPhone).replace(/\D/g, '');
+                    const targetProf = window.allProfessionals.find(p => p.phone.replace(/\D/g, '') === cleanShared);
+                    if (targetProf) {
+                        // إظهار قسم الدليل لضمان أن البطاقة ستظهر في سياق صحيح
+                        document.getElementById('directory-section').classList.remove('hidden');
+                        window.openModal(targetProf.id);
+                        window.sharedCardOpened = true; // منع الفتح المتكرر
+                    }
+                }
+
                 if (isInitialProfLoaded) {
                     snapshot.docChanges().forEach((change) => {
                         if (change.type === 'added') {
@@ -847,7 +894,6 @@
             
             const btn = document.getElementById('submit-btn');
             
-            // جلب التخصصات المختارة
             const roleCheckboxes = document.querySelectorAll('input[name="roles[]"]:checked');
             const selectedRoles = Array.from(roleCheckboxes).map(cb => cb.value);
 
@@ -859,10 +905,8 @@
             const rawPhoneVal = document.getElementById('form-phone').value.trim();
             const countryVal = document.getElementById('form-country').value.trim() || 'مصر';
             
-            // تهيئة رقم الهاتف وإضافة الكود
             const phoneVal = window.formatPhoneNumber(rawPhoneVal, countryVal);
             
-            // تحديث الحقل ليظهر الكود للمستخدم كإثبات
             document.getElementById('form-phone').value = phoneVal;
 
             if (window.blacklistedNumbers.includes(phoneVal) || window.blacklistedNumbers.includes(rawPhoneVal)) {
@@ -875,8 +919,8 @@
 
             const updatedProf = {
                 name: document.getElementById('form-name').value || '',
-                roles: selectedRoles, // Array of roles
-                role: selectedRoles[0], // Primary role for backward compatibility/icons
+                roles: selectedRoles, 
+                role: selectedRoles[0], 
                 governorate: document.getElementById('form-gov').value || '',
                 city: document.getElementById('form-city').value || '',
                 phone: phoneVal,
@@ -935,7 +979,6 @@
             select.innerHTML = '<option value="">التخصص الدقيق...</option>' + roles.map(r => `<option value="${r}">${r}</option>`).join('');
         };
 
-        // Form Categories & Multiple Roles Checkboxes Logic
         window.populateFormCategories = () => {
             const select = document.getElementById('form-category');
             if (!select) return;
@@ -1009,7 +1052,6 @@
                 grid.classList.remove('hidden');
                 grid.innerHTML = filtered.map(prof => {
                     const isMyCard = prof.userId === window.currentUserId;
-                    // تجميع التخصصات للعرض المصغر
                     const displayRoles = prof.roles ? prof.roles.join(' | ') : prof.role;
                     const primaryIcon = window.getRoleIconName(prof.roles ? prof.roles[0] : prof.role);
 
@@ -1052,9 +1094,11 @@
             const displayRoles = p.roles ? p.roles.join(' • ') : p.role;
             const primaryIcon = window.getRoleIconName(p.roles ? p.roles[0] : p.role);
             
-            // استخدام JSON.stringify للتعامل مع الأسماء التي تحتوي مسافات بأمان
             const nameParam = p.name.replace(/'/g, "\\'");
             const roleParam = (p.roles ? p.roles[0] : p.role).replace(/'/g, "\\'");
+
+            // تحديد ما إذا كان المستخدم الحالي غير مسجل لإظهار زر التسجيل له
+            const showRegisterBtn = !window.currentUserProfile;
 
             document.getElementById('modal-content').innerHTML = `
                 <div class="h-32 relative bg-black/60">
@@ -1083,8 +1127,8 @@
                         </div>
                         ${p.portfolioUrl ? `<a href="${p.portfolioUrl}" target="_blank" class="flex items-center justify-center gap-2 bg-blue-500/10 text-blue-400 p-4 rounded-2xl border border-blue-500/20 font-black w-full hover:bg-blue-500/20 transition-all"><i data-lucide="link"></i> معرض الأعمال</a>` : ''}
                         
-                        <!-- زر مشاركة البطاقة الجديد -->
-                        <button onclick="shareUserProfile('${p.id}', '${nameParam}', '${roleParam}')" class="flex items-center justify-center gap-2 bg-indigo-500/10 text-indigo-400 p-4 rounded-2xl border border-indigo-500/20 font-black w-full hover:bg-indigo-500/20 transition-all mt-1">
+                        <!-- زر مشاركة البطاقة الجديد يرسل التليفون أيضا -->
+                        <button onclick="shareUserProfile('${p.id}', '${nameParam}', '${roleParam}', '${p.phone}')" class="flex items-center justify-center gap-2 bg-indigo-500/10 text-indigo-400 p-4 rounded-2xl border border-indigo-500/20 font-black w-full hover:bg-indigo-500/20 transition-all mt-1">
                             <i data-lucide="share-2"></i> مشاركة البطاقة ودعوة زميل
                         </button>
 
@@ -1092,6 +1136,16 @@
                         <button onclick="showReportForm('${p.id}', '${nameParam}')" class="flex items-center justify-center gap-2 text-red-400/80 p-3 rounded-2xl hover:bg-red-500/10 transition-all w-full mt-2 text-sm font-bold">
                             <i data-lucide="alert-octagon" class="w-4 h-4"></i> إبلاغ عن مشكلة
                         </button>
+
+                        <!-- قسم دعوة التسجيل الجديد يظهر إذا كان المستخدم غير مسجل -->
+                        ${showRegisterBtn ? `
+                        <div class="mt-6 pt-6 border-t border-white/10 text-center">
+                            <p class="text-xs text-gray-400 mb-3">هل تعمل في مجال الميديا؟</p>
+                            <button onclick="triggerRegistrationFromModal()" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-3 rounded-xl shadow-lg hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all flex items-center justify-center gap-2">
+                                <i data-lucide="user-plus" class="w-4 h-4"></i> سجل بياناتك مجاناً وانضم للشبكة
+                            </button>
+                        </div>
+                        ` : ''}
                     </div>
                 </div>
             `;
@@ -1102,8 +1156,11 @@
         window.closeModal = () => document.getElementById('prof-modal').classList.add('hidden');
 
         // ميزة مشاركة بطاقة المحترف
-        window.shareUserProfile = async (id, name, primaryRole) => {
-            const url = window.location.origin + window.location.pathname;
+        window.shareUserProfile = async (id, name, primaryRole, phone) => {
+            // نقوم بتشفير رقم الهاتف وإضافته للرابط
+            const encodedPhone = encodeURIComponent(phone);
+            const url = window.location.origin + window.location.pathname + '?phone=' + encodedPhone;
+            
             const textToShare = `شاهد بطاقة ${name} (${primaryRole}) على شبكة صناع الصورة! ✨\n\nسجل بياناتك أنت كمان وانضم لأكبر دليل للمحترفين في الميديا لتصل لعملاء أكثر وتسهل شغلك:\n${url}`;
             
             const shareData = {
@@ -1115,11 +1172,9 @@
                 try {
                     await navigator.share(shareData);
                 } catch (e) {
-                    // المستخدم قام بإلغاء المشاركة أو حدث خطأ
                     console.log("Share canceled or failed", e);
                 }
             } else {
-                // Fallback (Copy to clipboard)
                 try {
                     const textArea = document.createElement("textarea"); 
                     textArea.value = textToShare;
