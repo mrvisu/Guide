@@ -421,20 +421,26 @@
             </div>
 
             <!-- الفلاتر -->
-            <div class="glass-card p-4 rounded-2xl shadow-xl flex flex-col lg:flex-row gap-3">
-                <div class="flex-1 relative">
+            <div class="glass-card p-4 rounded-2xl shadow-xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                <div class="relative">
+                    <i data-lucide="globe" class="absolute right-3 top-3.5 text-gray-400 w-[18px]"></i>
+                    <select id="filter-country" onchange="renderProfessionals()" class="w-full pr-10 pl-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none text-sm">
+                        <option value="">جميع الدول...</option>
+                    </select>
+                </div>
+                <div class="relative">
                     <i data-lucide="map-pin" class="absolute right-3 top-3.5 text-gray-400 w-[18px]"></i>
                     <select id="filter-gov" onchange="renderProfessionals()" class="w-full pr-10 pl-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none text-sm">
                         <option value="">جميع المحافظات...</option>
                     </select>
                 </div>
-                <div class="flex-1 relative">
+                <div class="relative">
                     <i data-lucide="briefcase" class="absolute right-3 top-3.5 text-gray-400 w-[18px]"></i>
                     <select id="filter-cat" onchange="updateRoleFilter(); renderProfessionals();" class="w-full pr-10 pl-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none text-sm">
-                        <option value="">كل الأقسام (مصور، مخرج، نقل...)</option>
+                        <option value="">كل الأقسام...</option>
                     </select>
                 </div>
-                <div class="flex-1 relative">
+                <div class="relative">
                     <i data-lucide="award" class="absolute right-3 top-3.5 text-gray-400 w-[18px]"></i>
                     <select id="filter-role" onchange="renderProfessionals()" class="w-full pr-10 pl-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none text-sm">
                         <option value="">التخصص الدقيق...</option>
@@ -546,6 +552,41 @@
         </div>
     </div>
 
+    <!-- Modal الإدارة (لوحة التحكم السريعة) -->
+    <div id="admin-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden" onclick="closeAdminModal()">
+        <div class="glass-card bg-[#0f172a] rounded-3xl w-full max-w-md overflow-hidden shadow-2xl relative p-6 border border-purple-500/20" onclick="event.stopPropagation()">
+            <button class="absolute top-4 right-4 z-20 bg-black/50 p-2 rounded-full text-white hover:bg-purple-500/80 transition-colors" onclick="closeAdminModal()">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center text-purple-400">
+                    <i data-lucide="settings"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-white">لوحة التحكم</h2>
+                    <p class="text-xs text-gray-400 mt-1">إدارة رسالة النظام الإدارية</p>
+                </div>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="flex items-center justify-between bg-black/40 p-4 rounded-xl border border-white/10">
+                    <label class="text-sm text-gray-300 font-bold">تفعيل التنبيه للمستخدمين</label>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="admin-announcement-active" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:right-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-500"></div>
+                    </label>
+                </div>
+                
+                <div class="space-y-2">
+                    <label class="text-sm text-gray-400">نص التنبيه</label>
+                    <textarea id="admin-announcement-text" rows="4" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-purple-500/50 outline-none text-white transition-all text-sm leading-relaxed" placeholder="اكتب التنبيه هنا..."></textarea>
+                </div>
+                
+                <button onclick="saveAnnouncement()" id="admin-save-btn" class="w-full bg-purple-500 hover:bg-purple-400 text-white font-bold py-3.5 rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.3)] mt-2">حفظ ونشر</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal رسائل التنبيه المخصصة -->
     <div id="alert-modal" class="fixed inset-0 z-[90] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden" onclick="closeAlertModal()">
         <div id="alert-modal-card" class="glass-card bg-[#0f172a] rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl relative p-6 text-center border border-cyan-500/20" onclick="event.stopPropagation()">
@@ -559,7 +600,9 @@
     </div>
 
     <footer class="bg-black/80 backdrop-blur-lg border-t border-white/10 text-gray-500 py-8 text-center text-sm relative z-20">
-        <p>© <span id="current-year"></span> شبكة صناع الصورة.</p>
+        <p class="flex items-center justify-center gap-1">
+            © <span id="current-year"></span> <span onclick="openAdminModal()" class="cursor-default select-none">شبكة صناع الصورة.</span>
+        </p>
     </footer>
 
     <!-- Firebase Scripts -->
@@ -760,6 +803,39 @@
         // UI Helpers
         window.showAboutModal = () => document.getElementById('about-modal').classList.remove('hidden');
         window.closeAboutModal = () => document.getElementById('about-modal').classList.add('hidden');
+
+        // --- دوال لوحة التحكم (Admin Panel) --- //
+        window.openAdminModal = () => {
+            document.getElementById('admin-modal').classList.remove('hidden');
+        };
+        window.closeAdminModal = () => {
+            document.getElementById('admin-modal').classList.add('hidden');
+        };
+        window.saveAnnouncement = async () => {
+            const isActive = document.getElementById('admin-announcement-active').checked;
+            const text = document.getElementById('admin-announcement-text').value.trim();
+            const btn = document.getElementById('admin-save-btn');
+            
+            btn.disabled = true;
+            btn.textContent = "جاري الحفظ...";
+            
+            try {
+                const docRef = window.getDocRef('settings', 'announcement');
+                await setDoc(docRef, {
+                    active: isActive,
+                    message: text
+                }, { merge: true });
+                
+                window.showToast("تم الحفظ", "تم تحديث رسالة النظام بنجاح وستظهر للجميع.", "check", "emerald");
+                window.closeAdminModal();
+            } catch(e) {
+                console.error(e);
+                window.showAlert("خطأ", "حدث خطأ أثناء حفظ الإعدادات.", true);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "حفظ ونشر";
+            }
+        };
 
         window.showAlert = (title, msg, isError = false) => {
             const iconWrap = document.getElementById('alert-modal-icon-wrap');
@@ -973,8 +1049,14 @@
             onSnapshot(window.getDocRef('settings', 'announcement'), (docSnap) => {
                 const banner = document.getElementById('system-announcement');
                 const textEl = document.getElementById('system-announcement-text');
+                const adminInput = document.getElementById('admin-announcement-text');
+                const adminActive = document.getElementById('admin-announcement-active');
+                
                 if (docSnap.exists()) {
                     const data = docSnap.data();
+                    if(adminInput) adminInput.value = data.message || "";
+                    if(adminActive) adminActive.checked = !!data.active;
+
                     if (data.active) {
                         textEl.textContent = data.message || "نظراً لقرارات الدولة الخاصة بمواعيد الحظر، نُهيب بجميع الزملاء والعملاء الالتزام التام بالمواعيد والحضور المبكر. سلامتكم وإنجاز أعمالكم باحترافية هما أولويتنا.";
                         banner.classList.remove('hidden');
@@ -983,6 +1065,9 @@
                     }
                 } else {
                     // الحالة الافتراضية إذا لم يتم إنشاء الملف في قاعدة البيانات بعد
+                    if(adminInput) adminInput.value = "نظراً لقرارات الدولة الخاصة بمواعيد الحظر، نُهيب بجميع الزملاء والعملاء الالتزام التام بالمواعيد والحضور المبكر. سلامتكم وإنجاز أعمالكم باحترافية هما أولويتنا.";
+                    if(adminActive) adminActive.checked = true;
+
                     banner.classList.remove('hidden');
                     textEl.textContent = "نظراً لقرارات الدولة الخاصة بمواعيد الحظر، نُهيب بجميع الزملاء والعملاء الالتزام التام بالمواعيد والحضور المبكر. سلامتكم وإنجاز أعمالكم باحترافية هما أولويتنا.";
                 }
@@ -998,6 +1083,7 @@
                 document.getElementById('loading-spinner').classList.add('hidden');
                 
                 window.checkUserRegistrationStatus();
+                window.updateCountryFilter();
                 window.updateGovFilter();
                 window.renderProfessionals();
 
@@ -1184,6 +1270,7 @@
                 categories: selectedCategories,
                 roles: selectedRoles, 
                 role: selectedRoles[0], 
+                country: countryVal,
                 governorate: document.getElementById('form-gov').value || '',
                 city: cityVal,
                 phone: phoneVal,
@@ -1224,6 +1311,12 @@
         });
 
         // Filter Logic
+        window.updateCountryFilter = () => {
+            const countries = [...new Set(window.allProfessionals.filter(p => !window.blacklistedNumbers.includes(p.phone)).map(p => p.country || 'مصر').filter(Boolean))];
+            const select = document.getElementById('filter-country');
+            select.innerHTML = '<option value="">جميع الدول...</option>' + countries.map(c => `<option value="${c}">${c}</option>`).join('');
+        };
+
         window.updateGovFilter = () => {
             const govs = [...new Set(window.allProfessionals.filter(p => !window.blacklistedNumbers.includes(p.phone)).map(p => p.governorate).filter(Boolean))];
             const select = document.getElementById('filter-gov');
@@ -1254,6 +1347,7 @@
         };
 
         window.renderProfessionals = () => {
+            const countryF = document.getElementById('filter-country').value;
             const govF = document.getElementById('filter-gov').value;
             const catF = document.getElementById('filter-cat').value;
             const roleF = document.getElementById('filter-role').value;
@@ -1264,10 +1358,12 @@
 
             const filtered = window.allProfessionals.filter(p => {
                 if (window.blacklistedNumbers.includes(p.phone)) return false;
+                const pCountry = p.country || 'مصر';
+                const matchesCountry = !countryF || pCountry === countryF;
                 const matchesGov = !govF || p.governorate === govF;
                 const matchesCat = !catF || (window.MAIN_CATEGORIES[catF] && (p.roles ? p.roles.some(r => window.MAIN_CATEGORIES[catF].includes(r)) : window.MAIN_CATEGORIES[catF].includes(p.role)));
                 const matchesRole = !roleF || (p.roles ? p.roles.includes(roleF) : p.role === roleF);
-                return matchesGov && matchesCat && matchesRole;
+                return matchesCountry && matchesGov && matchesCat && matchesRole;
             });
 
             const grid = document.getElementById('professionals-grid');
@@ -1283,6 +1379,7 @@
                     const isMyCard = prof.userId === window.currentUserId;
                     const displayRoles = prof.roles ? prof.roles.join(' | ') : prof.role;
                     const primaryIcon = window.getRoleIconName(prof.roles ? prof.roles[0] : prof.role);
+                    const displayLocation = (prof.country || 'مصر') + ' - ' + prof.governorate;
 
                     return `
                     <div onclick="openModal('${prof.id}')" class="group glass-card rounded-2xl overflow-hidden hover:border-cyan-500/40 transition-all duration-500 hover:-translate-y-1 cursor-pointer flex flex-col relative">
@@ -1302,7 +1399,7 @@
                             <div class="space-y-2">
                                 <div class="flex items-center gap-2 text-[10px] text-gray-400 bg-white/5 p-1.5 rounded-lg border border-white/5">
                                     <i data-lucide="map-pin" class="w-3 text-blue-400"></i>
-                                    <span class="truncate">${prof.governorate}</span>
+                                    <span class="truncate">${displayLocation}</span>
                                 </div>
                                 <div class="flex items-center gap-2 text-[10px] text-emerald-400 bg-emerald-500/5 p-1.5 rounded-lg border border-emerald-500/10">
                                     <i data-lucide="phone" class="w-3"></i>
@@ -1322,6 +1419,7 @@
             
             const displayRoles = p.roles ? p.roles.join(' • ') : p.role;
             const primaryIcon = window.getRoleIconName(p.roles ? p.roles[0] : p.role);
+            const displayLocation = (p.country || 'مصر') + ' - ' + p.governorate;
             
             const nameParam = p.name.replace(/'/g, "\\'");
             const roleParam = (p.roles ? p.roles[0] : p.role).replace(/'/g, "\\'");
@@ -1345,7 +1443,7 @@
                         <div class="flex items-center gap-4 text-gray-300 glass-card p-4 rounded-2xl mb-1">
                             <i data-lucide="map-pin" class="text-blue-400"></i>
                             <div class="text-sm">
-                                <p class="font-black text-white">${p.governorate}</p>
+                                <p class="font-black text-white">${displayLocation}</p>
                                 <p class="text-xs text-gray-400">${p.city}</p>
                             </div>
                         </div>
