@@ -118,7 +118,6 @@
         
         <!-- Navbar أدوات سريعة -->
         <div class="flex justify-center gap-2 mt-6 relative z-20 flex-wrap px-2">
-            <!-- زر الإشعارات -->
             <button onclick="requestNotificationPermission()" class="px-4 py-2 rounded-full border border-yellow-500/30 bg-yellow-500/10 hover:bg-yellow-500/20 transition-all flex items-center gap-2 text-sm text-yellow-300 backdrop-blur-md">
                 <i data-lucide="bell" id="notify-btn-icon" class="w-4 h-4"></i>
                 <span class="hidden sm:inline">إشعارات</span>
@@ -202,7 +201,6 @@
                     </div>
                     
                     <div class="flex flex-col items-center justify-center gap-5 w-full max-w-md mx-auto relative z-10">
-                        <!-- الزر المتوهج الجذاب للبحث عن المحترفين -->
                         <button onclick="scrollToDirectory()" class="w-full glow-button rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 p-[2px] transition-all duration-300">
                             <div class="bg-[#0f172a] hover:bg-transparent transition-colors duration-500 rounded-2xl">
                                 <div class="bg-gradient-to-r from-cyan-600/50 to-blue-700/50 hover:from-cyan-500 hover:to-blue-600 px-8 py-5 rounded-2xl flex items-center justify-center gap-3 transition-all duration-500">
@@ -212,7 +210,6 @@
                             </div>
                         </button>
 
-                        <!-- زر الإضافة (يختفي لو مسجل) -->
                         <button type="button" id="btn-add-yourself" onclick="showRegisterForm()" class="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3 mt-2">
                             <i data-lucide="user-plus" class="w-5 h-5 text-cyan-400"></i>
                             <span class="text-lg">أضف نفسك للدليل</span>
@@ -248,7 +245,6 @@
                                 <input required type="tel" id="form-phone" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white text-left font-mono" placeholder="رقم الهاتف بدون كود">
                             </div>
 
-                            <!-- الأقسام الرئيسية مع نظام القوالب -->
                             <div class="space-y-2">
                                 <div class="flex justify-between items-end mb-1">
                                     <label class="text-sm text-gray-400 mr-2">القسم الرئيسي <span class="text-cyan-500">*</span></label>
@@ -257,11 +253,9 @@
                                 <select id="form-category-select" onchange="window.handleAddCategory()" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E&quot;); background-position: left 1rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em;">
                                     <option value="">+ إضافة قسم...</option>
                                 </select>
-                                <!-- حاوية القوالب (Tags) للأقسام -->
                                 <div id="form-category-tags" class="flex flex-wrap gap-2 mt-2 empty:hidden"></div>
                             </div>
                             
-                            <!-- التخصصات الدقيقة مع نظام القوالب -->
                             <div class="space-y-2">
                                 <div class="flex justify-between items-end mb-1">
                                     <label class="text-sm text-gray-400 mr-2">التخصص الدقيق <span class="text-cyan-500">*</span></label>
@@ -270,7 +264,6 @@
                                 <select id="form-role-select" onchange="window.handleAddRole()" disabled class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none disabled:opacity-50" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E&quot;); background-position: left 1rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em;">
                                     <option value="">يرجى اختيار قسم أولاً...</option>
                                 </select>
-                                <!-- حاوية القوالب (Tags) للتخصصات -->
                                 <div id="form-role-tags" class="flex flex-wrap gap-2 mt-2 empty:hidden"></div>
                             </div>
 
@@ -315,7 +308,6 @@
                                 </select>
                             </div>
                             
-                            <!-- مجموعة الدولة ورابط الأعمال (مدمجة في عمود واحد) -->
                             <div class="space-y-6">
                                 <div class="space-y-2">
                                     <label class="text-sm text-gray-400 mr-2">الدولة <span class="text-cyan-500">*</span></label>
@@ -352,7 +344,6 @@
                                 </div>
                             </div>
                             
-                            <!-- مجموعة رفع الصور (فوق بعض) -->
                             <div class="space-y-6">
                                 <div class="space-y-2">
                                     <label class="text-sm text-gray-400 mr-2">صورة شخصية (اختيارية)</label>
@@ -374,7 +365,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
                         </div>
 
                         <div class="mt-8 pt-6 border-t border-white/5 space-y-6">
@@ -392,7 +382,6 @@
                     </form>
                 </div>
 
-                <!-- رسالة نجاح مصغرة وجميلة -->
                 <div id="success-msg" class="hidden p-8 text-center fade-in-up">
                     <div class="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-[0_0_30px_rgba(16,185,129,0.2)]">
                         <i data-lucide="check" class="w-8 h-8"></i>
@@ -409,9 +398,9 @@
             <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
                 <div>
                     <h2 class="text-xl md:text-2xl font-black text-white flex items-center gap-2">
-                        <i data-lucide="users" class="text-cyan-400"></i> الدليل الشامل لصناع الميديا
+                        <i data-lucide="users" class="text-cyan-400"></i> نخبة صناع الميديا من جميع الدول والمحافظات
                     </h2>
-                    <p class="text-gray-400 text-sm mt-1">من جميع الدول والمحافظات، في كل الأقسام والتخصصات الدقيقة</p>
+                    <p class="text-gray-400 text-sm mt-1">في كل الأقسام والتخصصات الدقيقة</p>
                 </div>
                 <div class="h-[1px] flex-1 bg-gradient-to-r from-cyan-500/50 to-transparent hidden md:block"></div>
                 <div class="glass-card px-5 py-2.5 rounded-2xl flex items-center gap-3 border-cyan-500/20 shadow-[0_0_15px_rgba(6,182,212,0.1)]">
@@ -449,7 +438,6 @@
                 </div>
             </div>
 
-            <!-- شبكة البطاقات -->
             <div id="loading-spinner" class="py-20 text-center">
                 <div class="inline-block w-12 h-12 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin"></div>
             </div>
@@ -484,13 +472,11 @@
             <button onclick="toggleChat()" class="text-gray-400 hover:text-white bg-white/5 hover:bg-red-500/20 hover:text-red-400 p-2 rounded-full transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
         </div>
 
-        <!-- تبويبات الشات والأسئلة -->
         <div class="flex bg-black/40 border-b border-white/10">
             <button id="tab-chat" onclick="window.switchChatTab('chat')" class="flex-1 py-2.5 text-sm font-bold text-cyan-400 border-b-2 border-cyan-400 transition-all bg-cyan-500/5">الشات العام</button>
             <button id="tab-faq" onclick="window.switchChatTab('faq')" class="flex-1 py-2.5 text-sm font-bold text-gray-400 border-b-2 border-transparent hover:text-gray-200 hover:bg-white/5 transition-all">أسئلة مهمة محفوظة</button>
         </div>
         
-        <!-- مساحة الشات العام -->
         <div id="chat-main-area" class="flex flex-col flex-1 overflow-hidden bg-transparent">
             <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-5 custom-scrollbar"></div>
             <div class="p-4 border-t border-white/10 bg-white/5 flex gap-2">
@@ -501,14 +487,11 @@
             </div>
         </div>
 
-        <!-- مساحة الأسئلة الشائعة والمهمة -->
         <div id="faq-main-area" class="hidden flex-col flex-1 overflow-hidden bg-transparent">
             <div class="p-3 bg-amber-500/10 border-b border-amber-500/20 text-xs text-amber-300 text-center font-bold">
                 هنا تجد إجابات لأهم الأسئلة التي تم تداولها في المنصة لتعم الفائدة.
             </div>
-            <div id="faq-messages" class="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
-                <!-- سيتم تحميل الأسئلة المحفوظة هنا -->
-            </div>
+            <div id="faq-messages" class="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar"></div>
         </div>
     </div>
 
@@ -570,41 +553,6 @@
         </div>
     </div>
 
-    <!-- Modal الإدارة (لوحة التحكم السريعة) -->
-    <div id="admin-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden" onclick="closeAdminModal()">
-        <div class="glass-card bg-[#0f172a] rounded-3xl w-full max-w-md overflow-hidden shadow-2xl relative p-6 border border-purple-500/20" onclick="event.stopPropagation()">
-            <button class="absolute top-4 right-4 z-20 bg-black/50 p-2 rounded-full text-white hover:bg-purple-500/80 transition-colors" onclick="closeAdminModal()">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-            <div class="flex items-center gap-3 mb-6">
-                <div class="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center text-purple-400">
-                    <i data-lucide="settings"></i>
-                </div>
-                <div>
-                    <h2 class="text-xl font-bold text-white">لوحة التحكم</h2>
-                    <p class="text-xs text-gray-400 mt-1">إدارة رسالة النظام الإدارية</p>
-                </div>
-            </div>
-            
-            <div class="space-y-4">
-                <div class="flex items-center justify-between bg-black/40 p-4 rounded-xl border border-white/10">
-                    <label class="text-sm text-gray-300 font-bold">تفعيل التنبيه للمستخدمين</label>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="admin-announcement-active" class="sr-only peer">
-                        <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:right-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-500"></div>
-                    </label>
-                </div>
-                
-                <div class="space-y-2">
-                    <label class="text-sm text-gray-400">نص التنبيه</label>
-                    <textarea id="admin-announcement-text" rows="4" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-purple-500/50 outline-none text-white transition-all text-sm leading-relaxed" placeholder="اكتب التنبيه هنا..."></textarea>
-                </div>
-                
-                <button onclick="saveAnnouncement()" id="admin-save-btn" class="w-full bg-purple-500 hover:bg-purple-400 text-white font-bold py-3.5 rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.3)] mt-2">حفظ ونشر</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Modal رسائل التنبيه المخصصة -->
     <div id="alert-modal" class="fixed inset-0 z-[90] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden" onclick="closeAlertModal()">
         <div id="alert-modal-card" class="glass-card bg-[#0f172a] rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl relative p-6 text-center border border-cyan-500/20" onclick="event.stopPropagation()">
@@ -618,10 +566,7 @@
     </div>
 
     <footer class="bg-black/80 backdrop-blur-lg border-t border-white/10 text-gray-500 py-8 text-center text-sm relative z-20">
-        <p class="flex items-center justify-center gap-1">
-            © <span id="current-year"></span> شبكة صناع الصورة. 
-            <span onclick="openAdminModal()" class="cursor-pointer text-gray-800 hover:text-gray-400 transition-colors px-2 select-none" title="لوحة التحكم">⚙️</span>
-        </p>
+        <p>© <span id="current-year"></span> شبكة صناع الصورة.</p>
     </footer>
 
     <!-- Firebase Scripts -->
@@ -667,7 +612,7 @@
             "السويس": ["السويس", "الأربعين", "عتاقة", "الجناين", "فيصل", "أخرى"],
             "الفيوم": ["الفيوم", "إطسا", "طامية", "سنورس", "أبشواي", "يوسف الصديق", "أخرى"],
             "بني سويف": ["بني سويف", "الواسطى", "ناصر", "إهناسيا", "ببا", "سمسطا", "الفشن", "أخرى"],
-            "المنيا": ["المنيا", "المنيا الجديدة", "مغاغة", "بني مزار", "مطاي", "سمالوط", "أبو قرقاص", "ملوي", "دير مواس", "أخرى"],
+            "المنيا": ["المنيا", "المنيا الجديدة", "مغاغة", "بني mazar", "مطاي", "سمالوط", "أبو قرقاص", "ملوي", "دير مواس", "أخرى"],
             "أسيوط": ["أسيوط", "ديروط", "القوصية", "أبنوب", "منفلوط", "أبو تيج", "الغنايم", "ساحل سليم", "البداري", "الفتح", "أسيوط الجديدة", "أخرى"],
             "سوهاج": ["سوهاج", "أخميم", "البلينا", "المراغة", "المنشأة", "دار السلام", "جرجا", "جهينة", "طما", "طهطا", "ساقلتة", "سوهاج الجديدة", "أخرى"],
             "قنا": ["قنا", "نجع حمادي", "دشنا", "أبو تشت", "فرشوط", "قوص", "نقادة", "قفط", "الوقف", "أخرى"],
@@ -822,39 +767,6 @@
         // UI Helpers
         window.showAboutModal = () => document.getElementById('about-modal').classList.remove('hidden');
         window.closeAboutModal = () => document.getElementById('about-modal').classList.add('hidden');
-
-        // --- دوال لوحة التحكم (Admin Panel) --- //
-        window.openAdminModal = () => {
-            document.getElementById('admin-modal').classList.remove('hidden');
-        };
-        window.closeAdminModal = () => {
-            document.getElementById('admin-modal').classList.add('hidden');
-        };
-        window.saveAnnouncement = async () => {
-            const isActive = document.getElementById('admin-announcement-active').checked;
-            const text = document.getElementById('admin-announcement-text').value.trim();
-            const btn = document.getElementById('admin-save-btn');
-            
-            btn.disabled = true;
-            btn.textContent = "جاري الحفظ...";
-            
-            try {
-                const docRef = window.getDocRef('settings', 'announcement');
-                await setDoc(docRef, {
-                    active: isActive,
-                    message: text
-                }, { merge: true });
-                
-                window.showToast("تم الحفظ", "تم تحديث رسالة النظام بنجاح وستظهر للجميع.", "check", "emerald");
-                window.closeAdminModal();
-            } catch(e) {
-                console.error(e);
-                window.showAlert("خطأ", "حدث خطأ أثناء حفظ الإعدادات.", true);
-            } finally {
-                btn.disabled = false;
-                btn.textContent = "حفظ ونشر";
-            }
-        };
 
         window.showAlert = (title, msg, isError = false) => {
             const iconWrap = document.getElementById('alert-modal-icon-wrap');
@@ -1085,14 +997,9 @@
             onSnapshot(window.getDocRef('settings', 'announcement'), (docSnap) => {
                 const banner = document.getElementById('system-announcement');
                 const textEl = document.getElementById('system-announcement-text');
-                const adminInput = document.getElementById('admin-announcement-text');
-                const adminActive = document.getElementById('admin-announcement-active');
                 
                 if (docSnap.exists()) {
                     const data = docSnap.data();
-                    if(adminInput) adminInput.value = data.message || "";
-                    if(adminActive) adminActive.checked = !!data.active;
-
                     if (data.active) {
                         textEl.textContent = data.message || "نظراً لقرارات الدولة الخاصة بمواعيد الحظر، نُهيب بجميع الزملاء والعملاء الالتزام التام بالمواعيد والحضور المبكر. سلامتكم وإنجاز أعمالكم باحترافية هما أولويتنا.";
                         banner.classList.remove('hidden');
@@ -1100,10 +1007,6 @@
                         banner.classList.add('hidden');
                     }
                 } else {
-                    // الحالة الافتراضية إذا لم يتم إنشاء الملف في قاعدة البيانات بعد
-                    if(adminInput) adminInput.value = "نظراً لقرارات الدولة الخاصة بمواعيد الحظر، نُهيب بجميع الزملاء والعملاء الالتزام التام بالمواعيد والحضور المبكر. سلامتكم وإنجاز أعمالكم باحترافية هما أولويتنا.";
-                    if(adminActive) adminActive.checked = true;
-
                     banner.classList.remove('hidden');
                     textEl.textContent = "نظراً لقرارات الدولة الخاصة بمواعيد الحظر، نُهيب بجميع الزملاء والعملاء الالتزام التام بالمواعيد والحضور المبكر. سلامتكم وإنجاز أعمالكم باحترافية هما أولويتنا.";
                 }
@@ -1489,17 +1392,14 @@
                         </div>
                         ${p.portfolioUrl ? `<a href="${p.portfolioUrl}" target="_blank" class="flex items-center justify-center gap-2 bg-blue-500/10 text-blue-400 p-4 rounded-2xl border border-blue-500/20 font-black w-full hover:bg-blue-500/20 transition-all"><i data-lucide="link"></i> معرض الأعمال</a>` : ''}
                         
-                        <!-- زر مشاركة البطاقة الجديد يرسل التليفون أيضا -->
                         <button onclick="shareUserProfile('${p.id}', '${nameParam}', '${roleParam}', '${p.phone}')" class="flex items-center justify-center gap-2 bg-indigo-500/10 text-indigo-400 p-4 rounded-2xl border border-indigo-500/20 font-black w-full hover:bg-indigo-500/20 transition-all mt-1">
                             <i data-lucide="share-2"></i> مشاركة البطاقة ودعوة زميل
                         </button>
 
-                        <!-- زر الإبلاغ -->
                         <button onclick="showReportForm('${p.id}', '${nameParam}')" class="flex items-center justify-center gap-2 text-red-400/80 p-3 rounded-2xl hover:bg-red-500/10 transition-all w-full mt-2 text-sm font-bold">
                             <i data-lucide="alert-octagon" class="w-4 h-4"></i> إبلاغ عن مشكلة
                         </button>
 
-                        <!-- قسم دعوة التسجيل الجديد يظهر إذا كان المستخدم غير مسجل -->
                         ${showRegisterBtn ? `
                         <div class="mt-6 pt-6 border-t border-white/10 text-center">
                             <p class="text-xs text-gray-400 mb-3">هل تعمل في مجال الميديا؟</p>
@@ -1517,24 +1417,14 @@
 
         window.closeModal = () => document.getElementById('prof-modal').classList.add('hidden');
 
-        // ميزة مشاركة بطاقة المحترف
         window.shareUserProfile = async (id, name, primaryRole, phone) => {
             const encodedPhone = encodeURIComponent(phone);
             const url = window.location.origin + window.location.pathname + '?phone=' + encodedPhone;
-            
             const textToShare = `شاهد بطاقة ${name} (${primaryRole}) على شبكة صناع الصورة! ✨\n\nسجل بياناتك أنت كمان وانضم لأكبر دليل للمحترفين في الميديا لتصل لعملاء أكثر وتسهل شغلك:\n${url}`;
-            
-            const shareData = {
-                title: `بطاقة ${name} | شبكة صناع الصورة`,
-                text: textToShare
-            };
+            const shareData = { title: `بطاقة ${name} | شبكة صناع الصورة`, text: textToShare };
 
             if (navigator.share) {
-                try {
-                    await navigator.share(shareData);
-                } catch (e) {
-                    console.log("Share canceled or failed", e);
-                }
+                try { await navigator.share(shareData); } catch (e) { console.log("Share canceled or failed", e); }
             } else {
                 try {
                     const textArea = document.createElement("textarea"); 
@@ -1543,15 +1433,11 @@
                     textArea.select(); 
                     document.execCommand("copy"); 
                     document.body.removeChild(textArea);
-                    
                     window.showToast("تم النسخ", "تم نسخ رسالة المشاركة بنجاح، يمكنك إرسالها لأصدقائك الآن.", "check", "emerald");
-                } catch (err) {
-                    window.showAlert("عذراً", "لم نتمكن من نسخ الرسالة، يرجى تحديث المتصفح.", true);
-                }
+                } catch (err) { window.showAlert("عذراً", "لم نتمكن من نسخ الرسالة، يرجى تحديث المتصفح.", true); }
             }
         };
 
-        // Report Logic
         window.showReportForm = (id, name) => {
             closeModal();
             document.getElementById('report-user-id').value = id;
@@ -1568,27 +1454,18 @@
             const id = document.getElementById('report-user-id').value;
             const reason = document.getElementById('report-reason').value.trim();
             const btn = document.getElementById('submit-report-btn');
-            
             if(!reason) { window.showAlert("تنبيه", "يرجى كتابة سبب الإبلاغ بوضوح لتتمكن الإدارة من اتخاذ اللازم.", true); return; }
             btn.disabled = true; btn.textContent = "جاري الإرسال...";
-
             try {
-                await addDoc(window.getColRef('reports'), {
-                    reportedUserId: id || 'unknown',
-                    reason: reason || '',
-                    createdAt: serverTimestamp()
-                });
+                await addDoc(window.getColRef('reports'), { reportedUserId: id || 'unknown', reason: reason || '', createdAt: serverTimestamp() });
                 window.closeReportForm();
                 window.showAlert("تم الإرسال", "تم إرسال البلاغ بنجاح. سيتم مراجعته من قبل الإدارة واتخاذ الإجراء الصارم فوراً.");
             } catch (e) {
                 console.error(e);
                 window.showAlert("خطأ", "حدث خطأ أثناء الإرسال، يرجى المحاولة لاحقاً.", true);
-            } finally {
-                btn.disabled = false; btn.textContent = "إرسال البلاغ للإدارة";
-            }
+            } finally { btn.disabled = false; btn.textContent = "إرسال البلاغ للإدارة"; }
         };
 
-        // Chat & FAQ Logic
         let chatUnsubscribe = null;
         let faqUnsubscribe = null;
         window.currentUserProfile = null;
@@ -1604,26 +1481,20 @@
                 chatTab.classList.replace('text-gray-400', 'text-cyan-400');
                 chatTab.classList.replace('border-transparent', 'border-cyan-400');
                 chatTab.classList.add('bg-cyan-500/5');
-                
                 faqTab.classList.replace('text-cyan-400', 'text-gray-400');
                 faqTab.classList.replace('border-cyan-400', 'border-transparent');
                 faqTab.classList.remove('bg-cyan-500/5');
-
                 chatArea.classList.replace('hidden', 'flex');
                 faqArea.classList.replace('flex', 'hidden');
             } else {
                 faqTab.classList.replace('text-gray-400', 'text-cyan-400');
                 faqTab.classList.replace('border-transparent', 'border-cyan-400');
                 faqTab.classList.add('bg-cyan-500/5');
-
                 chatTab.classList.replace('text-cyan-400', 'text-gray-400');
                 chatTab.classList.replace('border-cyan-400', 'border-transparent');
                 chatTab.classList.remove('bg-cyan-500/5');
-
                 faqArea.classList.replace('hidden', 'flex');
                 chatArea.classList.replace('flex', 'hidden');
-                
-                // تحميل الأسئلة عند فتح التبويب
                 window.loadFAQMessages();
             }
         };
@@ -1632,14 +1503,12 @@
             const drawer = document.getElementById('chat-drawer');
             const overlay = document.getElementById('chat-overlay');
             const floatingBtn = document.getElementById('floating-chat-btn');
-
             if (drawer.classList.contains('translate-x-full')) {
                 const myProf = window.allProfessionals.find(p => p.userId === window.currentUserId);
                 if (!myProf) {
-                    window.showAlert("غير مصرح بالدخول", "عذراً، مساحة المحترفين متاحة فقط للمسجلين في الدليل. يرجى (إضافة نفسك للدليل) لتتمكن من التفاعل.", true);
+                    window.showAlert("غير مصرح بالدخول", "عذراً، مساحة المحترفين متاحة فقط للمحترفين المسجلين في الدليل. يرجى (إضافة نفسك للدليل) لتتمكن من التفاعل.", true);
                     return;
                 }
-                
                 window.currentUserProfile = myProf;
                 drawer.classList.remove('translate-x-full');
                 overlay.classList.remove('hidden');
@@ -1659,7 +1528,6 @@
                 const msgs = [];
                 snapshot.forEach(doc => msgs.push({id: doc.id, ...doc.data()}));
                 msgs.reverse();
-
                 const container = document.getElementById('chat-messages');
                 container.innerHTML = msgs.map(m => {
                     const isMe = m.userId === window.currentUserId;
@@ -1667,16 +1535,11 @@
                     const bgClass = isMe ? 'bg-cyan-500/20 border-cyan-500/30' : 'bg-white/5 border-white/5';
                     const radiusClass = isMe ? 'rounded-tl-sm' : 'rounded-tr-sm';
                     const textClass = isMe ? 'text-white' : 'text-gray-200';
-                    const imgHtml = m.imageUrl 
-                        ? `<img src="${m.imageUrl}" class="w-full h-full object-cover">` 
-                        : `<i data-lucide="user" class="w-4 h-4"></i>`;
-
+                    const imgHtml = m.imageUrl ? `<img src="${m.imageUrl}" class="w-full h-full object-cover">` : `<i data-lucide="user" class="w-4 h-4"></i>`;
                     const displayName = m.name || 'مستخدم';
-                    
                     const date = m.createdAt ? m.createdAt.toDate() : new Date();
                     const timeStr = date.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
                     const dateStr = date.toLocaleDateString('ar-EG', { month: 'numeric', day: 'numeric' });
-
                     return `
                     <div class="flex gap-3 items-end w-full ${alignClass}">
                         <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center shrink-0 border border-white/10 text-gray-400 overflow-hidden shadow-sm">
@@ -1685,7 +1548,6 @@
                         <div class="${bgClass} px-4 py-2.5 rounded-2xl ${radiusClass} border max-w-[80%] shadow-sm group">
                             <p class="text-[10px] ${isMe ? 'text-cyan-200' : 'text-cyan-400'} font-bold mb-1 opacity-80">${displayName}</p>
                             <p class="text-sm ${textClass} leading-relaxed break-words">${m.text || ''}</p>
-                            
                             <div class="flex justify-between items-center mt-2 pt-1.5 border-t ${isMe ? 'border-cyan-400/20' : 'border-white/10'}">
                                 <span class="text-[9px] ${isMe ? 'text-cyan-200/70' : 'text-gray-400'} font-mono">${timeStr} - ${dateStr}</span>
                             </div>
@@ -1693,17 +1555,13 @@
                     </div>
                     `;
                 }).join('');
-                
                 container.scrollTop = container.scrollHeight;
                 lucide.createIcons();
-
                 if (isInitialChatLoaded) {
                     snapshot.docChanges().forEach((change) => {
                         if (change.type === "added") {
                             const m = change.doc.data();
-                            if (m.userId !== window.currentUserId) {
-                                window.notifyUser(`رسالة جديدة من ${m.name || 'مستخدم'}`, m.text, m.imageUrl);
-                            }
+                            if (m.userId !== window.currentUserId) { window.notifyUser(`رسالة جديدة من ${m.name || 'مستخدم'}`, m.text, m.imageUrl); }
                         }
                     });
                 }
@@ -1711,94 +1569,12 @@
             });
         };
 
-        // --- دوال الأسئلة المحفوظة (FAQ) للإدارة فقط --- //
-        window.saveAsFAQ = async (questionText) => {
-            const answer = prompt("إضافة إجابة لهذا السؤال ليتم حفظه كمرجع للجميع:\n\nالسؤال:\n" + questionText);
-            
-            if (answer && answer.trim()) {
-                try {
-                    await addDoc(window.getColRef('faq'), {
-                        question: questionText,
-                        answer: answer.trim(),
-                        savedByName: 'الإدارة',
-                        createdAt: serverTimestamp()
-                    });
-                    alert("تم حفظ السؤال للإفادة بنجاح.");
-                } catch (e) {
-                    console.error(e);
-                    alert("لم نتمكن من حفظ السؤال، يرجى المحاولة لاحقاً.");
-                }
-            }
-        };
-
-        window.renderAdminChat = () => {
-            const container = document.getElementById('admin-chat-container');
-            if(!container) return;
-            if(window.chatMessages.length === 0) {
-                container.innerHTML = '<p class="text-gray-500 text-sm text-center py-8">لا توجد رسائل حالياً.</p>';
-                return;
-            }
-            container.innerHTML = window.chatMessages.map(msg => {
-                const safeText = (msg.text || '').replace(/'/g, "\\'").replace(/"/g, "&quot;");
-                return `
-                <div class="bg-cyan-950/20 border border-cyan-500/10 rounded-xl p-3 flex justify-between items-start gap-3">
-                    <div class="w-8 h-8 rounded-full bg-black/50 overflow-hidden shrink-0 border border-cyan-500/20">
-                        ${msg.imageUrl ? `<img src="${msg.imageUrl}" class="w-full h-full object-cover">` : `<div class="w-full h-full flex items-center justify-center text-cyan-500"><i data-lucide="user" class="w-4 h-4"></i></div>`}
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <p class="text-cyan-400 text-xs font-bold mb-1 truncate">${msg.name || 'مجهول'}</p>
-                        <p class="text-sm text-gray-200 break-words leading-snug">${msg.text}</p>
-                    </div>
-                    <div class="flex flex-col gap-2 shrink-0">
-                        <button onclick="window.saveAsFAQ('${safeText}')" class="text-gray-500 hover:text-amber-400 bg-black/40 p-1.5 rounded-lg transition-colors border border-white/5" title="إضافة للأسئلة المهمة">
-                            <i data-lucide="star" class="w-4 h-4"></i>
-                        </button>
-                        <button onclick="window.deleteChatMessage('${msg.id}')" class="text-gray-500 hover:text-red-400 bg-black/40 p-1.5 rounded-lg transition-colors border border-white/5" title="حذف الرسالة">
-                            <i data-lucide="trash-2" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                </div>
-                `;
-            }).join('');
-            lucide.createIcons();
-        };
-
-        window.deleteChatMessage = async (id) => {
-            if(confirm('حذف هذه الرسالة من الشات العام؟')) {
-                await deleteDoc(window.getDocRef('global_chat', id));
-            }
-        };
-
-        window.sendChatMessage = async () => {
-            const input = document.getElementById('chat-msg-input');
-            const text = input.value.trim();
-            if(!text || !window.currentUserProfile) return;
-            
-            input.value = '';
-            
-            try {
-                await addDoc(window.getColRef('global_chat'), {
-                    userId: window.currentUserId || window.currentUserProfile.userId || 'unknown',
-                    name: window.currentUserProfile.name || 'مستخدم',
-                    imageUrl: window.currentUserProfile.imageUrl || '',
-                    text: text,
-                    createdAt: serverTimestamp()
-                });
-            } catch(e) {
-                console.error("Chat send error:", e);
-                window.showAlert("خطأ", "لم نتمكن من إرسال الرسالة، يرجى المحاولة لاحقاً.", true);
-            }
-        };
-
         window.loadFAQMessages = () => {
             if (faqUnsubscribe) return;
             const faqQ = query(window.getColRef('faq'), orderBy('createdAt', 'desc'));
             faqUnsubscribe = onSnapshot(faqQ, (snapshot) => {
                 const container = document.getElementById('faq-messages');
-                if (snapshot.empty) {
-                    container.innerHTML = '<p class="text-gray-500 text-sm text-center py-8">لا توجد أسئلة محفوظة حالياً.</p>';
-                    return;
-                }
+                if (snapshot.empty) { container.innerHTML = '<p class="text-gray-500 text-sm text-center py-8">لا توجد أسئلة محفوظة حالياً.</p>'; return; }
                 const html = [];
                 snapshot.forEach(doc => {
                     const data = doc.data();
@@ -1819,6 +1595,16 @@
                 container.innerHTML = html.join('');
                 lucide.createIcons();
             });
+        };
+
+        window.sendChatMessage = async () => {
+            const input = document.getElementById('chat-msg-input');
+            const text = input.value.trim();
+            if(!text || !window.currentUserProfile) return;
+            input.value = '';
+            try {
+                await addDoc(window.getColRef('global_chat'), { userId: window.currentUserId || window.currentUserProfile.userId || 'unknown', name: window.currentUserProfile.name || 'مستخدم', imageUrl: window.currentUserProfile.imageUrl || '', text: text, createdAt: serverTimestamp() });
+            } catch(e) { console.error("Chat send error:", e); window.showAlert("خطأ", "لم نتمكن من إرسال الرسالة، يرجى المحاولة لاحقاً.", true); }
         };
 
         window.processImage = (e, targetField, maxWidth, maxHeight) => {
@@ -1856,33 +1642,20 @@
             }
         };
 
-        // PWA Install Logic
         let deferredPrompt;
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-        });
-
+        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
         window.installApp = async () => {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    console.log('User accepted the install prompt');
-                }
                 deferredPrompt = null;
             } else {
                 const isIOS = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
-                if (isIOS) {
-                    window.showAlert("تثبيت التطبيق على آيفون", "لتثبيت البرنامج: انقر على أيقونة 'المشاركة' في الأسفل (مربع يخرج منه سهم)، ثم اختر 'إضافة إلى الصفحة الرئيسية' (Add to Home Screen).", false);
-                } else {
-                    window.showAlert("تثبيت التطبيق", "لتثبيت البرنامج: انقر على القائمة في متصفحك (الثلاث نقاط) واختر 'إضافة إلى الشاشة الرئيسية' أو 'Add to Home Screen' أو 'Install app'.", false);
-                }
+                if (isIOS) { window.showAlert("تثبيت التطبيق على آيفون", "لتثبيت البرنامج: انقر على أيقونة 'المشاركة' في الأسفل، ثم اختر 'إضافة إلى الصفحة الرئيسية'.", false); } 
+                else { window.showAlert("تثبيت التطبيق", "لتثبيت البرنامج: انقر على القائمة في متصفحك واختر 'إضافة إلى الشاشة الرئيسية' أو 'Install app'.", false); }
             }
         };
 
-        // Zikr interval 10s
         const l = ["سُبْحَانَ اللَّهِ وَبِحَمْدِهِ ، سُبْحَانَ اللَّهِ الْعَظِيمِ", "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ", "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ ﷺ", "أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ", "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ"];
         let idx = 0;
         setInterval(() => {
@@ -1893,11 +1666,30 @@
             }
         }, 10000);
 
-        // التنفيذ الأولي لدوال التعبئة
+        window.updateCountryFilter = () => {
+            const countries = [...new Set(window.allProfessionals.filter(p => !window.blacklistedNumbers.includes(p.phone)).map(p => p.country || 'مصر').filter(Boolean))];
+            const select = document.getElementById('filter-country');
+            select.innerHTML = '<option value="">جميع الدول...</option>' + countries.map(c => `<option value="${c}">${c}</option>`).join('');
+        };
+        window.updateGovFilter = () => {
+            const govs = [...new Set(window.allProfessionals.filter(p => !window.blacklistedNumbers.includes(p.phone)).map(p => p.governorate).filter(Boolean))];
+            const select = document.getElementById('filter-gov');
+            select.innerHTML = '<option value="">جميع المحافظات...</option>' + govs.map(g => `<option value="${g}">${g}</option>`).join('');
+        };
+        window.updateCatFilter = () => {
+            const select = document.getElementById('filter-cat');
+            select.innerHTML = '<option value="">كل الأقسام...</option>' + Object.keys(window.MAIN_CATEGORIES).map(c => `<option value="${c}">${c}</option>`).join('');
+        };
+        window.updateRoleFilter = () => {
+            const cat = document.getElementById('filter-cat').value;
+            const select = document.getElementById('filter-role');
+            const roles = cat ? window.MAIN_CATEGORIES[cat] : Object.values(window.MAIN_CATEGORIES).flat();
+            select.innerHTML = '<option value="">التخصص الدقيق...</option>' + roles.map(r => `<option value="${r}">${r}</option>`).join('');
+        };
+
         window.updateCatFilter();
         window.updateRoleFilter();
         window.populateFormCategories();
-
         document.getElementById('current-year').textContent = new Date().getFullYear();
         lucide.createIcons();
     </script>
