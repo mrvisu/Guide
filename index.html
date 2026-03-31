@@ -150,8 +150,22 @@
         <div class="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
         <div class="absolute bottom-0 left-0 w-96 h-96 bg-cyan-600/10 rounded-full blur-[120px] pointer-events-none"></div>
 
+        <!-- رسالة التنبيه الإدارية (لوحة التحكم المصغرة) -->
+        <div id="system-announcement" class="hidden w-full mb-8 relative z-20 fade-in-up">
+            <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 md:p-5 flex items-start gap-4 backdrop-blur-md shadow-[0_0_20px_rgba(245,158,11,0.15)] relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center shrink-0 text-amber-400 border border-amber-500/30">
+                    <i data-lucide="clock" class="w-6 h-6 animate-pulse"></i>
+                </div>
+                <div class="flex-1 pt-1">
+                    <h4 class="text-amber-400 font-black text-sm md:text-base mb-1.5">تنبيه هام وعاجل لشركاء النجاح</h4>
+                    <p id="system-announcement-text" class="text-amber-100/90 text-xs md:text-sm leading-relaxed font-bold"></p>
+                </div>
+            </div>
+        </div>
+
         <!-- قسم الترحيب والدعوة الرئيسي -->
-        <section id="registration-section" class="mb-16 mt-6 fade-in-up">
+        <section id="registration-section" class="mb-16 mt-2 fade-in-up">
             <div class="glass-card rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative transition-all duration-500">
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-400 animate-pulse"></div>
 
@@ -222,32 +236,49 @@
                     <form id="register-form" class="space-y-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             
-                            <div class="space-y-2 md:col-span-2">
+                            <div class="space-y-2">
                                 <label class="text-sm text-gray-400 mr-2">الاسم بالكامل <span class="text-cyan-500">*</span></label>
                                 <input required type="text" id="form-name" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white transition-all" placeholder="الاسم ثلاثي">
                             </div>
 
                             <div class="space-y-2">
-                                <label class="text-sm text-gray-400 mr-2">القسم الرئيسي <span class="text-cyan-500">*</span></label>
-                                <select required id="form-category" onchange="window.updateFormRoleFilter()" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E&quot;); background-position: left 1rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em;">
-                                    <option value="">اختر القسم...</option>
+                                <label class="text-sm text-gray-400 mr-2">
+                                    رقم الهاتف 
+                                    <span class="text-[10px] text-gray-500 font-normal mr-1">(سيتم إضافة كود البلد تلقائياً)</span>
+                                    <span class="text-cyan-500">*</span>
+                                </label>
+                                <input required type="tel" id="form-phone" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white text-left font-mono" placeholder="رقم الهاتف بدون كود">
+                            </div>
+
+                            <!-- الأقسام الرئيسية مع نظام القوالب -->
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-end mb-1">
+                                    <label class="text-sm text-gray-400 mr-2">القسم الرئيسي <span class="text-cyan-500">*</span></label>
+                                    <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">اختر قسم أو أكثر</span>
+                                </div>
+                                <select id="form-category-select" onchange="window.handleAddCategory()" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E&quot;); background-position: left 1rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em;">
+                                    <option value="">+ إضافة قسم...</option>
                                 </select>
+                                <!-- حاوية القوالب (Tags) للأقسام -->
+                                <div id="form-category-tags" class="flex flex-wrap gap-2 mt-2 empty:hidden"></div>
                             </div>
                             
-                            <!-- تعديل حقل التخصص ليسمح باختيار متعدد عبر Checkboxes -->
+                            <!-- التخصصات الدقيقة مع نظام القوالب -->
                             <div class="space-y-2">
                                 <div class="flex justify-between items-end mb-1">
                                     <label class="text-sm text-gray-400 mr-2">التخصص الدقيق <span class="text-cyan-500">*</span></label>
-                                    <span class="text-[10px] text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full border border-cyan-500/20">يمكنك اختيار أكثر من تخصص</span>
+                                    <span class="text-[10px] text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full border border-cyan-500/20">اختر تخصص أو أكثر</span>
                                 </div>
-                                <div id="form-role-container" class="w-full p-3 bg-black/40 border border-white/10 rounded-xl focus-within:ring-2 focus-within:ring-cyan-500/50 h-[60px] md:h-[60px] overflow-y-auto custom-scrollbar flex flex-col gap-1 transition-all duration-300">
-                                    <p class="text-xs text-gray-500 text-center py-2">اختر القسم الرئيسي أولاً</p>
-                                </div>
+                                <select id="form-role-select" onchange="window.handleAddRole()" disabled class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none disabled:opacity-50" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E&quot;); background-position: left 1rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em;">
+                                    <option value="">يرجى اختيار قسم أولاً...</option>
+                                </select>
+                                <!-- حاوية القوالب (Tags) للتخصصات -->
+                                <div id="form-role-tags" class="flex flex-wrap gap-2 mt-2 empty:hidden"></div>
                             </div>
 
                             <div class="space-y-2">
                                 <label class="text-sm text-gray-400 mr-2">المحافظة <span class="text-cyan-500">*</span></label>
-                                <select required id="form-gov" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E&quot;); background-position: left 1rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em;">
+                                <select required id="form-gov" onchange="window.updateCitiesList()" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E&quot;); background-position: left 1rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em;">
                                     <option value="">اختر المحافظة...</option>
                                     <option value="القاهرة" class="bg-slate-900 text-white">القاهرة</option>
                                     <option value="الجيزة" class="bg-slate-900 text-white">الجيزة</option>
@@ -281,46 +312,71 @@
                             </div>
                             <div class="space-y-2">
                                 <label class="text-sm text-gray-400 mr-2">المدينة / المركز <span class="text-cyan-500">*</span></label>
-                                <input required type="text" id="form-city" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white" placeholder="المنطقة أو المركز">
+                                <select required id="form-city" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E&quot;); background-position: left 1rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em;">
+                                    <option value="">اختر المحافظة أولاً...</option>
+                                </select>
                             </div>
                             
-                            <div class="space-y-2">
-                                <label class="text-sm text-gray-400 mr-2">
-                                    رقم الهاتف 
-                                    <span class="text-[10px] text-gray-500 font-normal mr-1">(سيتم إضافة كود البلد تلقائياً)</span>
-                                    <span class="text-cyan-500">*</span>
-                                </label>
-                                <input required type="tel" id="form-phone" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white text-left font-mono" placeholder="رقم الهاتف بدون كود">
-                            </div>
-                            <div class="space-y-2">
-                                <label class="text-sm text-gray-400 mr-2">الدولة <span class="text-cyan-500">*</span></label>
-                                <input required type="text" id="form-country" value="مصر" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white" placeholder="مثال: مصر، السعودية...">
+                            <!-- مجموعة الدولة ورابط الأعمال (مدمجة في عمود واحد) -->
+                            <div class="space-y-6">
+                                <div class="space-y-2">
+                                    <label class="text-sm text-gray-400 mr-2">الدولة <span class="text-cyan-500">*</span></label>
+                                    <select required id="form-country" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E&quot;); background-position: left 1rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em;">
+                                        <option value="مصر" class="bg-slate-900 text-white">مصر</option>
+                                        <option value="السعودية" class="bg-slate-900 text-white">السعودية</option>
+                                        <option value="الإمارات" class="bg-slate-900 text-white">الإمارات</option>
+                                        <option value="الكويت" class="bg-slate-900 text-white">الكويت</option>
+                                        <option value="قطر" class="bg-slate-900 text-white">قطر</option>
+                                        <option value="البحرين" class="bg-slate-900 text-white">البحرين</option>
+                                        <option value="عمان" class="bg-slate-900 text-white">عمان</option>
+                                        <option value="الأردن" class="bg-slate-900 text-white">الأردن</option>
+                                        <option value="لبنان" class="bg-slate-900 text-white">لبنان</option>
+                                        <option value="سوريا" class="bg-slate-900 text-white">سوريا</option>
+                                        <option value="العراق" class="bg-slate-900 text-white">العراق</option>
+                                        <option value="فلسطين" class="bg-slate-900 text-white">فلسطين</option>
+                                        <option value="السودان" class="bg-slate-900 text-white">السودان</option>
+                                        <option value="ليبيا" class="bg-slate-900 text-white">ليبيا</option>
+                                        <option value="تونس" class="bg-slate-900 text-white">تونس</option>
+                                        <option value="الجزائر" class="bg-slate-900 text-white">الجزائر</option>
+                                        <option value="المغرب" class="bg-slate-900 text-white">المغرب</option>
+                                        <option value="اليمن" class="bg-slate-900 text-white">اليمن</option>
+                                        <option value="موريتانيا" class="bg-slate-900 text-white">موريتانيا</option>
+                                        <option value="الصومال" class="bg-slate-900 text-white">الصومال</option>
+                                        <option value="جيبوتي" class="bg-slate-900 text-white">جيبوتي</option>
+                                        <option value="جزر القمر" class="bg-slate-900 text-white">جزر القمر</option>
+                                        <option value="أخرى" class="bg-slate-900 text-white">أخرى</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="space-y-2">
+                                    <label class="text-sm text-gray-400 mr-2">رابط معرض الأعمال (Portfolio)</label>
+                                    <input type="url" id="form-portfolio" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white font-mono" placeholder="رابط فيسبوك، انستجرام أو غيره" dir="ltr">
+                                </div>
                             </div>
                             
-                            <div class="space-y-2">
-                                <label class="text-sm text-gray-400 mr-2">صورة شخصية (اختيارية)</label>
-                                <div class="flex items-center gap-4">
-                                    <div id="preview-profile-container" class="w-16 h-16 bg-black/40 rounded-xl border border-white/10 overflow-hidden flex items-center justify-center shrink-0">
-                                        <i data-lucide="image" class="text-gray-600"></i>
+                            <!-- مجموعة رفع الصور (فوق بعض) -->
+                            <div class="space-y-6">
+                                <div class="space-y-2">
+                                    <label class="text-sm text-gray-400 mr-2">صورة شخصية (اختيارية)</label>
+                                    <div class="flex items-center gap-4">
+                                        <div id="preview-profile-container" class="w-16 h-16 bg-black/40 rounded-xl border border-white/10 overflow-hidden flex items-center justify-center shrink-0 shadow-inner">
+                                            <i data-lucide="image" class="text-gray-600"></i>
+                                        </div>
+                                        <input type="file" accept="image/*" onchange="processImage(event, 'profile', 300, 300)" class="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:bg-cyan-500/10 file:text-cyan-400 hover:file:bg-cyan-500/20 cursor-pointer transition-all">
                                     </div>
-                                    <input type="file" accept="image/*" onchange="processImage(event, 'profile', 300, 300)" class="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:bg-cyan-500/10 file:text-cyan-400 hover:file:bg-cyan-500/20 cursor-pointer">
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label class="text-sm text-gray-400 mr-2">صورة غلاف للمعدات (اختيارية)</label>
+                                    <div class="flex items-center gap-4">
+                                        <div id="preview-cover-container" class="w-16 h-16 bg-black/40 rounded-xl border border-white/10 overflow-hidden flex items-center justify-center shrink-0 shadow-inner">
+                                            <i data-lucide="camera" class="text-gray-600"></i>
+                                        </div>
+                                        <input type="file" accept="image/*" onchange="processImage(event, 'cover', 800, 400)" class="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:bg-blue-500/10 file:text-blue-400 hover:file:bg-blue-500/20 cursor-pointer transition-all">
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="space-y-2">
-                                <label class="text-sm text-gray-400 mr-2">صورة غلاف للمعدات (اختيارية)</label>
-                                <div class="flex items-center gap-4">
-                                    <div id="preview-cover-container" class="w-16 h-16 bg-black/40 rounded-xl border border-white/10 overflow-hidden flex items-center justify-center shrink-0">
-                                        <i data-lucide="camera" class="text-gray-600"></i>
-                                    </div>
-                                    <input type="file" accept="image/*" onchange="processImage(event, 'cover', 800, 400)" class="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:bg-blue-500/10 file:text-blue-400 hover:file:bg-blue-500/20 cursor-pointer">
-                                </div>
-                            </div>
-
-                            <div class="space-y-2 md:col-span-2">
-                                <label class="text-sm text-gray-400 mr-2">رابط معرض الأعمال (Portfolio)</label>
-                                <input type="url" id="form-portfolio" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white font-mono" placeholder="رابط فيسبوك، انستجرام أو غيره" dir="ltr">
-                            </div>
+                            
                         </div>
 
                         <div class="mt-8 pt-6 border-t border-white/5 space-y-6">
@@ -516,7 +572,11 @@
         window.allProfessionals = [];
         window.blacklistedNumbers = [];
         window.formDataImages = { profile: '', cover: '' };
-        window.sharedCardOpened = false; // لمنع فتح البطاقة المرجعية أكثر من مرة
+        window.sharedCardOpened = false; 
+        
+        // المتغيرات الجديدة للتعامل مع التحديد المتعدد (القوالب)
+        window.selectedFormCategories = new Set();
+        window.selectedFormRoles = new Set();
         
         // التخصصات الافتراضية
         window.MAIN_CATEGORIES = {
@@ -525,6 +585,56 @@
             "شغل ميديا": ['ميديا كافردج', 'صانع محتوى', 'مونتير (Editor)'],
             "أصحاب معدات": ['صاحب وحدة ميكسر', 'صاحب درون', 'صاحب كاميرا كرين', 'إضاءة ومعدات تصوير'],
             "سيارات نقل": ['سيارة نقل معدات', 'فان نقل معدات وكرو']
+        };
+
+        // قائمة المحافظات والمدن الخاصة بها
+        window.EGYPT_CITIES = {
+            "القاهرة": ["مصر الجديدة", "مدينة نصر", "المعادي", "التجمع", "شبرا", "حلوان", "وسط البلد", "المقطم", "الرحاب", "الشروق", "مدينتي", "بدر", "العاصمة الإدارية", "الزمالك", "المرج", "عين شمس", "السلام", "أخرى"],
+            "الجيزة": ["المهندسين", "الدقي", "العجوزة", "الهرم", "فيصل", "6 أكتوبر", "الشيخ زايد", "الحوامدية", "البدرشين", "العياط", "الصف", "أطفيح", "الواحات", "إمبابة", "أوسيم", "كرداسة", "أبو النمرس", "أخرى"],
+            "الإسكندرية": ["المنتزه", "الرمل", "سيدي بشر", "سيدي جابر", "سموحة", "ميامي", "كليوباترا", "رشدي", "مصطفى كامل", "محرم بك", "العصافرة", "العجمي", "المندرة", "برج العرب", "العامرية", "أخرى"],
+            "الدقهلية": ["المنصورة", "طلخا", "ميت غمر", "دكرنس", "أجا", "السنبلاوين", "بلقاس", "المنزلة", "شربين", "المطرية", "جمصة", "نبروه", "أخرى"],
+            "الشرقية": ["الزقازيق", "العاشر من رمضان", "منيا القمح", "بلبيس", "أبو حماد", "فاقوس", "أبو كبير", "الحسينية", "كفر صقر", "ديرب نجم", "الإبراهيمية", "أولاد صقر", "مشتول السوق", "أخرى"],
+            "الغربية": ["طنطا", "المحلة الكبرى", "كفر الزيات", "زفتى", "سمنود", "قطور", "السنطة", "بسيون", "أخرى"],
+            "المنوفية": ["شبين الكوم", "منوف", "أشمون", "السادات", "قويسنا", "الباجور", "تلا", "بركة السبع", "الشهداء", "أخرى"],
+            "البحيرة": ["دمنهور", "كفر الدوار", "رشيد", "إدكو", "أبو حمص", "أبو المطامير", "المحمودية", "الرحمانية", "الدلنجات", "كوم حمادة", "وادي النطرون", "إيتاي البارود", "شبراخيت", "أخرى"],
+            "كفر الشيخ": ["كفر الشيخ", "دسوق", "فوه", "مطوبس", "بلطيم", "الحامول", "بيلا", "الرياض", "سيدي سالم", "قلين", "برج البرلس", "أخرى"],
+            "القليوبية": ["بنها", "شبرا الخيمة", "قليوب", "القناطر الخيرية", "الخانكة", "شبين القناطر", "طوخ", "قها", "العبور", "الخصوص", "أخرى"],
+            "دمياط": ["دمياط", "دمياط الجديدة", "رأس البر", "فارسكور", "الزرقا", "كفر سعد", "كفر البطيخ", "أخرى"],
+            "بورسعيد": ["بورفؤاد", "الشرق", "العرب", "المناخ", "الضواحي", "الزهور", "الجنوب", "أخرى"],
+            "الإسماعيلية": ["الإسماعيلية", "فايد", "القنطرة شرق", "القنطرة غرب", "التل الكبير", "أبو صوير", "القصاصين", "أخرى"],
+            "السويس": ["السويس", "الأربعين", "عتاقة", "الجناين", "فيصل", "أخرى"],
+            "الفيوم": ["الفيوم", "إطسا", "طامية", "سنورس", "أبشواي", "يوسف الصديق", "أخرى"],
+            "بني سويف": ["بني سويف", "الواسطى", "ناصر", "إهناسيا", "ببا", "سمسطا", "الفشن", "أخرى"],
+            "المنيا": ["المنيا", "المنيا الجديدة", "مغاغة", "بني مزار", "مطاي", "سمالوط", "أبو قرقاص", "ملوي", "دير مواس", "أخرى"],
+            "أسيوط": ["أسيوط", "ديروط", "القوصية", "أبنوب", "منفلوط", "أبو تيج", "الغنايم", "ساحل سليم", "البداري", "الفتح", "أسيوط الجديدة", "أخرى"],
+            "سوهاج": ["سوهاج", "أخميم", "البلينا", "المراغة", "المنشأة", "دار السلام", "جرجا", "جهينة", "طما", "طهطا", "ساقلتة", "سوهاج الجديدة", "أخرى"],
+            "قنا": ["قنا", "نجع حمادي", "دشنا", "أبو تشت", "فرشوط", "قوص", "نقادة", "قفط", "الوقف", "أخرى"],
+            "الأقصر": ["الأقصر", "إسنا", "أرمنت", "الطود", "البياضية", "القرنة", "الزينية", "أخرى"],
+            "أسوان": ["أسوان", "دراو", "كوم أمبو", "إدفو", "نصر النوبة", "أبو سمبل", "أخرى"],
+            "البحر الأحمر": ["الغردقة", "رأس غارب", "سفاجا", "القصير", "مرسى علم", "الشلاتين", "حلايب", "أخرى"],
+            "الوادى الجديد": ["الخارجة", "الداخلة", "الفرافرة", "باريس", "بلاط", "أخرى"],
+            "مطروح": ["مرسى مطروح", "الحمام", "العلمين", "الضبعة", "النجيلة", "سيدي براني", "السلوم", "سيوة", "أخرى"],
+            "شمال سيناء": ["العريش", "الشيخ زويد", "رفح", "بئر العبد", "الحسنة", "نخل", "أخرى"],
+            "جنوب سيناء": ["الطور", "شرم الشيخ", "دهب", "نويبع", "طابا", "سانت كاترين", "أبو رديس", "أبو زنيمة", "رأس سدر", "أخرى"],
+            "أخرى (خارج مصر)": ["الرياض", "جدة", "مكة", "دبي", "أبوظبي", "الشارقة", "الدوحة", "الكويت", "المنامة", "مسقط", "عمان", "أخرى"]
+        };
+
+        // دالة تحديث قائمة المدن بناءً على المحافظة
+        window.updateCitiesList = () => {
+            const gov = document.getElementById('form-gov').value;
+            const citySelect = document.getElementById('form-city');
+            
+            if (!gov || !window.EGYPT_CITIES[gov]) {
+                citySelect.innerHTML = '<option value="">اختر المحافظة أولاً...</option>';
+                return;
+            }
+
+            const cities = window.EGYPT_CITIES[gov];
+            let html = '<option value="">اختر المدينة / المركز...</option>';
+            cities.forEach(city => {
+                html += `<option value="${city}" class="bg-slate-900 text-white">${city}</option>`;
+            });
+            citySelect.innerHTML = html;
         };
 
         // --- إضافة أكواد الدول تلقائياً --- //
@@ -580,8 +690,8 @@
         const db = getFirestore(app);
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
-        const getColRef = (colName) => collection(db, 'artifacts', appId, 'public', 'data', colName);
-        const getDocRef = (colName, docId) => doc(db, 'artifacts', appId, 'public', 'data', colName, docId);
+        window.getColRef = (colName) => collection(db, 'artifacts', appId, 'public', 'data', colName);
+        window.getDocRef = (colName, docId) => doc(db, 'artifacts', appId, 'public', 'data', colName, docId);
 
         // --- نظام الإشعارات --- //
         window.requestNotificationPermission = async () => {
@@ -689,29 +799,37 @@
             document.getElementById('form-phone').value = window.currentUserProfile.phone || '';
             document.getElementById('form-country').value = window.currentUserProfile.country || 'مصر';
             document.getElementById('form-gov').value = window.currentUserProfile.governorate || '';
-            document.getElementById('form-city').value = window.currentUserProfile.city || '';
+            
+            window.updateCitiesList();
+            setTimeout(() => {
+                document.getElementById('form-city').value = window.currentUserProfile.city || '';
+            }, 50);
+            
             document.getElementById('form-portfolio').value = window.currentUserProfile.portfolioUrl || '';
 
-            let foundCat = '';
+            // استرجاع الأقسام والتخصصات بناءً على بيانات المستخدم
             const userRoles = window.currentUserProfile.roles || [window.currentUserProfile.role];
-            for (const [cat, roles] of Object.entries(window.MAIN_CATEGORIES)) {
-                if (roles.includes(userRoles[0])) {
-                    foundCat = cat;
-                    break;
+            const derivedCategories = new Set();
+            
+            userRoles.forEach(role => {
+                for (const [cat, catRoles] of Object.entries(window.MAIN_CATEGORIES)) {
+                    if (catRoles.includes(role)) {
+                        derivedCategories.add(cat);
+                    }
                 }
+            });
+            
+            if(window.currentUserProfile.categories && window.currentUserProfile.categories.length > 0) {
+                window.selectedFormCategories = new Set(window.currentUserProfile.categories);
+            } else {
+                window.selectedFormCategories = derivedCategories;
             }
             
-            document.getElementById('form-category').value = foundCat;
-            window.updateFormRoleFilter(); 
-            
-            setTimeout(() => {
-                const checkboxes = document.querySelectorAll('input[name="roles[]"]');
-                checkboxes.forEach(cb => {
-                    if (userRoles.includes(cb.value)) {
-                        cb.checked = true;
-                    }
-                });
-            }, 50);
+            window.selectedFormRoles = new Set(userRoles);
+
+            window.renderCategoryTags();
+            window.updateFormRoleDropdown();
+            window.renderRoleTags();
 
             window.formDataImages.profile = window.currentUserProfile.imageUrl || '';
             window.formDataImages.cover = window.currentUserProfile.coverUrl || '';
@@ -744,8 +862,14 @@
             window.isEditing = false;
             window.editingDocId = null;
             document.getElementById('register-form').reset();
-            document.getElementById('form-role-container').innerHTML = '<p class="text-xs text-gray-500 text-center py-2">اختر القسم الرئيسي أولاً</p>';
-            document.getElementById('form-role-container').classList.replace('h-[140px]', 'h-[60px]');
+            
+            // تصفير القوالب الذكية
+            window.selectedFormCategories.clear();
+            window.selectedFormRoles.clear();
+            window.renderCategoryTags();
+            window.updateFormRoleDropdown();
+            window.renderRoleTags();
+            window.updateCitiesList();
             
             document.getElementById('preview-profile-container').innerHTML = '<i data-lucide="image" class="text-gray-600"></i>';
             document.getElementById('preview-cover-container').innerHTML = '<i data-lucide="camera" class="text-gray-600"></i>';
@@ -799,7 +923,7 @@
                 document.getElementById('submit-btn').disabled = false;
                 
                 // Track stats
-                const statsRef = getDocRef('settings', 'stats');
+                const statsRef = window.getDocRef('settings', 'stats');
                 try { await updateDoc(statsRef, { views: increment(1) }); } 
                 catch (e) { if(e.code === 'not-found') await setDoc(statsRef, { views: 1 }); }
 
@@ -832,7 +956,7 @@
         };
 
         function fetchSettings() {
-            onSnapshot(getDocRef('settings', 'categories'), (docSnap) => {
+            onSnapshot(window.getDocRef('settings', 'categories'), (docSnap) => {
                 if (docSnap.exists()) {
                     window.MAIN_CATEGORIES = docSnap.data().data;
                 }
@@ -840,15 +964,34 @@
                 window.updateRoleFilter();
                 window.populateFormCategories(); 
             });
-            onSnapshot(getDocRef('settings', 'blacklist'), (docSnap) => {
+            onSnapshot(window.getDocRef('settings', 'blacklist'), (docSnap) => {
                 if (docSnap.exists()) window.blacklistedNumbers = docSnap.data().numbers || [];
                 window.renderProfessionals();
+            });
+
+            // قراءة رسالة النظام الإدارية (تنبيه مواعيد الحظر أو غيرها)
+            onSnapshot(window.getDocRef('settings', 'announcement'), (docSnap) => {
+                const banner = document.getElementById('system-announcement');
+                const textEl = document.getElementById('system-announcement-text');
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    if (data.active) {
+                        textEl.textContent = data.message || "نظراً لقرارات الدولة الخاصة بمواعيد الحظر، نُهيب بجميع الزملاء والعملاء الالتزام التام بالمواعيد والحضور المبكر. سلامتكم وإنجاز أعمالكم باحترافية هما أولويتنا.";
+                        banner.classList.remove('hidden');
+                    } else {
+                        banner.classList.add('hidden');
+                    }
+                } else {
+                    // الحالة الافتراضية إذا لم يتم إنشاء الملف في قاعدة البيانات بعد
+                    banner.classList.remove('hidden');
+                    textEl.textContent = "نظراً لقرارات الدولة الخاصة بمواعيد الحظر، نُهيب بجميع الزملاء والعملاء الالتزام التام بالمواعيد والحضور المبكر. سلامتكم وإنجاز أعمالكم باحترافية هما أولويتنا.";
+                }
             });
         }
 
         let isInitialProfLoaded = false;
         function fetchData() {
-            onSnapshot(getColRef('professionals'), (snapshot) => {
+            onSnapshot(window.getColRef('professionals'), (snapshot) => {
                 window.allProfessionals = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
                     .sort((a, b) => (b.createdAt?.toMillis() || 0) - (a.createdAt?.toMillis() || 0));
                 
@@ -862,14 +1005,12 @@
                 const urlParams = new URLSearchParams(window.location.search);
                 const sharedPhone = urlParams.get('phone');
                 if (sharedPhone && !window.sharedCardOpened) {
-                    // إزالة أي رموز غير رقمية للمقارنة بشكل صحيح
                     const cleanShared = decodeURIComponent(sharedPhone).replace(/\D/g, '');
                     const targetProf = window.allProfessionals.find(p => p.phone.replace(/\D/g, '') === cleanShared);
                     if (targetProf) {
-                        // إظهار قسم الدليل لضمان أن البطاقة ستظهر في سياق صحيح
                         document.getElementById('directory-section').classList.remove('hidden');
                         window.openModal(targetProf.id);
-                        window.sharedCardOpened = true; // منع الفتح المتكرر
+                        window.sharedCardOpened = true; 
                     }
                 }
 
@@ -887,6 +1028,116 @@
             });
         }
 
+        // --- دوال القوالب الذكية المتعددة الاختيار --- //
+
+        window.populateFormCategories = () => {
+            const select = document.getElementById('form-category-select');
+            if (!select) return;
+            let html = '<option value="">+ إضافة قسم...</option>';
+            Object.keys(window.MAIN_CATEGORIES).forEach(c => {
+                html += `<option value="${c}" class="bg-slate-900 text-white">${c}</option>`;
+            });
+            select.innerHTML = html;
+        };
+
+        window.handleAddCategory = () => {
+            const select = document.getElementById('form-category-select');
+            const val = select.value;
+            if (val) {
+                window.selectedFormCategories.add(val);
+                select.value = ''; 
+                window.renderCategoryTags();
+                window.updateFormRoleDropdown();
+            }
+        };
+
+        window.removeCategory = (cat) => {
+            window.selectedFormCategories.delete(cat);
+            if (window.MAIN_CATEGORIES[cat]) {
+                window.MAIN_CATEGORIES[cat].forEach(r => window.selectedFormRoles.delete(r));
+            }
+            window.renderCategoryTags();
+            window.updateFormRoleDropdown();
+            window.renderRoleTags();
+        };
+
+        window.renderCategoryTags = () => {
+            const container = document.getElementById('form-category-tags');
+            if (window.selectedFormCategories.size === 0) {
+                container.innerHTML = '';
+                return;
+            }
+            container.innerHTML = Array.from(window.selectedFormCategories).map(cat => `
+                <div class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3 py-1.5 rounded-full flex items-center gap-2 text-sm shadow-sm fade-in-up" style="animation-duration: 0.3s">
+                    <span>${cat}</span>
+                    <button type="button" onclick="window.removeCategory('${cat}')" class="hover:bg-emerald-500/40 rounded-full p-0.5 transition-colors">
+                        <i data-lucide="x" class="w-3 h-3 hover:text-red-400 transition-colors"></i>
+                    </button>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        };
+
+        window.updateFormRoleDropdown = () => {
+            const select = document.getElementById('form-role-select');
+            if (window.selectedFormCategories.size === 0) {
+                select.innerHTML = '<option value="">يرجى اختيار قسم أولاً...</option>';
+                select.disabled = true;
+                return;
+            }
+            
+            select.disabled = false;
+            let html = '<option value="">+ إضافة تخصص...</option>';
+            window.selectedFormCategories.forEach(cat => {
+                if (window.MAIN_CATEGORIES[cat]) {
+                    html += `<optgroup label="-- ${cat} --" class="bg-slate-800 text-gray-400">`;
+                    window.MAIN_CATEGORIES[cat].forEach(r => {
+                        const isSelected = window.selectedFormRoles.has(r);
+                        if(!isSelected) {
+                             html += `<option value="${r}" class="bg-slate-900 text-white">${r}</option>`;
+                        }
+                    });
+                    html += `</optgroup>`;
+                }
+            });
+            select.innerHTML = html;
+        };
+
+        window.handleAddRole = () => {
+            const select = document.getElementById('form-role-select');
+            const val = select.value;
+            if (val) {
+                window.selectedFormRoles.add(val);
+                select.value = '';
+                window.renderRoleTags();
+                window.updateFormRoleDropdown(); 
+            }
+        };
+
+        window.removeRole = (role) => {
+            window.selectedFormRoles.delete(role);
+            window.renderRoleTags();
+            window.updateFormRoleDropdown(); 
+        };
+
+        window.renderRoleTags = () => {
+            const container = document.getElementById('form-role-tags');
+            if (window.selectedFormRoles.size === 0) {
+                container.innerHTML = '';
+                return;
+            }
+            container.innerHTML = Array.from(window.selectedFormRoles).map(role => `
+                <div class="bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 px-3 py-1.5 rounded-full flex items-center gap-2 text-sm shadow-sm fade-in-up" style="animation-duration: 0.3s">
+                    <span>${role}</span>
+                    <button type="button" onclick="window.removeRole('${role}')" class="hover:bg-cyan-500/40 rounded-full p-0.5 transition-colors">
+                        <i data-lucide="x" class="w-3 h-3 hover:text-red-400 transition-colors"></i>
+                    </button>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        };
+
+
         // Form Submit
         document.getElementById('register-form').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -894,11 +1145,22 @@
             
             const btn = document.getElementById('submit-btn');
             
-            const roleCheckboxes = document.querySelectorAll('input[name="roles[]"]:checked');
-            const selectedRoles = Array.from(roleCheckboxes).map(cb => cb.value);
+            const selectedCategories = Array.from(window.selectedFormCategories);
+            const selectedRoles = Array.from(window.selectedFormRoles);
+
+            if (selectedCategories.length === 0) {
+                window.showAlert("تنبيه", "يرجى إضافة قسم رئيسي واحد على الأقل.", true);
+                return;
+            }
 
             if (selectedRoles.length === 0) {
-                window.showAlert("تنبيه", "يرجى اختيار تخصص واحد على الأقل من القائمة.", true);
+                window.showAlert("تنبيه", "يرجى إضافة تخصص واحد على الأقل من القائمة.", true);
+                return;
+            }
+            
+            const cityVal = document.getElementById('form-city').value;
+            if (!cityVal) {
+                window.showAlert("تنبيه", "يرجى اختيار المدينة / المركز.", true);
                 return;
             }
 
@@ -919,10 +1181,11 @@
 
             const updatedProf = {
                 name: document.getElementById('form-name').value || '',
+                categories: selectedCategories,
                 roles: selectedRoles, 
                 role: selectedRoles[0], 
                 governorate: document.getElementById('form-gov').value || '',
-                city: document.getElementById('form-city').value || '',
+                city: cityVal,
                 phone: phoneVal,
                 portfolioUrl: document.getElementById('form-portfolio').value || '',
                 imageUrl: window.formDataImages.profile || '',
@@ -931,13 +1194,13 @@
 
             try {
                 if (window.isEditing && window.editingDocId) {
-                    await updateDoc(getDocRef('professionals', window.editingDocId), updatedProf);
+                    await updateDoc(window.getDocRef('professionals', window.editingDocId), updatedProf);
                     document.getElementById('success-title').textContent = "تم التعديل بنجاح!";
                     document.getElementById('success-desc').textContent = "تم حفظ تعديلات بطاقتك وتحديثها في الدليل.";
                 } else {
                     updatedProf.userId = window.currentUserId || 'unknown';
                     updatedProf.createdAt = serverTimestamp();
-                    await addDoc(getColRef('professionals'), updatedProf);
+                    await addDoc(window.getColRef('professionals'), updatedProf);
                     document.getElementById('success-title').textContent = "تم تسجيلك بنجاح!";
                     document.getElementById('success-desc').textContent = "بياناتك تظهر الآن في الدليل بالأسفل.";
                 }
@@ -977,40 +1240,6 @@
             const select = document.getElementById('filter-role');
             const roles = cat ? window.MAIN_CATEGORIES[cat] : Object.values(window.MAIN_CATEGORIES).flat();
             select.innerHTML = '<option value="">التخصص الدقيق...</option>' + roles.map(r => `<option value="${r}">${r}</option>`).join('');
-        };
-
-        window.populateFormCategories = () => {
-            const select = document.getElementById('form-category');
-            if (!select) return;
-            let html = '<option value="">اختر القسم...</option>';
-            Object.keys(window.MAIN_CATEGORIES).forEach(c => {
-                html += `<option value="${c}" class="bg-slate-900 text-white">${c}</option>`;
-            });
-            select.innerHTML = html;
-        };
-
-        window.updateFormRoleFilter = () => {
-            const cat = document.getElementById('form-category')?.value;
-            const container = document.getElementById('form-role-container');
-            if (!container) return;
-            
-            if (!cat || !window.MAIN_CATEGORIES[cat]) {
-                container.innerHTML = '<p class="text-xs text-gray-500 text-center py-2">اختر القسم الرئيسي أولاً</p>';
-                container.classList.replace('h-[140px]', 'h-[60px]');
-                return;
-            }
-
-            container.classList.replace('h-[60px]', 'h-[140px]');
-            let html = '';
-            window.MAIN_CATEGORIES[cat].forEach(r => {
-                html += `
-                    <label class="flex items-center gap-3 p-2 hover:bg-white/5 rounded-lg cursor-pointer transition-colors border border-transparent hover:border-white/10">
-                        <input type="checkbox" name="roles[]" value="${r}" class="w-4 h-4 rounded border-gray-600 bg-black/50">
-                        <span class="text-sm text-gray-200">${r}</span>
-                    </label>
-                `;
-            });
-            container.innerHTML = html;
         };
 
         window.getRoleIconName = (role) => {
@@ -1097,7 +1326,6 @@
             const nameParam = p.name.replace(/'/g, "\\'");
             const roleParam = (p.roles ? p.roles[0] : p.role).replace(/'/g, "\\'");
 
-            // تحديد ما إذا كان المستخدم الحالي غير مسجل لإظهار زر التسجيل له
             const showRegisterBtn = !window.currentUserProfile;
 
             document.getElementById('modal-content').innerHTML = `
@@ -1157,7 +1385,6 @@
 
         // ميزة مشاركة بطاقة المحترف
         window.shareUserProfile = async (id, name, primaryRole, phone) => {
-            // نقوم بتشفير رقم الهاتف وإضافته للرابط
             const encodedPhone = encodeURIComponent(phone);
             const url = window.location.origin + window.location.pathname + '?phone=' + encodedPhone;
             
@@ -1212,7 +1439,7 @@
             btn.disabled = true; btn.textContent = "جاري الإرسال...";
 
             try {
-                await addDoc(getColRef('reports'), {
+                await addDoc(window.getColRef('reports'), {
                     reportedUserId: id || 'unknown',
                     reason: reason || '',
                     createdAt: serverTimestamp()
@@ -1258,7 +1485,7 @@
 
         window.loadChatMessages = () => {
             if(chatUnsubscribe) return;
-            const chatQ = query(getColRef('global_chat'), orderBy('createdAt', 'desc'), limit(100));
+            const chatQ = query(window.getColRef('global_chat'), orderBy('createdAt', 'desc'), limit(100));
             chatUnsubscribe = onSnapshot(chatQ, (snapshot) => {
                 const msgs = [];
                 snapshot.forEach(doc => msgs.push({id: doc.id, ...doc.data()}));
@@ -1315,7 +1542,7 @@
             input.value = '';
             
             try {
-                await addDoc(getColRef('global_chat'), {
+                await addDoc(window.getColRef('global_chat'), {
                     userId: window.currentUserId || window.currentUserProfile.userId || 'unknown',
                     name: window.currentUserProfile.name || 'مستخدم',
                     imageUrl: window.currentUserProfile.imageUrl || '',
