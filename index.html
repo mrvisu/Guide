@@ -1316,33 +1316,41 @@
                 grid.classList.remove('hidden');
                 grid.innerHTML = filtered.map(prof => {
                     const isMyCard = prof.userId === window.currentUserId;
-                    const displayRoles = prof.roles ? prof.roles.join(' | ') : prof.role;
                     const primaryIcon = window.getRoleIconName(prof.roles ? prof.roles[0] : prof.role);
                     const displayLocation = (prof.country || 'مصر') + ' - ' + prof.governorate;
 
+                    // تجهيز قوالب التخصصات الدقيقة (أزرق)
+                    const displayRolesTags = (prof.roles || [prof.role]).map(r => `<span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-2 py-1 rounded-md flex items-center gap-1 text-[10px] font-bold"><i data-lucide="tag" class="w-3 h-3"></i>${r}</span>`).join('');
+                    
+                    // تجهيز قالب العنوان (بنفسجي أنيق)
+                    const displayLocationTag = `<span class="bg-purple-500/10 text-purple-400 border border-purple-500/20 px-2 py-1 rounded-md flex items-center gap-1 text-[10px] font-bold"><i data-lucide="map-pin" class="w-3 h-3"></i>${displayLocation}</span>`;
+
                     return `
-                    <div onclick="openModal('${prof.id}')" class="group glass-card rounded-2xl overflow-hidden hover:border-cyan-500/40 transition-all duration-500 hover:-translate-y-1 cursor-pointer flex flex-col relative">
-                        ${isMyCard ? `<button onclick="event.stopPropagation(); window.openEditForm()" class="absolute top-2 right-2 bg-emerald-500/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-white text-[10px] font-bold shadow-lg flex items-center gap-1 z-20 hover:bg-emerald-400 transition-colors"><i data-lucide="edit-2" class="w-3 h-3"></i> تعديل</button>` : ''}
-                        <div class="h-20 relative bg-black/40">
-                            ${prof.coverUrl ? `<img src="${prof.coverUrl}" class="w-full h-full object-cover opacity-60">` : `<div class="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>`}
-                            <div class="absolute -bottom-6 right-3 w-14 h-14 bg-slate-900 rounded-full border-2 border-black overflow-hidden shadow-lg group-hover:border-cyan-500 transition-colors">
+                    <div onclick="openModal('${prof.id}')" class="group glass-card rounded-2xl overflow-hidden hover:border-cyan-500/40 transition-all duration-500 hover:-translate-y-1 cursor-pointer flex flex-col relative h-full shadow-lg">
+                        ${isMyCard ? `<button onclick="event.stopPropagation(); window.openEditForm()" class="absolute top-3 left-3 bg-emerald-500/90 backdrop-blur-md px-3 py-1.5 rounded-lg text-white text-[10px] font-bold shadow-lg flex items-center gap-1.5 z-20 hover:bg-emerald-400 transition-all"><i data-lucide="edit-2" class="w-3 h-3"></i> تعديل</button>` : ''}
+                        
+                        <div class="h-24 relative bg-black/40 shrink-0">
+                            ${prof.coverUrl ? `<img src="${prof.coverUrl}" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity">` : `<div class="w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>`}
+                            <div class="absolute -bottom-6 right-4 w-16 h-16 bg-[#0f172a] rounded-full border-[3px] border-[#0f172a] overflow-hidden shadow-xl group-hover:border-cyan-500 transition-colors z-10">
                                 ${prof.imageUrl 
-                                    ? `<img src="${prof.imageUrl}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="w-full h-full bg-slate-800 hidden items-center justify-center"><i data-lucide="${primaryIcon}" class="text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.5)] w-5 h-5"></i></div>` 
-                                    : `<div class="w-full h-full bg-slate-800 flex items-center justify-center"><i data-lucide="${primaryIcon}" class="text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.5)] w-5 h-5"></i></div>`
+                                    ? `<img src="${prof.imageUrl}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="w-full h-full bg-slate-800 hidden items-center justify-center"><i data-lucide="${primaryIcon}" class="text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.5)] w-6 h-6"></i></div>` 
+                                    : `<div class="w-full h-full bg-slate-800 flex items-center justify-center"><i data-lucide="${primaryIcon}" class="text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.5)] w-6 h-6"></i></div>`
                                 }
                             </div>
                         </div>
-                        <div class="pt-8 pb-4 px-4 flex-1">
-                            <h3 class="text-sm font-black text-white truncate">${prof.name}</h3>
-                            <p class="text-[10px] text-cyan-400 font-bold mb-3 truncate" title="${displayRoles}">${displayRoles}</p>
-                            <div class="space-y-2">
-                                <div class="flex items-center gap-2 text-[10px] text-gray-400 bg-white/5 p-1.5 rounded-lg border border-white/5">
-                                    <i data-lucide="map-pin" class="w-3 text-blue-400"></i>
-                                    <span class="truncate">${displayLocation}</span>
-                                </div>
-                                <div class="flex items-center gap-2 text-[10px] text-emerald-400 bg-emerald-500/5 p-1.5 rounded-lg border border-emerald-500/10">
-                                    <i data-lucide="phone" class="w-3"></i>
-                                    <span class="font-bold tracking-wider">${prof.phone}</span>
+                        
+                        <div class="pt-9 pb-5 px-5 flex-1 flex flex-col">
+                            <h3 class="text-base font-black text-white mb-3 truncate group-hover:text-cyan-400 transition-colors">${prof.name}</h3>
+                            
+                            <div class="flex flex-wrap gap-1.5 mb-4">
+                                ${displayRolesTags}
+                                ${displayLocationTag}
+                            </div>
+                            
+                            <div class="mt-auto pt-3 border-t border-white/5 flex justify-between items-center text-[10px] text-gray-500 font-bold">
+                                <span>اضغط لعرض كافة التفاصيل</span>
+                                <div class="w-5 h-5 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-cyan-500/20 group-hover:text-cyan-400 transition-all">
+                                    <i data-lucide="arrow-up-left" class="w-3 h-3"></i>
                                 </div>
                             </div>
                         </div>
