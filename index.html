@@ -104,8 +104,8 @@
         <div class="flex flex-col items-center gap-3">
             <div class="relative">
                 <div class="absolute inset-0 bg-cyan-400 blur-2xl opacity-30 rounded-full"></div>
-                <div class="bg-gradient-to-br from-cyan-400 to-blue-600 p-3 rounded-2xl relative z-10 shadow-[0_0_20px_rgba(34,211,238,0.4)]">
-                    <i data-lucide="camera" class="text-white w-8 h-8"></i>
+                <div id="header-profile-image-container" class="bg-gradient-to-br from-cyan-400 to-blue-600 p-3 rounded-2xl relative z-10 shadow-[0_0_20px_rgba(34,211,238,0.4)] w-14 h-14 flex items-center justify-center overflow-hidden transition-all duration-500 border border-white/10">
+                    <i data-lucide="camera" class="text-white w-8 h-8 transition-opacity duration-300"></i>
                 </div>
             </div>
             <h1 class="text-3xl md:text-4xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white via-cyan-100 to-cyan-400 drop-shadow-lg">
@@ -564,7 +564,9 @@
     </div>
 
     <footer class="bg-black/80 backdrop-blur-lg border-t border-white/10 text-gray-500 py-8 text-center text-sm relative z-20">
-        <p>© <span id="current-year"></span> شبكة صناع الصورة.</p>
+        <p class="flex items-center justify-center gap-1">
+            © <span id="current-year"></span> <span onclick="openAdminModal()" class="cursor-default select-none">شبكة صناع الصورة.</span>
+        </p>
     </footer>
 
     <!-- Firebase Scripts -->
@@ -941,6 +943,8 @@
             if (!window.currentUserId || !window.allProfessionals.length) return;
             const myProf = window.allProfessionals.find(p => p.userId === window.currentUserId);
             
+            const headerImageContainer = document.getElementById('header-profile-image-container');
+
             if (myProf) {
                 window.currentUserProfile = myProf;
                 const btnAdd = document.getElementById('btn-add-yourself');
@@ -950,8 +954,28 @@
                     const dirSection = document.getElementById('directory-section');
                     if (dirSection) dirSection.classList.remove('hidden');
                 }
+
+                // تغيير الأيقونة العلوية لتصبح صورة العميل
+                if (headerImageContainer) {
+                    if (myProf.imageUrl) {
+                        headerImageContainer.innerHTML = `<img src="${myProf.imageUrl}" class="w-full h-full object-cover" alt="Profile">`;
+                        headerImageContainer.classList.remove('p-3'); 
+                    } else {
+                        headerImageContainer.innerHTML = `<i data-lucide="camera" class="text-white w-8 h-8"></i>`;
+                        headerImageContainer.classList.add('p-3');
+                        lucide.createIcons();
+                    }
+                }
+
             } else {
                 window.currentUserProfile = null;
+
+                // إعادة الأيقونة الافتراضية
+                if (headerImageContainer) {
+                    headerImageContainer.innerHTML = `<i data-lucide="camera" class="text-white w-8 h-8"></i>`;
+                    headerImageContainer.classList.add('p-3');
+                    lucide.createIcons();
+                }
             }
         };
 
