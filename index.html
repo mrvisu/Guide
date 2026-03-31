@@ -83,6 +83,9 @@
         }
 
         .hidden-view { display: none !important; }
+        
+        /* PIN Input styling */
+        .pin-input { letter-spacing: 0.5em; text-align: center; font-variant-numeric: tabular-nums; }
     </style>
 </head>
 <body class="min-h-screen bg-[#050505] bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(30,58,138,0.3),rgba(255,255,255,0))] text-gray-100 font-bold selection:bg-cyan-500/30 overflow-x-hidden">
@@ -200,20 +203,28 @@
                         </div>
                     </div>
                     
-                    <div class="flex flex-col items-center justify-center gap-5 w-full max-w-md mx-auto relative z-10">
-                        <button onclick="scrollToDirectory()" class="w-full glow-button rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 p-[2px] transition-all duration-300">
-                            <div class="bg-[#0f172a] hover:bg-transparent transition-colors duration-500 rounded-2xl">
-                                <div class="bg-gradient-to-r from-cyan-600/50 to-blue-700/50 hover:from-cyan-500 hover:to-blue-600 px-8 py-5 rounded-2xl flex items-center justify-center gap-3 transition-all duration-500">
-                                    <i data-lucide="search" class="w-7 h-7 text-white"></i>
-                                    <span class="text-2xl font-black text-white tracking-wide">ابحث عن محترف</span>
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-5 w-full max-w-2xl mx-auto relative z-10">
+                        <button onclick="scrollToDirectory()" class="w-full md:w-1/2 glow-button rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 p-[2px] transition-all duration-300 h-full">
+                            <div class="bg-[#0f172a] hover:bg-transparent transition-colors duration-500 rounded-2xl h-full flex items-center justify-center">
+                                <div class="bg-gradient-to-r from-cyan-600/50 to-blue-700/50 hover:from-cyan-500 hover:to-blue-600 px-8 py-5 rounded-2xl flex items-center justify-center gap-3 transition-all duration-500 w-full h-full">
+                                    <i data-lucide="search" class="w-6 h-6 text-white"></i>
+                                    <span class="text-xl font-black text-white tracking-wide">تصفح الدليل</span>
                                 </div>
                             </div>
                         </button>
 
-                        <button type="button" id="btn-add-yourself" onclick="showRegisterForm()" class="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3 mt-2">
-                            <i data-lucide="user-plus" class="w-5 h-5 text-cyan-400"></i>
-                            <span class="text-lg">أضف نفسك للدليل</span>
-                        </button>
+                        <div id="cta-action-buttons" class="w-full md:w-1/2 flex flex-col gap-3 h-full">
+                            <!-- الأزرار تتغير ديناميكياً بناءً على حالة التسجيل -->
+                            <button type="button" id="btn-add-yourself" onclick="showRegisterForm()" class="w-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 hover:text-emerald-100 font-bold py-4 px-6 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3">
+                                <i data-lucide="user-plus" class="w-5 h-5"></i>
+                                <span>إضافة بياناتي للدليل</span>
+                            </button>
+                            
+                            <button type="button" id="btn-login-yourself" onclick="window.openLoginModal()" class="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3">
+                                <i data-lucide="log-in" class="w-5 h-5"></i>
+                                <span>لدي بطاقة بالفعل (دخول)</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -239,10 +250,17 @@
                             <div class="space-y-2">
                                 <label class="text-sm text-gray-400 mr-2">
                                     رقم الهاتف 
-                                    <span class="text-[10px] text-gray-500 font-normal mr-1">(سيتم إضافة كود البلد تلقائياً)</span>
+                                    <span class="text-[10px] text-gray-500 font-normal mr-1">(يستخدم لتسجيل الدخول لاحقاً)</span>
                                     <span class="text-cyan-500">*</span>
                                 </label>
                                 <input required type="tel" id="form-phone" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white text-left font-mono" placeholder="رقم الهاتف بدون كود">
+                            </div>
+                            
+                            <!-- حقل الرمز السري الجديد PIN -->
+                            <div class="space-y-2 md:col-span-2">
+                                <label class="text-sm text-gray-400 mr-2">رمز سري للبطاقة (4 أرقام) <span class="text-cyan-500">*</span></label>
+                                <p class="text-[10px] text-emerald-400 mb-2 mr-2">احفظ هذا الرمز جيداً، ستحتاجه لتعديل بطاقتك أو نقلها لهاتف آخر في المستقبل.</p>
+                                <input required type="password" id="form-pin" maxlength="4" pattern="[0-9]{4}" class="pin-input w-full p-4 bg-black/40 border border-emerald-500/30 rounded-xl focus:ring-2 focus:ring-emerald-500/50 outline-none text-white transition-all" placeholder="••••">
                             </div>
 
                             <div class="space-y-2">
@@ -382,6 +400,7 @@
                     </form>
                 </div>
 
+                <!-- رسالة نجاح مصغرة وجميلة -->
                 <div id="success-msg" class="hidden p-8 text-center fade-in-up">
                     <div class="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-[0_0_30px_rgba(16,185,129,0.2)]">
                         <i data-lucide="check" class="w-8 h-8"></i>
@@ -502,6 +521,55 @@
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
             <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <!-- Modal تسجيل الدخول (استرجاع البطاقة) -->
+    <div id="login-modal" class="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden" onclick="closeLoginModal()">
+        <div class="glass-card bg-[#0f172a] rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl relative p-8 border border-blue-500/20 text-center" onclick="event.stopPropagation()">
+            <button class="absolute top-4 right-4 z-20 bg-black/50 p-2 rounded-full text-gray-400 hover:text-white transition-colors" onclick="closeLoginModal()">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div class="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-400 mx-auto mb-6 border border-blue-500/30">
+                <i data-lucide="log-in" class="w-8 h-8"></i>
+            </div>
+            <h2 class="text-2xl font-black text-white mb-2">استرجاع بطاقتي</h2>
+            <p class="text-xs text-gray-400 mb-6 leading-relaxed">أدخل رقم الهاتف والرمز السري لتتمكن من تعديل بياناتك أو نقل بطاقتك إلى هذا الجهاز.</p>
+            
+            <div class="space-y-4 text-right">
+                <div class="space-y-2">
+                    <label class="text-sm text-gray-400 mr-2">الدولة</label>
+                    <select id="login-country" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500/50 outline-none text-white appearance-none" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E&quot;); background-position: left 1rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em;">
+                        <option value="مصر">مصر</option>
+                        <option value="السعودية">السعودية</option>
+                        <option value="الإمارات">الإمارات</option>
+                        <option value="الكويت">الكويت</option>
+                        <option value="قطر">قطر</option>
+                        <option value="البحرين">البحرين</option>
+                        <option value="عمان">عمان</option>
+                        <option value="الأردن">الأردن</option>
+                        <option value="لبنان">لبنان</option>
+                        <option value="سوريا">سوريا</option>
+                        <option value="العراق">العراق</option>
+                        <option value="فلسطين">فلسطين</option>
+                        <option value="السودان">السودان</option>
+                        <option value="ليبيا">ليبيا</option>
+                        <option value="تونس">تونس</option>
+                        <option value="الجزائر">الجزائر</option>
+                        <option value="المغرب">المغرب</option>
+                        <option value="اليمن">اليمن</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-sm text-gray-400 mr-2">رقم الهاتف</label>
+                    <input type="tel" id="login-phone" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500/50 outline-none text-white text-left font-mono" placeholder="رقم الهاتف المسجل به">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-sm text-gray-400 mr-2">الرمز السري (4 أرقام)</label>
+                    <input type="password" id="login-pin" maxlength="4" pattern="[0-9]{4}" class="pin-input w-full p-4 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500/50 outline-none text-white text-center text-xl" placeholder="••••">
+                </div>
+                <button onclick="handleLogin()" id="login-btn" class="w-full bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-400 hover:to-cyan-500 text-white font-bold py-4 rounded-xl mt-4 shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all">تأكيد ودخول</button>
+            </div>
         </div>
     </div>
 
@@ -793,6 +861,56 @@
 
         window.closeAlertModal = () => document.getElementById('alert-modal').classList.add('hidden');
 
+        // دوال تسجيل الدخول عبر المودال الجديد
+        window.openLoginModal = () => {
+            document.getElementById('login-modal').classList.remove('hidden');
+        };
+        window.closeLoginModal = () => {
+            document.getElementById('login-modal').classList.add('hidden');
+            document.getElementById('login-phone').value = '';
+            document.getElementById('login-pin').value = '';
+        };
+
+        window.handleLogin = async () => {
+            const rawPhone = document.getElementById('login-phone').value.trim();
+            const country = document.getElementById('login-country').value.trim();
+            const pin = document.getElementById('login-pin').value.trim();
+            const btn = document.getElementById('login-btn');
+
+            if (!rawPhone || !pin) {
+                window.showAlert("خطأ", "الرجاء إدخال رقم الهاتف والرمز السري", true);
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = "جاري التحقق...";
+
+            const formattedPhone = window.formatPhoneNumber(rawPhone, country);
+
+            try {
+                // البحث في المصفوفة المحملة
+                const userDoc = window.allProfessionals.find(p => p.phone === formattedPhone && p.pin === pin);
+
+                if (userDoc) {
+                    // تحديث الـ userId ليكون الـ uid الحالي للجهاز، بحيث يربط البطاقة بالجهاز الجديد
+                    await updateDoc(window.getDocRef('professionals', userDoc.id), {
+                        userId: window.currentUserId
+                    });
+                    window.showToast("مرحباً بك مجدداً", "تم استرجاع بياناتك بنجاح، يمكنك الآن تعديل بطاقتك.", "user-check", "emerald");
+                    window.closeLoginModal();
+                    // الدالة onSnapshot ستعمل تلقائياً وتقوم بتحديث حالة المستخدم وإظهار زر التعديل
+                } else {
+                    window.showAlert("فشل الدخول", "تأكد من رقم الهاتف أو الرمز السري. إذا نسيت الرمز، تواصل مع الإدارة.", true);
+                }
+            } catch (e) {
+                console.error(e);
+                window.showAlert("خطأ", "حدث خطأ أثناء الاتصال بالخادم.", true);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "تأكيد ودخول";
+            }
+        };
+
         window.isEditing = false;
         window.editingDocId = null;
 
@@ -806,6 +924,7 @@
             document.getElementById('form-phone').value = window.currentUserProfile.phone || '';
             document.getElementById('form-country').value = window.currentUserProfile.country || 'مصر';
             document.getElementById('form-gov').value = window.currentUserProfile.governorate || '';
+            document.getElementById('form-pin').value = window.currentUserProfile.pin || ''; // وضع الرمز السري الحالي
             
             window.updateCitiesList();
             setTimeout(() => {
@@ -944,11 +1063,16 @@
             const myProf = window.allProfessionals.find(p => p.userId === window.currentUserId);
             
             const headerImageContainer = document.getElementById('header-profile-image-container');
+            const btnAdd = document.getElementById('btn-add-yourself');
+            const btnLogin = document.getElementById('btn-login-yourself'); // الزر الجديد
 
             if (myProf) {
                 window.currentUserProfile = myProf;
-                const btnAdd = document.getElementById('btn-add-yourself');
                 if (btnAdd) btnAdd.classList.add('hidden');
+                if (btnLogin) btnLogin.classList.add('hidden'); // إخفاء زر الدخول لأنه بالفعل له بطاقة
+                
+                const btnEdit = document.getElementById('btn-edit-profile');
+                if (btnEdit) btnEdit.classList.remove('hidden');
                 
                 if (!window.isEditing) {
                     const dirSection = document.getElementById('directory-section');
@@ -969,6 +1093,11 @@
 
             } else {
                 window.currentUserProfile = null;
+                if (btnAdd) btnAdd.classList.remove('hidden');
+                if (btnLogin) btnLogin.classList.remove('hidden');
+
+                const btnEdit = document.getElementById('btn-edit-profile');
+                if (btnEdit) btnEdit.classList.add('hidden');
 
                 // إعادة الأيقونة الافتراضية
                 if (headerImageContainer) {
@@ -1201,6 +1330,8 @@
                 return;
             }
 
+            const pinVal = document.getElementById('form-pin').value.trim();
+
             btn.disabled = true;
             document.getElementById('submit-text').textContent = "جاري الحفظ...";
 
@@ -1213,6 +1344,7 @@
                 governorate: document.getElementById('form-gov').value || '',
                 city: cityVal,
                 phone: phoneVal,
+                pin: pinVal, // حفظ الرمز السري الجديد
                 portfolioUrl: document.getElementById('form-portfolio').value || '',
                 imageUrl: window.formDataImages.profile || '',
                 coverUrl: window.formDataImages.cover || ''
