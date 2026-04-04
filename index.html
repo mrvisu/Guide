@@ -1454,13 +1454,22 @@
             const countEl = document.getElementById('public-users-count');
             if (countEl) countEl.textContent = validProfs.length;
 
-            const filtered = validProfs.filter(p => {
+            let filtered = validProfs.filter(p => {
                 const matchesCountry = !countryF || (p.country || 'مصر') === countryF;
                 const matchesGov = !govF || p.governorate === govF;
                 const matchesCat = !catF || (window.MAIN_CATEGORIES[catF] && (p.roles ? p.roles.some(r => window.MAIN_CATEGORIES[catF].includes(r)) : window.MAIN_CATEGORIES[catF].includes(p.role)));
                 const matchesRole = !roleF || (p.roles ? p.roles.includes(roleF) : p.role === roleF);
                 return matchesCountry && matchesGov && matchesCat && matchesRole;
             });
+
+            // ترتيب البطاقات: إظهار بطاقة المستخدم الحالي في البداية
+            if (window.currentUserId) {
+                const myProfileIndex = filtered.findIndex(p => p.userId === window.currentUserId);
+                if (myProfileIndex > -1) {
+                    const myProfile = filtered.splice(myProfileIndex, 1)[0];
+                    filtered.unshift(myProfile);
+                }
+            }
 
             const grid = document.getElementById('professionals-grid');
             const empty = document.getElementById('empty-state');
