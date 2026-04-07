@@ -162,7 +162,7 @@
         <div class="absolute bottom-0 right-0 w-[500px] h-[300px] bg-indigo-600/10 blur-[100px] rounded-full pointer-events-none"></div>
 
         <!-- الشبكة العنكبوتية المصغرة (Scale responsive container) -->
-        <div class="absolute top-[80px] left-1/2 -translate-x-1/2 w-[1200px] h-[600px] pointer-events-none scale-[0.4] sm:scale-[0.55] md:scale-75 lg:scale-90 origin-top opacity-60">
+        <div class="absolute top-[80px] left-1/2 -translate-x-1/2 w-[1200px] h-[600px] pointer-events-none scale-[0.4] sm:scale-[0.55] md:scale-75 lg:scale-90 origin-top opacity-90">
             <!-- مسارات الشبكة -->
             <svg class="absolute inset-0 w-full h-full z-0">
                 <defs>
@@ -752,7 +752,21 @@
                         <option value="مصر">مصر</option>
                         <option value="السعودية">السعودية</option>
                         <option value="الإمارات">الإمارات</option>
-                        <!-- (Rest of countries omitted for brevity, you can add them back) -->
+                        <option value="الكويت">الكويت</option>
+                        <option value="قطر">قطر</option>
+                        <option value="البحرين">البحرين</option>
+                        <option value="عمان">عمان</option>
+                        <option value="الأردن">الأردن</option>
+                        <option value="لبنان">لبنان</option>
+                        <option value="سوريا">سوريا</option>
+                        <option value="العراق">العراق</option>
+                        <option value="فلسطين">فلسطين</option>
+                        <option value="السودان">السودان</option>
+                        <option value="ليبيا">ليبيا</option>
+                        <option value="تونس">تونس</option>
+                        <option value="الجزائر">الجزائر</option>
+                        <option value="المغرب">المغرب</option>
+                        <option value="اليمن">اليمن</option>
                     </select>
                 </div>
                 <div class="space-y-2">
@@ -1006,12 +1020,12 @@
             if(isError) {
                 iconWrap.className = "w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center text-red-400 mx-auto mb-4";
                 iconWrap.innerHTML = '<i data-lucide="alert-triangle" class="w-8 h-8"></i>';
-                borderWrap.className = "glass-card bg-[#0f172a] rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl relative p-6 text-center border border-red-500/20";
+                borderWrap.className = "glass-card bg-[#0f172a] rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl relative p-6 text-center border border-red-500/20 max-h-[90vh] overflow-y-auto custom-scrollbar";
                 btn.className = "w-full bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 font-bold py-3 rounded-xl transition-all";
             } else {
                 iconWrap.className = "w-16 h-16 bg-cyan-500/10 rounded-full flex items-center justify-center text-cyan-400 mx-auto mb-4";
                 iconWrap.innerHTML = '<i data-lucide="info" class="w-8 h-8"></i>';
-                borderWrap.className = "glass-card bg-[#0f172a] rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl relative p-6 text-center border border-cyan-500/20";
+                borderWrap.className = "glass-card bg-[#0f172a] rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl relative p-6 text-center border border-cyan-500/20 max-h-[90vh] overflow-y-auto custom-scrollbar";
                 btn.className = "w-full bg-white/10 hover:bg-cyan-500/20 hover:text-cyan-400 text-white font-bold py-3 rounded-xl transition-all";
             }
             
@@ -1806,6 +1820,13 @@
             if (el) { el.style.opacity = '0'; setTimeout(() => { idx = (idx + 1) % l.length; el.textContent = l[idx]; el.style.opacity = '1'; }, 500); }
         }, 10000);
 
+        // Initial setup for UI elements to prevent empty dropdowns on load
+        window.updateCountryFilter();
+        window.updateGovFilter();
+        window.updateCatFilter();
+        window.updateRoleFilter();
+        window.populateFormCategories();
+        
         document.getElementById('current-year').textContent = new Date().getFullYear();
         lucide.createIcons();
     </script>
