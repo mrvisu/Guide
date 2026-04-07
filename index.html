@@ -1102,6 +1102,7 @@
             window.selectedFormRoles = new Set(userRoles);
 
             window.renderCategoryTags();
+            window.populateFormCategories();
             window.updateFormRoleDropdown();
             window.renderRoleTags();
 
@@ -1130,6 +1131,7 @@
             window.selectedFormCategories.clear();
             window.selectedFormRoles.clear();
             window.renderCategoryTags();
+            window.populateFormCategories();
             window.updateFormRoleDropdown();
             window.renderRoleTags();
             window.updateCitiesList();
@@ -1283,7 +1285,11 @@
             const select = document.getElementById('form-category-select');
             if (!select) return;
             let html = '<option value="">+ إضافة قسم...</option>';
-            Object.keys(window.MAIN_CATEGORIES).forEach(c => { html += `<option value="${c}" class="bg-[#0f172a] text-white">${c}</option>`; });
+            Object.keys(window.MAIN_CATEGORIES).forEach(c => { 
+                if (!window.selectedFormCategories.has(c)) {
+                    html += `<option value="${c}" class="bg-[#0f172a] text-white">${c}</option>`; 
+                }
+            });
             select.innerHTML = html;
         };
 
@@ -1292,9 +1298,11 @@
             const val = select.value;
             if (val) {
                 window.selectedFormCategories.add(val);
-                select.value = ''; 
                 window.renderCategoryTags();
-                window.updateFormRoleDropdown();
+                setTimeout(() => {
+                    window.populateFormCategories();
+                    window.updateFormRoleDropdown();
+                }, 50);
             }
         };
 
@@ -1302,6 +1310,7 @@
             window.selectedFormCategories.delete(cat);
             if (window.MAIN_CATEGORIES[cat]) window.MAIN_CATEGORIES[cat].forEach(r => window.selectedFormRoles.delete(r));
             window.renderCategoryTags();
+            window.populateFormCategories();
             window.updateFormRoleDropdown();
             window.renderRoleTags();
         };
@@ -1310,7 +1319,7 @@
             const container = document.getElementById('form-category-tags');
             if (window.selectedFormCategories.size === 0) { container.innerHTML = ''; return; }
             container.innerHTML = Array.from(window.selectedFormCategories).map(cat => `
-                <div class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3 py-1.5 rounded-full flex items-center gap-2 text-sm shadow-sm fade-in-up">
+                <div class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3 py-1.5 rounded-full flex items-center gap-2 text-sm shadow-sm transition-all">
                     <span>${cat}</span>
                     <button type="button" onclick="window.removeCategory('${cat}')" class="hover:bg-emerald-500/40 rounded-full p-0.5 transition-colors"><i data-lucide="x" class="w-3 h-3 hover:text-red-400"></i></button>
                 </div>
@@ -1328,11 +1337,16 @@
             let html = '<option value="">+ إضافة تخصص...</option>';
             window.selectedFormCategories.forEach(cat => {
                 if (window.MAIN_CATEGORIES[cat]) {
-                    html += `<optgroup label="-- ${cat} --" class="bg-slate-800 text-gray-400">`;
+                    let hasRoles = false;
+                    let optgroup = `<optgroup label="-- ${cat} --" class="bg-slate-800 text-gray-400">`;
                     window.MAIN_CATEGORIES[cat].forEach(r => {
-                        if(!window.selectedFormRoles.has(r)) html += `<option value="${r}" class="bg-[#0f172a] text-white">${r}</option>`;
+                        if(!window.selectedFormRoles.has(r)) {
+                            optgroup += `<option value="${r}" class="bg-[#0f172a] text-white">${r}</option>`;
+                            hasRoles = true;
+                        }
                     });
-                    html += `</optgroup>`;
+                    optgroup += `</optgroup>`;
+                    if(hasRoles) html += optgroup;
                 }
             });
             select.innerHTML = html;
@@ -1342,21 +1356,25 @@
             const select = document.getElementById('form-role-select');
             const val = select.value;
             if (val) {
-                window.selectedFormRoles.add(val); select.value = '';
-                window.renderRoleTags(); window.updateFormRoleDropdown(); 
+                window.selectedFormRoles.add(val);
+                window.renderRoleTags(); 
+                setTimeout(() => {
+                    window.updateFormRoleDropdown(); 
+                }, 50);
             }
         };
 
         window.removeRole = (role) => {
             window.selectedFormRoles.delete(role);
-            window.renderRoleTags(); window.updateFormRoleDropdown(); 
+            window.renderRoleTags(); 
+            window.updateFormRoleDropdown(); 
         };
 
         window.renderRoleTags = () => {
             const container = document.getElementById('form-role-tags');
             if (window.selectedFormRoles.size === 0) { container.innerHTML = ''; return; }
             container.innerHTML = Array.from(window.selectedFormRoles).map(role => `
-                <div class="bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 px-3 py-1.5 rounded-full flex items-center gap-2 text-sm shadow-sm fade-in-up">
+                <div class="bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 px-3 py-1.5 rounded-full flex items-center gap-2 text-sm shadow-sm transition-all">
                     <span>${role}</span>
                     <button type="button" onclick="window.removeRole('${role}')" class="hover:bg-cyan-500/40 rounded-full p-0.5 transition-colors"><i data-lucide="x" class="w-3 h-3 hover:text-red-400"></i></button>
                 </div>
