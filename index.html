@@ -215,15 +215,15 @@
             <!-- معدات (Top Right) -->
             <div class="absolute top-[100px] right-[300px] translate-x-1/2 -translate-y-1/2 z-20">
                 <div class="hud-node hud-cyan pr-3 pl-4 py-2 gap-3 flex items-center">
-                    <span class="cairo text-white font-bold text-sm">معدات</span>
+                    <span class="cairo text-white font-bold text-sm">معدات وإضاءة</span>
                     <i data-lucide="lightbulb" class="w-5 h-5 text-cyan-300"></i>
                 </div>
             </div>
 
-            <!-- شغل ميديا (Mid Right) -->
+            <!-- ميديا (Mid Right) -->
             <div class="absolute top-[300px] right-[150px] translate-x-1/2 -translate-y-1/2 z-20">
                 <div class="hud-node hud-cyan pr-3 pl-4 py-2 gap-3 flex items-center">
-                    <span class="cairo text-white font-bold text-sm">شغل ميديا</span>
+                    <span class="cairo text-white font-bold text-sm">شغل ميديا ومونتاج</span>
                     <i data-lucide="film" class="w-5 h-5 text-cyan-300"></i>
                 </div>
             </div>
@@ -252,10 +252,10 @@
                 </div>
             </div>
 
-            <!-- فيديو (Bottom Left) -->
+            <!-- حفلات وفيديو (Bottom Left) -->
             <div class="absolute top-[450px] left-[350px] -translate-x-1/2 -translate-y-1/2 z-20">
                 <div class="hud-node hud-purple pl-4 pr-5 py-3 gap-4 flex flex-row-reverse items-center">
-                    <span class="cairo text-white font-bold text-lg">فيديو</span>
+                    <span class="cairo text-white font-bold text-lg">فيديو وحفلات</span>
                     <i data-lucide="video" class="w-6 h-6 text-indigo-300"></i>
                 </div>
             </div>
@@ -299,7 +299,7 @@
                 </svg>
             </div>
             
-            <h1 class="cairo text-4xl md:text-5xl font-black text-glow mb-2 drop-shadow-xl py-2 leading-relaxed">
+            <h1 class="cairo text-4xl md:text-5xl font-black text-glow mb-2 drop-shadow-xl py-2">
                 شبكة صناع الصورة
             </h1>
             <p class="cairo text-cyan-400 text-sm md:text-base tracking-[0.2em] font-bold uppercase drop-shadow-md mb-4">
@@ -606,25 +606,25 @@
             <div class="glass-card p-4 rounded-2xl shadow-xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 bg-[#020617]/50">
                 <div class="relative">
                     <i data-lucide="globe" class="absolute right-3 top-3.5 text-gray-400 w-[18px]"></i>
-                    <select id="filter-country" onchange="renderProfessionals()" class="w-full pr-10 pl-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none text-sm">
+                    <select id="filter-country" onchange="window.renderProfessionals()" class="w-full pr-10 pl-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none text-sm">
                         <option value="">جميع الدول...</option>
                     </select>
                 </div>
                 <div class="relative">
                     <i data-lucide="map-pin" class="absolute right-3 top-3.5 text-gray-400 w-[18px]"></i>
-                    <select id="filter-gov" onchange="renderProfessionals()" class="w-full pr-10 pl-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none text-sm">
+                    <select id="filter-gov" onchange="window.renderProfessionals()" class="w-full pr-10 pl-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none text-sm">
                         <option value="">جميع المحافظات...</option>
                     </select>
                 </div>
                 <div class="relative">
                     <i data-lucide="briefcase" class="absolute right-3 top-3.5 text-gray-400 w-[18px]"></i>
-                    <select id="filter-cat" onchange="updateRoleFilter(); renderProfessionals();" class="w-full pr-10 pl-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none text-sm">
+                    <select id="filter-cat" onchange="window.updateRoleFilter(); window.renderProfessionals();" class="w-full pr-10 pl-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none text-sm">
                         <option value="">كل الأقسام...</option>
                     </select>
                 </div>
                 <div class="relative">
                     <i data-lucide="award" class="absolute right-3 top-3.5 text-gray-400 w-[18px]"></i>
-                    <select id="filter-role" onchange="renderProfessionals()" class="w-full pr-10 pl-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none text-sm">
+                    <select id="filter-role" onchange="window.renderProfessionals()" class="w-full pr-10 pl-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500/50 outline-none text-white appearance-none text-sm">
                         <option value="">التخصص الدقيق...</option>
                     </select>
                 </div>
@@ -817,7 +817,6 @@
 
     <!-- Modal عن البرنامج -->
     <div id="about-modal" class="fixed inset-0 z-[90] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden" onclick="closeAboutModal()">
-        <!-- Same content as original -->
         <div class="glass-card bg-[#0f172a] rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl relative p-6 md:p-8 border border-emerald-500/20 max-h-[90vh] overflow-y-auto custom-scrollbar" onclick="event.stopPropagation()">
             <button class="absolute top-4 right-4 z-20 bg-black/50 p-2 rounded-full text-gray-400 hover:text-white transition-colors" onclick="closeAboutModal()">
                 <i data-lucide="x" class="w-5 h-5"></i>
@@ -868,11 +867,56 @@
         window.selectedFormRoles = new Set();
         
         window.MAIN_CATEGORIES = {
-            "مصورين": ['مصور فوتوغرافيا', 'مصور فيديوغرافي', 'مصور فيديو', 'مصور كرين', 'مصور منتجات'],
-            "مخرجين": ['مخرج', 'مساعد مخرج'],
-            "شغل ميديا": ['ميديا كافردج', 'صانع محتوى', 'مونتير (Editor)'],
-            "أصحاب معدات": ['صاحب وحدة ميكسر', 'صاحب درون', 'صاحب كاميرا كرين', 'إضاءة ومعدات تصوير'],
-            "سيارات نقل": ['سيارة نقل معدات', 'فان نقل معدات وكرو']
+            "مصورين (فوتوغرافيا)": [
+                'مصور أفراح ومناسبات',
+                'مصور جلسات (Session)',
+                'مصور منتجات وإعلانات',
+                'مصور أطعمة (Food)',
+                'مصور أزياء (Fashion)',
+                'مصور صحفي وتوثيقي',
+                'مصور معماري وعقارات'
+            ],
+            "فيديو وإخراج": [
+                'مخرج',
+                'مساعد مخرج',
+                'مدير تصوير (DOP)',
+                'مصور فيديو (Videographer)',
+                'مصور كرين وشاريو',
+                'مصور درون (Drone)',
+                'مصور ستيدي كام (Steadicam)',
+                'فني كلاكيت'
+            ],
+            "ما بعد الإنتاج والميديا": [
+                'مونتير (Video Editor)',
+                'مصحح ألوان (Colorist)',
+                'مصمم جرافيك',
+                'موشن جرافيك',
+                'مهندس صوت وماكساج',
+                'صانع محتوى',
+                'ميديا كافردج (تغطية)'
+            ],
+            "معدات وإضاءة": [
+                'فني إضاءة (Gaffer)',
+                'مهندس إضاءة',
+                'مساعد مصور (Focus Puller)',
+                'تأجير كاميرات وعدسات',
+                'شركة معدات تصوير',
+                'فني صوت (Boom Operator)',
+                'وحدة ميكسر وبث مباشر'
+            ],
+            "تنظيم حفلات وإضافات": [
+                'منظم حفلات (Planner)',
+                'شاشات عرض (LED Screens)',
+                'مؤثرات بصرية (فاير وركس)',
+                'مصمم ديكور وكوشة',
+                'دي جي (DJ)',
+                'تجهيزات مسارح (Truss)'
+            ],
+            "نقل ولوجستيات": [
+                'سيارة نقل معدات',
+                'فان لنقل الكرو',
+                'خدمات كاترينج (وجبات)'
+            ]
         };
 
         window.EGYPT_CITIES = {
@@ -1121,6 +1165,8 @@
             document.getElementById('directory-section').classList.add('hidden');
             document.getElementById('register-form-container').classList.remove('hidden');
             document.getElementById('success-msg').classList.add('hidden');
+            window.populateFormCategories();
+            window.updateFormRoleDropdown();
             lucide.createIcons();
         };
         
@@ -1227,15 +1273,23 @@
 
         function fetchSettings() {
             onSnapshot(window.getDocRef('settings', 'categories'), (docSnap) => {
-                if (docSnap.exists()) window.MAIN_CATEGORIES = docSnap.data().data;
+                if (docSnap.exists() && docSnap.data().data && Object.keys(docSnap.data().data).length > 0) {
+                    window.MAIN_CATEGORIES = docSnap.data().data;
+                }
                 window.updateCatFilter();
                 window.updateRoleFilter();
                 window.populateFormCategories(); 
+            }, (error) => {
+                console.warn("Categories fetch error:", error);
             });
+            
             onSnapshot(window.getDocRef('settings', 'blacklist'), (docSnap) => {
                 if (docSnap.exists()) window.blacklistedNumbers = docSnap.data().numbers || [];
                 window.renderProfessionals();
+            }, (error) => {
+                console.warn("Blacklist fetch error:", error);
             });
+            
             onSnapshot(window.getDocRef('settings', 'announcement'), (docSnap) => {
                 const banner = document.getElementById('system-announcement');
                 const textEl = document.getElementById('system-announcement-text');
@@ -1243,6 +1297,8 @@
                     textEl.textContent = docSnap.data().message || "تنبيه هام للجميع.";
                     banner.classList.remove('hidden');
                 } else { banner.classList.add('hidden'); }
+            }, (error) => {
+                console.warn("Announcement fetch error:", error);
             });
         }
 
@@ -1283,10 +1339,10 @@
         // Form Categories Handling
         window.populateFormCategories = () => {
             const select = document.getElementById('form-category-select');
-            if (!select) return;
+            if (!select || !window.MAIN_CATEGORIES) return;
             let html = '<option value="">+ إضافة قسم...</option>';
             Object.keys(window.MAIN_CATEGORIES).forEach(c => { 
-                if (!window.selectedFormCategories.has(c)) {
+                if (!window.selectedFormCategories || !window.selectedFormCategories.has(c)) {
                     html += `<option value="${c}" class="bg-[#0f172a] text-white">${c}</option>`; 
                 }
             });
@@ -1329,18 +1385,19 @@
 
         window.updateFormRoleDropdown = () => {
             const select = document.getElementById('form-role-select');
-            if (window.selectedFormCategories.size === 0) {
+            if (!select) return;
+            if (!window.selectedFormCategories || window.selectedFormCategories.size === 0) {
                 select.innerHTML = '<option value="">يرجى اختيار قسم أولاً...</option>';
                 select.disabled = true; return;
             }
             select.disabled = false;
             let html = '<option value="">+ إضافة تخصص...</option>';
             window.selectedFormCategories.forEach(cat => {
-                if (window.MAIN_CATEGORIES[cat]) {
+                if (window.MAIN_CATEGORIES && window.MAIN_CATEGORIES[cat]) {
                     let hasRoles = false;
                     let optgroup = `<optgroup label="-- ${cat} --" class="bg-slate-800 text-gray-400">`;
                     window.MAIN_CATEGORIES[cat].forEach(r => {
-                        if(!window.selectedFormRoles.has(r)) {
+                        if(!window.selectedFormRoles || !window.selectedFormRoles.has(r)) {
                             optgroup += `<option value="${r}" class="bg-[#0f172a] text-white">${r}</option>`;
                             hasRoles = true;
                         }
@@ -1456,13 +1513,23 @@
         };
 
         window.updateCatFilter = () => {
-            document.getElementById('filter-cat').innerHTML = '<option value="">كل الأقسام...</option>' + Object.keys(window.MAIN_CATEGORIES).map(c => `<option value="${c}" class="bg-[#0f172a] text-white">${c}</option>`).join('');
+            const el = document.getElementById('filter-cat');
+            if (el && window.MAIN_CATEGORIES) {
+                el.innerHTML = '<option value="">كل الأقسام...</option>' + Object.keys(window.MAIN_CATEGORIES).map(c => `<option value="${c}" class="bg-[#0f172a] text-white">${c}</option>`).join('');
+            }
         };
 
         window.updateRoleFilter = () => {
-            const cat = document.getElementById('filter-cat').value;
+            const catEl = document.getElementById('filter-cat');
+            const selectEl = document.getElementById('filter-role');
+            if (!catEl || !selectEl || !window.MAIN_CATEGORIES) return;
+            
+            const cat = catEl.value;
             const roles = cat ? window.MAIN_CATEGORIES[cat] : Object.values(window.MAIN_CATEGORIES).flat();
-            document.getElementById('filter-role').innerHTML = '<option value="">التخصص الدقيق...</option>' + roles.map(r => `<option value="${r}" class="bg-[#0f172a] text-white">${r}</option>`).join('');
+            
+            if (roles) {
+                selectEl.innerHTML = '<option value="">التخصص الدقيق...</option>' + roles.map(r => `<option value="${r}" class="bg-[#0f172a] text-white">${r}</option>`).join('');
+            }
         };
 
         window.getRoleIconName = (role) => {
