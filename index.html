@@ -170,143 +170,152 @@
     <div id="toast-container" class="fixed top-16 right-4 z-[100] flex flex-col gap-3 pointer-events-none w-80 max-w-[calc(100vw-2rem)]"></div>
 
     <!-- الهيدر المدمج (Premium Hero Background) -->
-    <header class="relative pt-24 pb-16 text-center overflow-hidden flex flex-col items-center border-b border-white/5 shadow-2xl">
+    <header class="relative pt-20 md:pt-28 pb-12 md:pb-16 text-center overflow-hidden flex flex-col items-center border-b border-white/5 shadow-2xl">
         <!-- الخلفية المظلمة العميقة والإضاءات -->
         <div class="absolute inset-0 bg-[#010409]"></div>
         <div class="absolute inset-0 micro-grid opacity-30"></div>
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-cyan-600/10 blur-[100px] rounded-full pointer-events-none"></div>
         <div class="absolute bottom-0 right-0 w-[500px] h-[300px] bg-indigo-600/10 blur-[100px] rounded-full pointer-events-none"></div>
 
-        <!-- الشبكة العنكبوتية المصغرة (Scale responsive container) -->
-        <div class="absolute top-[80px] left-1/2 -translate-x-1/2 w-[1200px] h-[600px] pointer-events-none scale-[0.4] sm:scale-[0.55] md:scale-75 lg:scale-90 origin-top opacity-90">
-            <!-- مسارات الشبكة -->
-            <svg class="absolute inset-0 w-full h-full z-0">
-                <defs>
-                    <linearGradient id="gradCyan" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06b6d4" stop-opacity="0.8"/><stop offset="100%" stop-color="transparent" stop-opacity="0"/></linearGradient>
-                    <linearGradient id="gradPurple" x1="100%" y1="100%" x2="0%" y2="0%"><stop offset="0%" stop-color="#7c3aed" stop-opacity="0.8"/><stop offset="100%" stop-color="transparent" stop-opacity="0"/></linearGradient>
-                </defs>
-                
-                <!-- Background Mesh -->
-                <path d="M50,150 L200,250 L350,300 L200,400 Z M850,300 L1000,250 L1150,150 L1100,400 Z M100,500 L250,450 L400,550 Z M800,550 L950,450 L1100,500 Z" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1" />
-                
-                <!-- Main Connections to Hub (600, 200) -->
-                <!-- Cyan branch (Right) -->
-                <line x1="600" y1="200" x2="900" y2="100" stroke="url(#gradCyan)" stroke-width="1.5" />
-                <line x1="600" y1="200" x2="1050" y2="300" stroke="url(#gradCyan)" stroke-width="2" />
-                <line x1="600" y1="200" x2="850" y2="450" stroke="url(#gradCyan)" stroke-width="1.5" />
-                
-                <!-- Purple branch (Left) -->
-                <line x1="600" y1="200" x2="300" y2="100" stroke="url(#gradPurple)" stroke-width="1.5" />
-                <line x1="600" y1="200" x2="150" y2="300" stroke="url(#gradPurple)" stroke-width="2" />
-                <line x1="600" y1="200" x2="350" y2="450" stroke="url(#gradPurple)" stroke-width="1.5" />
-                
-                <!-- Center to Top connection (تواصل وعمل) -->
-                <line x1="600" y1="200" x2="600" y2="60" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
-
-                <!-- Secondary interconnections (Animated Data Flow) -->
-                <line x1="900" y1="100" x2="1050" y2="300" stroke="rgba(6, 182, 212, 0.4)" stroke-width="1.5" class="flow-line" />
-                <line x1="1050" y1="300" x2="850" y2="450" stroke="rgba(6, 182, 212, 0.4)" stroke-width="1.5" class="flow-line" />
-                <line x1="900" y1="100" x2="600" y2="60" stroke="rgba(6, 182, 212, 0.4)" stroke-width="1.5" class="flow-line" />
-                
-                <line x1="300" y1="100" x2="150" y2="300" stroke="rgba(124, 58, 237, 0.4)" stroke-width="1.5" class="flow-line" />
-                <line x1="150" y1="300" x2="350" y2="450" stroke="rgba(124, 58, 237, 0.4)" stroke-width="1.5" class="flow-line" />
-                <line x1="300" y1="100" x2="600" y2="60" stroke="rgba(124, 58, 237, 0.4)" stroke-width="1.5" class="flow-line" />
-
-                <!-- Connect bottom nodes lightly -->
-                <line x1="850" y1="450" x2="350" y2="450" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" class="flow-line" style="animation-duration: 3s;" />
-
-                <!-- Glowing Dots on intersections -->
-                <circle cx="900" cy="100" r="3" fill="#22d3ee" class="animate-pulse" />
-                <circle cx="1050" cy="300" r="4" fill="#22d3ee" filter="drop-shadow(0 0 8px #06b6d4)" class="animate-pulse" style="animation-delay: 1s;" />
-                <circle cx="850" cy="450" r="3" fill="#22d3ee" class="animate-pulse" style="animation-delay: 0.5s;" />
-                
-                <circle cx="300" cy="100" r="3" fill="#a78bfa" class="animate-pulse" />
-                <circle cx="150" cy="300" r="4" fill="#a78bfa" filter="drop-shadow(0 0 8px #7c3aed)" class="animate-pulse" style="animation-delay: 0.7s;" />
-                <circle cx="350" cy="450" r="3" fill="#a78bfa" class="animate-pulse" style="animation-delay: 1.2s;" />
-                
-                <circle cx="600" cy="60" r="4" fill="#cbd5e1" filter="drop-shadow(0 0 5px #fff)" class="animate-pulse" />
-            </svg>
-
-            <!-- العقد التكنولوجية الجانبية (الأنيميشن المتغير) -->
-            <!-- معدات (Top Right) -->
-            <div class="absolute top-[100px] right-[300px] translate-x-1/2 -translate-y-1/2 z-20 animate-float">
-                <div class="hud-node hud-cyan pr-3 pl-4 py-2">
-                    <div id="hero-node-1" class="flex items-center gap-3 transition-opacity duration-500">
-                        <span class="cairo text-white font-bold text-sm whitespace-nowrap">معدات وإضاءة</span>
-                        <i data-lucide="lightbulb" class="w-5 h-5 text-yellow-300"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ميديا (Mid Right) -->
-            <div class="absolute top-[300px] right-[150px] translate-x-1/2 -translate-y-1/2 z-20 animate-float-delayed">
-                <div class="hud-node hud-cyan pr-3 pl-4 py-2">
-                    <div id="hero-node-2" class="flex items-center gap-3 transition-opacity duration-500">
-                        <span class="cairo text-white font-bold text-sm whitespace-nowrap">شغل ميديا ومونتاج</span>
-                        <i data-lucide="film" class="w-5 h-5 text-cyan-300"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- مصورين (Bottom Right) -->
-            <div class="absolute top-[450px] right-[350px] translate-x-1/2 -translate-y-1/2 z-20 animate-float">
-                <div class="hud-node hud-cyan pr-4 pl-5 py-3 shadow-[0_0_20px_rgba(6,182,212,0.3)] border-cyan-500/30">
-                    <div id="hero-node-3" class="flex items-center gap-4 transition-opacity duration-500">
-                        <span class="cairo text-white font-bold text-lg whitespace-nowrap">مصورين</span>
-                        <i data-lucide="camera" class="w-6 h-6 text-blue-400"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- سيارات نقل (Top Left) -->
-            <div class="absolute top-[100px] left-[300px] -translate-x-1/2 -translate-y-1/2 z-20 animate-float-delayed">
-                <div class="hud-node hud-purple pl-3 pr-4 py-2">
-                    <div id="hero-node-4" class="flex flex-row-reverse items-center gap-3 transition-opacity duration-500">
-                        <span class="cairo text-white font-bold text-sm whitespace-nowrap">سيارات نقل</span>
-                        <i data-lucide="truck" class="w-5 h-5 text-indigo-300"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- مخرجين (Mid Left) -->
-            <div class="absolute top-[300px] left-[150px] -translate-x-1/2 -translate-y-1/2 z-20 animate-float">
-                <div class="hud-node hud-purple pl-3 pr-4 py-2">
-                    <div id="hero-node-5" class="flex flex-row-reverse items-center gap-3 transition-opacity duration-500">
-                        <span class="cairo text-white font-bold text-sm whitespace-nowrap">مخرجين</span>
-                        <i data-lucide="clapperboard" class="w-5 h-5 text-purple-400"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- حفلات وفيديو (Bottom Left) -->
-            <div class="absolute top-[450px] left-[350px] -translate-x-1/2 -translate-y-1/2 z-20 animate-float-delayed">
-                <div class="hud-node hud-purple pl-4 pr-5 py-3 shadow-[0_0_20px_rgba(124,58,237,0.3)] border-indigo-500/30">
-                    <div id="hero-node-6" class="flex flex-row-reverse items-center gap-4 transition-opacity duration-500">
-                        <span class="cairo text-white font-bold text-lg whitespace-nowrap">فيديو وحفلات</span>
-                        <i data-lucide="video" class="w-6 h-6 text-pink-400"></i>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- شبكة التواصل (Top Center) -->
-            <div class="absolute top-[60px] left-[600px] -translate-x-1/2 -translate-y-1/2 z-20">
-                <div class="hud-node border-b-2 border-gray-400 px-4 py-2 gap-3 flex items-center shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-                    <span class="cairo text-gray-300 font-bold text-sm tracking-wide">تواصل وعمل</span>
-                    <i data-lucide="users" class="w-5 h-5 text-gray-400"></i>
-                </div>
-            </div>
+        <!-- النصوص الرئيسية (مرفوعة للأعلى) -->
+        <div class="relative z-30 flex flex-col items-center mb-4 md:mb-8 px-4 w-full">
+            <h1 class="cairo text-4xl md:text-5xl lg:text-6xl font-black text-glow mb-2 md:mb-3 drop-shadow-xl py-2">
+                شبكة صناع الصورة
+            </h1>
+            <p class="cairo text-cyan-400 text-sm md:text-base tracking-[0.2em] font-bold uppercase drop-shadow-md mb-2">
+                الدليل الاحترافي الأكبر للميديا
+            </p>
         </div>
 
-        <!-- محتوى الهيدر الأمامي (التفاعلي) -->
-        <div class="relative z-20 flex flex-col items-center">
+        <!-- حاوية المركز والشبكة (موسّطة ومنسقة هندسياً) -->
+        <div class="relative z-20 w-full max-w-6xl mx-auto flex justify-center items-center h-[340px] sm:h-[400px] md:h-[500px]">
             
-            <!-- المركز الرئيسي (Network Hub) التفاعلي -->
-            <div class="w-36 h-36 md:w-44 md:h-44 rounded-full network-chassis flex items-center justify-center relative p-3 mb-6 shadow-2xl transition-transform duration-500 hover:scale-105 group">
+            <!-- الشبكة العنكبوتية المصغرة والعقد الجانبية -->
+            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[600px] pointer-events-none scale-[0.35] sm:scale-[0.5] md:scale-[0.7] lg:scale-[0.9] opacity-90">
+                <!-- مسارات الشبكة -->
+                <svg class="absolute inset-0 w-full h-full z-0">
+                    <defs>
+                        <linearGradient id="gradCyan" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06b6d4" stop-opacity="0.8"/><stop offset="100%" stop-color="transparent" stop-opacity="0"/></linearGradient>
+                        <linearGradient id="gradPurple" x1="100%" y1="100%" x2="0%" y2="0%"><stop offset="0%" stop-color="#7c3aed" stop-opacity="0.8"/><stop offset="100%" stop-color="transparent" stop-opacity="0"/></linearGradient>
+                    </defs>
+                    
+                    <!-- Background Mesh -->
+                    <path d="M50,150 L200,250 L350,300 L200,400 Z M850,300 L1000,250 L1150,150 L1100,400 Z M100,500 L250,450 L400,550 Z M800,550 L950,450 L1100,500 Z" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1" />
+                    
+                    <!-- Main Connections to Hub (Centered at 600, 300) -->
+                    <!-- Cyan branch (Right) -->
+                    <line x1="600" y1="300" x2="900" y2="100" stroke="url(#gradCyan)" stroke-width="1.5" />
+                    <line x1="600" y1="300" x2="1050" y2="300" stroke="url(#gradCyan)" stroke-width="2" />
+                    <line x1="600" y1="300" x2="850" y2="500" stroke="url(#gradCyan)" stroke-width="1.5" />
+                    
+                    <!-- Purple branch (Left) -->
+                    <line x1="600" y1="300" x2="300" y2="100" stroke="url(#gradPurple)" stroke-width="1.5" />
+                    <line x1="600" y1="300" x2="150" y2="300" stroke="url(#gradPurple)" stroke-width="2" />
+                    <line x1="600" y1="300" x2="350" y2="500" stroke="url(#gradPurple)" stroke-width="1.5" />
+                    
+                    <!-- Center to Top connection (تواصل وعمل) -->
+                    <line x1="600" y1="300" x2="600" y2="60" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+
+                    <!-- Secondary interconnections (Animated Data Flow) -->
+                    <line x1="900" y1="100" x2="1050" y2="300" stroke="rgba(6, 182, 212, 0.4)" stroke-width="1.5" class="flow-line" />
+                    <line x1="1050" y1="300" x2="850" y2="500" stroke="rgba(6, 182, 212, 0.4)" stroke-width="1.5" class="flow-line" />
+                    <line x1="900" y1="100" x2="600" y2="60" stroke="rgba(6, 182, 212, 0.4)" stroke-width="1.5" class="flow-line" />
+                    
+                    <line x1="300" y1="100" x2="150" y2="300" stroke="rgba(124, 58, 237, 0.4)" stroke-width="1.5" class="flow-line" />
+                    <line x1="150" y1="300" x2="350" y2="500" stroke="rgba(124, 58, 237, 0.4)" stroke-width="1.5" class="flow-line" />
+                    <line x1="300" y1="100" x2="600" y2="60" stroke="rgba(124, 58, 237, 0.4)" stroke-width="1.5" class="flow-line" />
+
+                    <!-- Connect bottom nodes lightly -->
+                    <line x1="850" y1="500" x2="350" y2="500" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" class="flow-line" style="animation-duration: 3s;" />
+
+                    <!-- Glowing Dots on intersections -->
+                    <circle cx="900" cy="100" r="3" fill="#22d3ee" class="animate-pulse" />
+                    <circle cx="1050" cy="300" r="4" fill="#22d3ee" filter="drop-shadow(0 0 8px #06b6d4)" class="animate-pulse" style="animation-delay: 1s;" />
+                    <circle cx="850" cy="500" r="3" fill="#22d3ee" class="animate-pulse" style="animation-delay: 0.5s;" />
+                    
+                    <circle cx="300" cy="100" r="3" fill="#a78bfa" class="animate-pulse" />
+                    <circle cx="150" cy="300" r="4" fill="#a78bfa" filter="drop-shadow(0 0 8px #7c3aed)" class="animate-pulse" style="animation-delay: 0.7s;" />
+                    <circle cx="350" cy="500" r="3" fill="#a78bfa" class="animate-pulse" style="animation-delay: 1.2s;" />
+                    
+                    <circle cx="600" cy="60" r="4" fill="#cbd5e1" filter="drop-shadow(0 0 5px #fff)" class="animate-pulse" />
+                </svg>
+
+                <!-- العقد التكنولوجية الجانبية (الأنيميشن المتغير) -->
+                <!-- معدات (Top Right) -->
+                <div class="absolute top-[100px] right-[300px] translate-x-1/2 -translate-y-1/2 z-20 animate-float">
+                    <div class="hud-node hud-cyan pr-3 pl-4 py-2">
+                        <div id="hero-node-1" class="flex items-center gap-3 transition-opacity duration-500">
+                            <span class="cairo text-white font-bold text-sm whitespace-nowrap">معدات وإضاءة</span>
+                            <i data-lucide="lightbulb" class="w-5 h-5 text-yellow-300"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ميديا (Mid Right) -->
+                <div class="absolute top-[300px] right-[150px] translate-x-1/2 -translate-y-1/2 z-20 animate-float-delayed">
+                    <div class="hud-node hud-cyan pr-3 pl-4 py-2">
+                        <div id="hero-node-2" class="flex items-center gap-3 transition-opacity duration-500">
+                            <span class="cairo text-white font-bold text-sm whitespace-nowrap">شغل ميديا ومونتاج</span>
+                            <i data-lucide="film" class="w-5 h-5 text-cyan-300"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- مصورين (Bottom Right) -->
+                <div class="absolute top-[500px] right-[350px] translate-x-1/2 -translate-y-1/2 z-20 animate-float">
+                    <div class="hud-node hud-cyan pr-4 pl-5 py-3 shadow-[0_0_20px_rgba(6,182,212,0.3)] border-cyan-500/30">
+                        <div id="hero-node-3" class="flex items-center gap-4 transition-opacity duration-500">
+                            <span class="cairo text-white font-bold text-lg whitespace-nowrap">مصورين</span>
+                            <i data-lucide="camera" class="w-6 h-6 text-blue-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- سيارات نقل (Top Left) -->
+                <div class="absolute top-[100px] left-[300px] -translate-x-1/2 -translate-y-1/2 z-20 animate-float-delayed">
+                    <div class="hud-node hud-purple pl-3 pr-4 py-2">
+                        <div id="hero-node-4" class="flex flex-row-reverse items-center gap-3 transition-opacity duration-500">
+                            <span class="cairo text-white font-bold text-sm whitespace-nowrap">سيارات نقل</span>
+                            <i data-lucide="truck" class="w-5 h-5 text-indigo-300"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- مخرجين (Mid Left) -->
+                <div class="absolute top-[300px] left-[150px] -translate-x-1/2 -translate-y-1/2 z-20 animate-float">
+                    <div class="hud-node hud-purple pl-3 pr-4 py-2">
+                        <div id="hero-node-5" class="flex flex-row-reverse items-center gap-3 transition-opacity duration-500">
+                            <span class="cairo text-white font-bold text-sm whitespace-nowrap">مخرجين</span>
+                            <i data-lucide="clapperboard" class="w-5 h-5 text-purple-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- حفلات وفيديو (Bottom Left) -->
+                <div class="absolute top-[500px] left-[350px] -translate-x-1/2 -translate-y-1/2 z-20 animate-float-delayed">
+                    <div class="hud-node hud-purple pl-4 pr-5 py-3 shadow-[0_0_20px_rgba(124,58,237,0.3)] border-indigo-500/30">
+                        <div id="hero-node-6" class="flex flex-row-reverse items-center gap-4 transition-opacity duration-500">
+                            <span class="cairo text-white font-bold text-lg whitespace-nowrap">فيديو وحفلات</span>
+                            <i data-lucide="video" class="w-6 h-6 text-pink-400"></i>
+                        </div>
+                    </div>
+                </div>
                 
+                <!-- شبكة التواصل (Top Center) -->
+                <div class="absolute top-[60px] left-[600px] -translate-x-1/2 -translate-y-1/2 z-20">
+                    <div class="hud-node border-b-2 border-gray-400 px-4 py-2 gap-3 flex items-center shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                        <span class="cairo text-gray-300 font-bold text-sm tracking-wide">تواصل وعمل</span>
+                        <i data-lucide="users" class="w-5 h-5 text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- المركز الرئيسي (Network Hub) التفاعلي -->
+            <div class="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full network-chassis flex items-center justify-center relative p-3 shadow-2xl transition-transform duration-500 hover:scale-105 group pointer-events-auto z-30">
                 <!-- حاوية الصورة أو الشبكة المتحركة -->
                 <div id="header-profile-image-container" class="w-full h-full rounded-full relative bg-[#020617] border border-white/5 overflow-hidden shadow-[inset_0_0_20px_rgba(0,0,0,0.8)]">
                     
-                    <!-- التصميم الافتراضي للشبكة (يظهر في حالة عدم تسجيل الدخول) -->
+                    <!-- التصميم الافتراضي للشبكة -->
                     <div class="absolute inset-0 flex items-center justify-center">
                         <div class="animate-ripple"></div>
                         <div class="animate-ripple"></div>
@@ -339,39 +348,30 @@
                     <circle cx="50" cy="50" r="49" stroke="#06b6d4" stroke-width="0.5" stroke-dasharray="2 6" fill="none" />
                 </svg>
             </div>
-            
-            <h1 class="cairo text-4xl md:text-5xl font-black text-glow mb-2 drop-shadow-xl py-2">
-                شبكة صناع الصورة
-            </h1>
-            <p class="cairo text-cyan-400 text-sm md:text-base tracking-[0.2em] font-bold uppercase drop-shadow-md mb-4">
-                الدليل الاحترافي الأكبر للميديا
-            </p>
         </div>
     </header>
 
-    <!-- Navbar أدوات سريعة -->
-    <div class="relative z-30 -mt-6 flex justify-center gap-2 flex-wrap px-2">
-        <button onclick="requestNotificationPermission()" class="px-4 py-2 rounded-xl border border-yellow-500/20 bg-[#020617]/90 hover:bg-yellow-500/20 transition-all flex items-center gap-2 text-sm text-yellow-300 backdrop-blur-xl shadow-[0_5px_15px_rgba(0,0,0,0.5)]">
+    <!-- Navbar أدوات سريعة (مرفوعة للأعلى للتقاطع مع الهيدر) -->
+    <div class="relative z-30 -mt-6 md:-mt-8 mb-8 flex justify-center gap-3 flex-wrap px-4 w-full max-w-4xl mx-auto">
+        <button onclick="requestNotificationPermission()" class="px-5 py-2.5 rounded-xl border border-yellow-500/20 bg-[#020617]/90 hover:bg-yellow-500/20 transition-all flex items-center gap-2 text-sm text-yellow-300 backdrop-blur-xl shadow-[0_5px_15px_rgba(0,0,0,0.5)]">
             <i data-lucide="bell" id="notify-btn-icon" class="w-4 h-4"></i>
-            <span class="hidden sm:inline">إشعارات</span>
+            <span class="hidden sm:inline font-bold">إشعارات</span>
         </button>
-        <button onclick="toggleChat()" class="px-4 py-2 rounded-xl border border-white/10 bg-[#020617]/90 hover:bg-cyan-500/20 hover:border-cyan-500/30 transition-all flex items-center gap-2 text-sm text-cyan-100 backdrop-blur-xl shadow-[0_5px_15px_rgba(0,0,0,0.5)]">
+        <button onclick="toggleChat()" class="px-5 py-2.5 rounded-xl border border-white/10 bg-[#020617]/90 hover:bg-cyan-500/20 hover:border-cyan-500/30 transition-all flex items-center gap-2 text-sm text-cyan-100 backdrop-blur-xl shadow-[0_5px_15px_rgba(0,0,0,0.5)]">
             <i data-lucide="message-square" class="w-4 h-4"></i>
-            <span>الشات العام</span>
+            <span class="font-bold">الشات العام</span>
         </button>
-        <button onclick="installApp()" class="px-4 py-2 rounded-xl border border-indigo-500/20 bg-[#020617]/90 hover:bg-indigo-500/20 transition-all flex items-center gap-2 text-sm text-indigo-300 backdrop-blur-xl shadow-[0_5px_15px_rgba(0,0,0,0.5)]">
+        <button onclick="installApp()" class="px-5 py-2.5 rounded-xl border border-indigo-500/20 bg-[#020617]/90 hover:bg-indigo-500/20 transition-all flex items-center gap-2 text-sm text-indigo-300 backdrop-blur-xl shadow-[0_5px_15px_rgba(0,0,0,0.5)]">
             <i data-lucide="download" class="w-4 h-4"></i>
-            <span class="hidden sm:inline">تثبيت التطبيق</span>
+            <span class="hidden sm:inline font-bold">تثبيت التطبيق</span>
         </button>
-        <button onclick="handleShare()" class="px-4 py-2 rounded-xl border border-white/10 bg-[#020617]/90 hover:bg-white/10 transition-all flex items-center gap-2 text-sm text-gray-300 backdrop-blur-xl shadow-[0_5px_15px_rgba(0,0,0,0.5)]">
+        <button onclick="handleShare()" class="px-5 py-2.5 rounded-xl border border-white/10 bg-[#020617]/90 hover:bg-white/10 transition-all flex items-center gap-2 text-sm text-gray-300 backdrop-blur-xl shadow-[0_5px_15px_rgba(0,0,0,0.5)]">
             <i data-lucide="share-2" id="share-icon" class="w-4 h-4 text-cyan-400"></i>
-            <span id="share-text" class="hidden sm:inline">مشاركة</span>
+            <span id="share-text" class="hidden sm:inline font-bold">مشاركة</span>
         </button>
     </div>
 
-    <main class="max-w-6xl mx-auto px-4 pb-20 relative pt-12">
-        
-        <!-- رسالة التنبيه الإدارية -->
+    <main class="max-w-6xl mx-auto px-4 pb-20 relative pt-4">
         <div id="system-announcement" class="hidden w-full mb-8 relative z-20 fade-in-up">
             <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 md:p-5 flex items-start gap-4 backdrop-blur-md shadow-[0_0_20px_rgba(245,158,11,0.15)] relative overflow-hidden">
                 <div class="absolute -top-10 -right-10 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
@@ -390,61 +390,64 @@
             <div class="glass-card rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative transition-all duration-500">
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-400 via-indigo-500 to-cyan-400 animate-[pulse_3s_infinite]"></div>
 
-                <!-- واجهة البطاقة الاحترافية -->
-                <div id="cta-container" class="p-8 md:p-12 text-center relative overflow-hidden">
+                <!-- واجهة البطاقة الاحترافية (بطاقتين متجاورتين) -->
+                <div id="cta-container" class="p-6 md:p-10 text-center relative overflow-hidden">
                     <div class="absolute -top-10 -right-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-3xl"></div>
                     <div class="absolute bottom-0 left-0 w-60 h-60 bg-indigo-600/10 rounded-full blur-3xl"></div>
                     
-                    <h2 class="text-3xl md:text-4xl font-black text-white mb-6 leading-tight drop-shadow-md">
+                    <h2 class="text-2xl md:text-3xl font-black text-white mb-8 leading-tight drop-shadow-md">
                         المنصة الأولى لربط العملاء بصناع الميديا
                     </h2>
                     
-                    <div class="max-w-3xl mx-auto mb-10 bg-[#020617]/50 p-6 md:p-8 rounded-3xl border border-white/5 shadow-inner backdrop-blur-sm relative z-10 text-right">
-                        <div class="flex items-start gap-4 mb-6 border-b border-white/5 pb-6">
-                            <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 flex items-center justify-center shrink-0 border border-cyan-500/20 text-cyan-400">
-                                <i data-lucide="users" class="w-6 h-6"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-cyan-400 mb-2">للعملاء والباحثين عن الجودة</h3>
-                                <p class="text-gray-400 text-sm md:text-base leading-relaxed font-normal">
-                                    تصفح الدليل الآن للوصول السريع والتواصل المباشر مع نخبة <strong>المصورين (فوتوغرافيا وفيديو)، المخرجين، أصحاب المعدات، وسيارات نقل المعدات</strong> في محافظتك أو المحافظات المجاورة بضغطة زر واحدة لضمان نجاح مشروعك.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center shrink-0 border border-indigo-500/20 text-indigo-400">
-                                <i data-lucide="camera" class="w-6 h-6"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-indigo-400 mb-2">للمحترفين وصناع الصورة</h3>
-                                <p class="text-gray-400 text-sm md:text-base leading-relaxed font-normal">
-                                    سجل بياناتك، تخصصك، معداتك، أو سيارات النقل الخاصة بك الآن لتكون متاحاً للآلاف من العملاء. تواصل مع زملائك عبر <strong>الشات العام</strong>، وكن جزءاً من شبكة موثوقة لحالات الطوارئ وتكوين فرق العمل.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="flex flex-col md:flex-row items-center justify-center gap-5 w-full max-w-2xl mx-auto relative z-10">
-                        <button onclick="scrollToDirectory()" class="w-full md:w-1/2 glow-button rounded-2xl bg-gradient-to-r from-cyan-500 to-indigo-600 p-[2px] transition-all duration-300 h-full">
-                            <div class="bg-[#0f172a] hover:bg-transparent transition-colors duration-500 rounded-2xl h-full flex items-center justify-center">
-                                <div class="bg-gradient-to-r from-cyan-600/50 to-indigo-700/50 hover:from-cyan-500 hover:to-indigo-600 px-8 py-5 rounded-2xl flex items-center justify-center gap-3 transition-all duration-500 w-full h-full">
-                                    <i data-lucide="search" class="w-6 h-6 text-white"></i>
-                                    <span class="text-xl font-black text-white tracking-wide">تصفح الدليل</span>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl mx-auto relative z-10 text-right">
+                        <!-- Card 1: للعملاء -->
+                        <div class="bg-[#0f172a]/80 p-6 md:p-8 rounded-3xl border border-cyan-500/20 shadow-[0_0_20px_rgba(6,182,212,0.1)] hover:border-cyan-500/40 transition-colors flex flex-col h-full relative overflow-hidden">
+                            <div class="absolute -bottom-4 -left-4 text-cyan-500/5"><i data-lucide="users" class="w-32 h-32"></i></div>
+                            <div class="relative z-10">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 flex items-center justify-center shrink-0 border border-cyan-500/20 text-cyan-400">
+                                        <i data-lucide="search" class="w-6 h-6"></i>
+                                    </div>
+                                    <h3 class="text-xl md:text-2xl font-bold text-cyan-400">أبحث عن محترفين</h3>
                                 </div>
+                                <p class="text-gray-300 text-sm md:text-base leading-relaxed font-normal mb-8">
+                                    اكتشف أكبر شبكة متكاملة تضم نخبة من صناع الميديا. سواء كنت تبحث عن <strong class="text-white">مصور محترف</strong>، <strong class="text-white">مخرج مبدع</strong>، أو <strong class="text-white">أحدث معدات التصوير</strong>، نوفر لك وصولاً مباشراً وسريعاً لضمان نجاح مشروعك بأعلى جودة وبضغطة زر.
+                                </p>
                             </div>
-                        </button>
+                            <button onclick="scrollToDirectory()" class="w-full glow-button rounded-2xl bg-gradient-to-r from-cyan-500 to-indigo-600 p-[2px] transition-all duration-300 mt-auto relative z-10">
+                                <div class="bg-[#0f172a] hover:bg-transparent transition-colors duration-500 rounded-2xl flex items-center justify-center">
+                                    <div class="bg-gradient-to-r from-cyan-600/50 to-indigo-700/50 hover:from-cyan-500 hover:to-indigo-600 px-6 py-4 rounded-2xl flex items-center justify-center gap-2 w-full transition-all duration-500">
+                                        <i data-lucide="compass" class="w-5 h-5 text-white"></i>
+                                        <span class="text-lg font-black text-white tracking-wide">تصفح الدليل</span>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
 
-                        <div id="cta-action-buttons" class="w-full md:w-1/2 flex flex-col gap-3 h-full">
-                            <!-- الأزرار تتغير ديناميكياً بناءً على حالة التسجيل -->
-                            <button type="button" id="btn-add-yourself" onclick="showRegisterForm()" class="w-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-400 hover:text-emerald-300 font-bold py-4 px-6 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3">
-                                <i data-lucide="user-plus" class="w-5 h-5"></i>
-                                <span>إضافة بياناتي للدليل</span>
-                            </button>
-                            
-                            <button type="button" id="btn-login-yourself" onclick="window.openLoginModal()" class="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3">
-                                <i data-lucide="log-in" class="w-5 h-5"></i>
-                                <span>لدي بطاقة بالفعل (دخول)</span>
-                            </button>
+                        <!-- Card 2: للمحترفين -->
+                        <div class="bg-[#0f172a]/80 p-6 md:p-8 rounded-3xl border border-indigo-500/20 shadow-[0_0_20px_rgba(99,102,241,0.1)] hover:border-indigo-500/40 transition-colors flex flex-col h-full relative overflow-hidden">
+                            <div class="absolute -bottom-4 -left-4 text-indigo-500/5"><i data-lucide="camera" class="w-32 h-32"></i></div>
+                            <div class="relative z-10">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center shrink-0 border border-indigo-500/20 text-indigo-400">
+                                        <i data-lucide="star" class="w-6 h-6"></i>
+                                    </div>
+                                    <h3 class="text-xl md:text-2xl font-bold text-indigo-400">أنا صانع ميديا</h3>
+                                </div>
+                                <p class="text-gray-300 text-sm md:text-base leading-relaxed font-normal mb-8">
+                                    انضم إلى الدليل الرقمي الأقوى لصناع الصورة. ضاعف فرص عملك، واعرض سابقة أعمالك لآلاف العملاء يومياً، وابنِ <strong class="text-white">شبكة علاقات قوية</strong> مع زملائك في المجال من خلال منصة مصممة خصيصاً لنجاحك الاحترافي.
+                                </p>
+                            </div>
+                            <div id="cta-action-buttons" class="w-full flex flex-col sm:flex-row gap-3 mt-auto relative z-10">
+                                <button type="button" id="btn-add-yourself" onclick="showRegisterForm()" class="flex-1 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-400 hover:text-emerald-300 font-bold py-4 px-2 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2">
+                                    <i data-lucide="user-plus" class="w-5 h-5"></i>
+                                    <span>إضافة بياناتي</span>
+                                </button>
+                                <button type="button" id="btn-login-yourself" onclick="window.openLoginModal()" class="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white font-bold py-4 px-2 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2">
+                                    <i data-lucide="log-in" class="w-5 h-5"></i>
+                                    <span>لدي بطاقة</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
